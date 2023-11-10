@@ -91,4 +91,14 @@ with image_blocks as demo:
                 cache_examples=False,
     )
 
+
+    gr.HTML(
+        """
+            <div class="footer">
+                <p>Model by <a href="https://huggingface.co/diffusers" style="text-decoration: underline;" target="_blank">Diffusers</a> - Gradio Demo by 🤗 Hugging Face
+                </p>
+            </div>
+        """
+    )
+
 image_blocks.queue(max_size=25).launch()
