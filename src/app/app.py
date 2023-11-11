@@ -158,10 +158,18 @@ with image_blocks as demo:
 
     btn.click(
         fn=predict,
-        inputs=[image, prompt, negative_prompt, guidance_scale, steps, strength, scheduler],
+        inputs=[
+            image, prompt, negative_prompt,
+            guidance_scale, steps, strength, scheduler
+            ],
         outputs=[image_out, share_btn_container], api_name='run'
         )
-    prompt.submit(fn=predict, inputs=[image, prompt, negative_prompt, guidance_scale, steps, strength, scheduler], outputs=[image_out, share_btn_container])
+    prompt.submit(fn=predict,
+                  inputs=[
+                      image, prompt, negative_prompt, guidance_scale,
+                      steps, strength, scheduler
+                      ],
+                  outputs=[image_out, share_btn_container])
     share_button.click(None, [], [], _js=share_js)
 
     gr.Examples(
