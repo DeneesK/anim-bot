@@ -132,17 +132,35 @@ with image_blocks as demo:
                                                  placeholder="Your negative prompt",
                                                  info="what you don't want to see in the image")
                 with gr.Row(mobile_collapse=False, equal_height=True):
-                    schedulers = ["DEISMultistepScheduler", "HeunDiscreteScheduler", "EulerDiscreteScheduler", "DPMSolverMultistepScheduler", "DPMSolverMultistepScheduler-Karras", "DPMSolverMultistepScheduler-Karras-SDE"]
-                    scheduler = gr.Dropdown(label="Schedulers", choices=schedulers, value="EulerDiscreteScheduler")
+                    schedulers = [
+                        "DEISMultistepScheduler", "HeunDiscreteScheduler",
+                        "EulerDiscreteScheduler", "DPMSolverMultistepScheduler",
+                        "DPMSolverMultistepScheduler-Karras", "DPMSolverMultistepScheduler-Karras-SDE"
+                        ]
+                    scheduler = gr.Dropdown(
+                        label="Schedulers",
+                        choices=schedulers,
+                        value="EulerDiscreteScheduler"
+                        )
 
         with gr.Column():
-            image_out = gr.Image(label="Output", elem_id="output-img", height=400)
-            with gr.Group(elem_id="share-btn-container", visible=False) as share_btn_container:
+            image_out = gr.Image(
+                label="Output",
+                elem_id="output-img",
+                height=400
+                )
+            with gr.Group(elem_id="share-btn-container", visible=False) as share_btn_container:  # noqa
                 community_icon = gr.HTML(community_icon_html)
                 loading_icon = gr.HTML(loading_icon_html)
-                share_button = gr.Button("Share to community", elem_id="share-btn",visible=True)
+                share_button = gr.Button("Share to community",
+                                         elem_id="share-btn",
+                                         visible=True)
 
-    btn.click(fn=predict, inputs=[image, prompt, negative_prompt, guidance_scale, steps, strength, scheduler], outputs=[image_out, share_btn_container], api_name='run')
+    btn.click(
+        fn=predict,
+        inputs=[image, prompt, negative_prompt, guidance_scale, steps, strength, scheduler],
+        outputs=[image_out, share_btn_container], api_name='run'
+        )
     prompt.submit(fn=predict, inputs=[image, prompt, negative_prompt, guidance_scale, steps, strength, scheduler], outputs=[image_out, share_btn_container])
     share_button.click(None, [], [], _js=share_js)
 
