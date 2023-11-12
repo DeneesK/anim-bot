@@ -130,7 +130,9 @@ with image_blocks as demo:
                     ) as share_btn_container:
 
                 community_icon = gr.HTML(community_icon_html)
+
                 loading_icon = gr.HTML(loading_icon_html)
+
                 share_button = gr.Button("Share to community",
                                          elem_id="share-btn",
                                          visible=True)
@@ -145,7 +147,8 @@ with image_blocks as demo:
         )
     prompt.submit(fn=predict,
                   inputs=[
-                      image, prompt, negative_prompt, guidance_scale,
+                      image, prompt,
+                      negative_prompt, guidance_scale,
                       steps, strength, scheduler
                       ],
                   outputs=[image_out, share_btn_container])
@@ -171,7 +174,7 @@ with image_blocks as demo:
     gr.HTML(
         """
             <div class="footer">
-                <p>Model by <a href="https://huggingface.co/diffusers" style="text-decoration: underline;" target="_blank">Diffusers</a> - Hugging Face
+                <p>Model by <a href="https://huggingface.co/diffusers" style="text-decoration: underline;" target="_blank">Diffusers</a> - NakedBytes
                 </p>
             </div>
         """
