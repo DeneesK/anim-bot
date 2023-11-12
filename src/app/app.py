@@ -3,7 +3,7 @@ import torch
 
 
 import diffusers
-from diffusers import AutoPipelineForInpainting, UNet2DConditionModel
+from diffusers import AutoPipelineForInpainting, UNet2DConditionModel  # noqa
 from btn import community_icon_html, loading_icon_html, share_js, css
 
 
@@ -124,7 +124,11 @@ with image_blocks as demo:
                 elem_id="output-img",
                 height=400
                 )
-            with gr.Group(elem_id="share-btn-container", visible=False) as share_btn_container:  # noqa
+            with gr.Group(
+                    elem_id="share-btn-container",
+                    visible=False
+                    ) as share_btn_container:
+
                 community_icon = gr.HTML(community_icon_html)
                 loading_icon = gr.HTML(loading_icon_html)
                 share_button = gr.Button("Share to community",
