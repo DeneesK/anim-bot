@@ -19,7 +19,6 @@ def read_content(file_path: str) -> str:
     """read the content of target file"""
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
-
     return content
 
 
@@ -39,7 +38,9 @@ def predict(dict, prompt="",
     if len(scheduler.split("-")) > 2:
         add_kwargs["algorithm_type"] = "sde-dpmsolver++"
 
-    scheduler = getattr(diffusers, scheduler_class_name)
+    scheduler = getattr(diffusers,
+                        scheduler_class_name)
+
     pipe.scheduler = scheduler.from_pretrained("stabilityai/stable-diffusion-xl-base-1.0",  # noqa
                                                subfolder="scheduler",
                                                **add_kwargs)
@@ -57,7 +58,11 @@ def predict(dict, prompt="",
     return output.images[0], gr.update(visible=True)
 
 
-image_blocks = gr.Blocks(css=css, elem_id="total-container")
+image_blocks = gr.Blocks(
+    css=css,
+    elem_id="total-container"
+    )
+
 with image_blocks as demo:
     gr.HTML(read_content("header.html"))
     with gr.Row():
