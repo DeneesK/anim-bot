@@ -84,7 +84,8 @@ with image_blocks as demo:
                     btn = gr.Button("Inpaint!",
                                     elem_id="run_button")
 
-            with gr.Accordion(label="Advanced Settings", open=False):
+            with gr.Accordion(label="Advanced Settings",
+                              open=False):
                 with gr.Row(mobile_collapse=False, equal_height=True):
                     guidance_scale = gr.Number(
                         value=7.5,
@@ -104,13 +105,13 @@ with image_blocks as demo:
                                          maximum=1.0, step=0.01,
                                          label="strength")
                     negative_prompt = gr.Textbox(label="negative_prompt",
-                                                 placeholder="Your negative prompt",
-                                                 info="what you don't want to see in the image")
+                                                 placeholder="Your negative prompt",  # noqa
+                                                 info="what you don't want to see in the image")  # noqa
                 with gr.Row(mobile_collapse=False, equal_height=True):
                     schedulers = [
                         "DEISMultistepScheduler", "HeunDiscreteScheduler",
                         "EulerDiscreteScheduler", "DPMSolverMultistepScheduler",
-                        "DPMSolverMultistepScheduler-Karras", "DPMSolverMultistepScheduler-Karras-SDE"
+                        "DPMSolverMultistepScheduler-Karras", "DPMSolverMultistepScheduler-Karras-SDE"  # noqa
                         ]
                     scheduler = gr.Dropdown(
                         label="Schedulers",
@@ -124,6 +125,7 @@ with image_blocks as demo:
                 elem_id="output-img",
                 height=400
                 )
+
             with gr.Group(
                     elem_id="share-btn-container",
                     visible=False
@@ -145,6 +147,7 @@ with image_blocks as demo:
             ],
         outputs=[image_out, share_btn_container], api_name='run'
         )
+
     prompt.submit(fn=predict,
                   inputs=[
                       image, prompt,
@@ -165,7 +168,7 @@ with image_blocks as demo:
                     ["./imgs/canam-electric-motorcycles-scaled.jpg"],
                     ["./imgs/e8717ce80b394d1b9a610d04a1decd3a.jpeg"],
                     ["./imgs/Nature___Mountains_Big_Mountain_018453_31.jpg"],
-                    ["./imgs/Multible-sharing-room_ccexpress-2-1024x1024.jpeg"],
+                    ["./imgs/Multible-sharing-room_ccexpress-2-1024x1024.jpeg"],  # noqa
                 ],
                 fn=predict,
                 inputs=[image],
