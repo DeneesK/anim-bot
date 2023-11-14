@@ -39,12 +39,7 @@
             const url = await response.text();
             return url;
         }
-        async function getInputImgFile(imgCanvas){
-            const blob = await new Promise(resolve => imgCanvas.toBlob(resolve));
-            const imgId = Date.now() % 200;
-            const fileName = `sd-inpainting-${{imgId}}.png`;
-            return new File([blob], fileName, { type: 'image/png' });
-        }
+
         async function getOutoutImgFile(imgEl){
             const res = await fetch(imgEl.src);
             const blob = await res.blob();
@@ -52,6 +47,14 @@
             const fileName = `sd-inpainting-${{imgId}}.png`;
             return new File([blob], fileName, { type: 'image/png' });
         }
+
+        async function getInputImgFile(imgCanvas){
+            const blob = await new Promise(resolve => imgCanvas.toBlob(resolve));
+            const imgId = Date.now() % 200;
+            const fileName = `sd-inpainting-${{imgId}}.png`;
+            return new File([blob], fileName, { type: 'image/png' });
+        }
+
         const gradioEl = document.querySelector('body > gradio-app');
         const inputImgCanvas = gradioEl.querySelector('canvas[key="drawing"]');
         const outputImgEl = gradioEl.querySelector('#output-img img');
