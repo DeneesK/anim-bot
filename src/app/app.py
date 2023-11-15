@@ -1,7 +1,6 @@
 import gradio as gr
 import torch
 
-
 import diffusers
 from diffusers import AutoPipelineForInpainting, UNet2DConditionModel  # noqa
 from btn import community_icon_html, loading_icon_html, share_js, css
