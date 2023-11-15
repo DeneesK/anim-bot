@@ -34,3 +34,21 @@ div#share-btn-container > div {flex-direction: row;background: black;align-items
 #prompt-container .form{border-top-left-radius: 0;border-top-right-radius: 0}
 #image_upload{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px}
 '''
+
+btn = '''<div style="text-align: center; max-width: 650px; margin: 0 auto;">
+    <div style="
+          display: inline-flex;
+          gap: 0.8rem;
+          font-size: 1.75rem;
+          justify-content: center;
+          margin-bottom: 10px;
+        ">
+      <h1 style="font-weight: 900; align-items: center; margin-bottom: 7px; margin-top: 20px;">
+        Inpainting 🎨
+      </h1>
+    </div>
+    <div>
+      <p style="align-items: center; margin-bottom: 7px;">
+        Inpainting <a href="https://huggingface.co/diffusers/stable-diffusion-xl-1.0-inpainting-0.1" target="_blank">Naked Bytes</a>, add a mask and text prompt for what you want to replace
+    </div>
+  </div>'''
