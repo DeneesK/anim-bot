@@ -63,9 +63,5 @@ ${outputImgUrl}
         description: descriptionMd,
     });
 	const paramsStr = params.toString();
- 
-	window.open(`https://huggingface.co/spaces/diffusers/stable-diffusion-xl-inpainting/discussions/new?${paramsStr}&preview=true`, '_blank');
-    shareBtnEl.style.removeProperty('pointer-events');
-    shareIconEl.style.removeProperty('display');
-    loadingIconEl.style.display = 'none';
+
 }
