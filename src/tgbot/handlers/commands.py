@@ -1,18 +1,14 @@
-from aiogram import types
+from aiogram import Dispatcher
 
-from src.settings.const import help_text, examples_text
 from src.tgbot.handlers.users import user_start
+from src.tgbot.handlers.handlers import photo_handler
 
 
-async def help_message(message: types.Message):
-    await message.bot.send_message(message.chat.id, help_text)
-
-
-# async def examples_message(message: types.Message):
-#     await message.bot.send_message(message.chat.id, examples_text)
-
-
-def register_commands(dp):
+def register_commands(dp: Dispatcher):
     dp.register_message_handler(user_start, state="*", commands=["start"])
-    # dp.register_message_handler(examples_message, state="*", commands=["examples"])
-    dp.register_message_handler(help_message, state="*", commands=["help"])
+
+
+def register_content_type(dp: Dispatcher) -> None:
+    dp.register_message_handler(photo_handler,
+                                state='*',
+                                content_types=['photo'])

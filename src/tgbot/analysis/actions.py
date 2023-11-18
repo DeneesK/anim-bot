@@ -1,9 +1,10 @@
 from src.tgbot.analysis.amplitude import amp
-from src.tgbot.database.sqlite_db import db
 from src.settings.logger import logger
 
 
-async def send_and_log(event_name, id, event_properties=None, user_properties=None):
+async def send_and_log(event_name, id,
+                       event_properties=None,
+                       user_properties=None):
     try:
         await amp.log(id, event_name,
                       event_properties=event_properties,

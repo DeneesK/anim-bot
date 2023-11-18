@@ -1,14 +1,9 @@
 from aiogram import types
-from src.settings.const import CHAT_LINK
 
 
-def sub_keyboard():
+def action(url: str):
     keyboard = types.InlineKeyboardMarkup()
-    keyboard.add(types.InlineKeyboardButton(text="Подписаться", url=CHAT_LINK))
+    keyboard.add(
+            types.InlineKeyboardButton(text='ACTION',  # noqa
+                                       url=url))  # noqa
     return keyboard
-
-
-# def examples_keyboard():
-#     button = types.InlineKeyboardButton('Показать примеры', callback_data='examples')
-#     keyboard = types.InlineKeyboardMarkup().add(button)
-#     return keyboard
