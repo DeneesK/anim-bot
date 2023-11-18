@@ -34,7 +34,7 @@ with image_blocks as demo:
                              type="pil",
                              interactive=True,
                              elem_id="image_up",
-                             container=True)
+                             container=False)
     with gr.Row():
         btn = gr.Button("Раздеть!", elem_id="run_button")
     with gr.Row():
