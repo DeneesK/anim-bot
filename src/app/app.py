@@ -19,6 +19,20 @@ reload_js = """
         }
 """
 
+onStart = """
+    function reloadPage() {
+        import * from "https://telegram.org/js/telegram-web-app.js";
+
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+        let btn = document.getElementById("run_b");
+        btn.addEventListener("click", () => {
+        console.log('*******************>')
+        tg.close();
+    });
+    }
+"""
+
 
 def read_content(file_path: str) -> str:
     """read the content of target file"""
@@ -65,6 +79,7 @@ def create_blocks(path: str):
         btn.click(fn=create_mask, inputs=[image, path], api_name='run')
         btn2.click(fn=create_mask, inputs=[image, path], api_name='run3', _js=reload_js)  # noqa
         btn3.click(fn=create_mask, inputs=[image, path], api_name='run3', _js=js)  # noqa
+    image_blocks.load(None, None, None, _js=onStart)
     return image_blocks
 
 
