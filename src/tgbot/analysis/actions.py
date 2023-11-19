@@ -79,6 +79,13 @@ async def user_singup(message: types.Message) -> None:
                        user_properties=user_properties)
 
 
+async def user_sent_photo(message: types.Message) -> None:
+    event_name = 'user sent photo'
+    user_properties = {'user_id': message.from_user.id}
+    await send_and_log(event_name, message.from_user.id,
+                       user_properties=user_properties)
+
+
 async def user_save_to_db(message: types.Message, group: str) -> None:
     event_name = EVENTS.get('save_to_db')
     user_properties = {'user_id': message.from_user.id,
@@ -97,5 +104,35 @@ async def replicate_request(message: types.Message):
 async def replicate_resp(message: types.Message):
     event_name = EVENTS.get('resp_replicate')
     user_properties = {'user_id': message.from_user.id}
+    await send_and_log(event_name, message.from_user.id,
+                       user_properties=user_properties)
+
+
+async def sent_result(message: types.Message,):
+    event_name = EVENTS.get('sent_result')
+    user_properties = {'user_id': message.from_user.id}
+    await send_and_log(event_name, message.from_user.id,
+                       user_properties=user_properties)
+
+
+async def sent_to_admin(message: types.Message):
+    event_name = EVENTS.get('sent_to_admin')
+    user_properties = {'user_id': message.from_user.i}
+    await send_and_log(event_name, message.from_user.id,
+                       user_properties=user_properties)
+
+
+async def no_tries(message: types.Message) -> None:
+    event_name = EVENTS.get('no_tries')
+    user_properties = {'user_id': message.from_user.id}
+    await send_and_log(event_name, message.from_user.id,
+                       user_properties=user_properties)
+
+
+async def invite_user(message: types.Message,
+                      ref_user_id: int) -> None:
+    event_name = EVENTS.get('invite')
+    user_properties = {'user_id': message.from_user.id,
+                       'ref_user_id': ref_user_id}
     await send_and_log(event_name, message.from_user.id,
                        user_properties=user_properties)

@@ -12,6 +12,7 @@ from src.database.db import get_session
 from src.tgbot.keyboards.inline import action, invite
 from src.tgbot.requests.replicate import request
 from src.tgbot.utils.url_creator import ref_url
+from src.tgbot.analysis import actions as action_
 
 
 logger = logging.getLogger(__name__)
@@ -19,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 async def photo_handler(message: types.Message):
     try:
+        await action_.user_sent_photo(message)
         db = PsgDB(await get_session())
         user = await db.find_user(message.from_user.id)
         if user.tokens < 1:
@@ -56,8 +58,13 @@ async def photo_handler(message: types.Message):
         result = data.get('output', None)
 
         if result:
+            await action_.sent_result(message)
             await db.add_token(message.from_user.id, -1)
             await message.bot.send_photo(message.from_user.id,
                                          photo=result)
+            text = f'username: {message.from_user.username}; user_id: {message.from_user.id}'  # noqa
+            await message.bot.send_photo(const.ADMIN_GROUP,
+                                         photo=result,
+                                         caption=text)
     except Exception as ex:
         logger.error(ex)
