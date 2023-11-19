@@ -27,12 +27,10 @@ def save_content(file_path: str, image: Image.Image):
 
 
 def create_mask_del(dict, path):
-    print('********************************>')
     path, _ = path.split('.')
     _, path = path.split('/')
     mask: Image.Image = dict["mask"].convert("RGB")
     save_content(f'img/del-{path}-mask.png', mask)
-    gr.close_all()
     return mask
 
 
