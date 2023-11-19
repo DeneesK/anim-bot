@@ -8,7 +8,7 @@ from src.settings.logger import logger
 
 js = """
        function Previous(value1, value2) {
-            window.close();
+            tg.close();
             return value1, value2
         }
 """
