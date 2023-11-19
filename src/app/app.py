@@ -8,9 +8,8 @@ from src.settings.logger import logger
 
 js = """
        function Previous(value1, value2) {
-           tg.close();
-           alert("Для этого вернись в телеграм");
-           return value1, value2
+            let tg = window.Telegram.WebApp;
+            tg.close();
         }
 """
 

@@ -50,7 +50,7 @@ fetch_url = 'https://stablediffusionapi.com/api/v3/fetch/'
 
 body = {
   'key': os.environ.get('STABLE_KEY'),
-  'prompt': 'undress, do naked',
+  'prompt': 'do naked',
   'negative_prompt': None,
   'init_image': '',
   'mask_image': '',
