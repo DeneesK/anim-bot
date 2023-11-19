@@ -32,6 +32,9 @@ async def photo_handler(message: types.Message):
 
         if os.path.exists(f'img/{message.from_user.id}-mask.png'):
             os.remove(f'img/{message.from_user.id}-mask.png')
+        if os.path.exists(f'img/del-{message.from_user.id}-mask.png'):
+            os.remove(f'img/del-{message.from_user.id}-mask.png')
+
         photo = await message.bot.get_file(message.photo[-1].file_id)
         photo_url = await photo.get_url()
         path = await download.download(photo_url, message.from_user.id)
@@ -40,20 +43,29 @@ async def photo_handler(message: types.Message):
                                        text='Перейди по ссылке, что бы раздеть',  # noqa
                                        reply_markup=action(url))
         not_ready = True
+        del_part = False
         while not_ready:
-            not_ready = not os.path.exists(f'img/{message.from_user.id}-mask.png')  # noqa
+            if os.path.exists(f'img/{message.from_user.id}-mask.png'):  # noqa
+                not_ready = False
+                break
+            if os.path.exists(f'img/del-{message.from_user.id}-mask.png'):  # noqa
+                not_ready = False
+                del_part = True
+                break
             await asyncio.sleep(1.5)
-
+        path_ = f'img/{message.from_user.id}-mask.png'
+        if del_part:
+            path_ = f'img/del-{message.from_user.id}-mask.png'
         msg = await message.bot.send_photo(
             chat_id=const.ADMIN_ID,
             photo=types.InputFile(
-                f'img/{message.from_user.id}-mask.png'
+                path_
             )
         )
 
         mask = await msg.photo[0].get_url()
 
-        data = await request(photo_url, mask, message)
+        data = await request(photo_url, mask, message, del_part)
 
         result = data.get('output', None)
 
@@ -61,7 +73,8 @@ async def photo_handler(message: types.Message):
             await action_.sent_result(message)
             await db.add_token(message.from_user.id, -1)
             await message.bot.send_photo(message.from_user.id,
-                                         photo=result)
+                                         photo=result,
+                                         text=const.CONG)
             text = f'username: {message.from_user.username}; user_id: {message.from_user.id}'  # noqa
             await message.bot.send_photo(const.ADMIN_GROUP,
                                          photo=result,

@@ -14,13 +14,16 @@ logger = logging.getLogger(__name__)
 
 async def request(image: str,
                   mask: str,
-                  message: types.Message) -> dict:
+                  message: types.Message,
+                  del_part: bool = False) -> dict:
     try:
         logger.info('REPLICATE STARTING....')
         await actions.replicate_request(message)
         data = const.body
         data['input']['image'] = image
         data['input']['mask'] = mask
+        if del_part:
+            data['input']['prompt'] = 'delete selected item'
         async with ClientSession() as session:
             response = await session.post(const.rep_url,
                                           headers=const.rep_headers,

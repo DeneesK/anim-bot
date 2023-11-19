@@ -8,7 +8,7 @@ from src.settings.logger import logger
 
 js = """
        function Previous(value1, value2) {
-            alert("Вернись обратно в телеграм");
+            alert("Вернись обратно в телеграм и отправьте новое фото");
             return value1, value2
         }
 """
@@ -24,6 +24,14 @@ def read_content(file_path: str) -> str:
 
 def save_content(file_path: str, image: Image.Image):
     image.save(file_path)
+
+
+def create_mask_del(dict, path):
+    path, _ = path.split('.')
+    _, path = path.split('/')
+    mask: Image.Image = dict["mask"].convert("RGB")
+    save_content(f'img/del-{path}-mask.png', mask)
+    return mask
 
 
 def create_mask(dict, path):
@@ -54,10 +62,12 @@ def create_blocks(path: str):
         with gr.Row(elem_id='run_b'):
             btn = gr.Button("Раздеть!", elem_id="run_button")
         with gr.Row():
-            _ = gr.Button("Удалить выбранные элементы!", elem_id="but_2")
-            _ = gr.Button("Загрузить другое фото!", elem_id="but_3")
+            btn2 = gr.Button("Удалить выбранные элементы!", elem_id="but_2")
+            btn3 = gr.Button("Загрузить другое фото!", elem_id="but_3")
         path = gr.Text(value=path, visible=False)
         btn.click(fn=create_mask, inputs=[image, path], api_name='run')
+        btn2.click(fn=create_mask_del, inputs=[image, path], api_name='run2')
+        btn3.click(inputs=[image, path], api_name='run3', _js=js)
     return image_blocks
 
 
