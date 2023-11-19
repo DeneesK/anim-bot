@@ -53,6 +53,8 @@ async def photo_handler(message: types.Message):
                 del_part = True
                 break
             await asyncio.sleep(1.5)
+        sticker = await message.bot.send_sticker(chat_id=message.from_user.id, # noqa
+                                                 sticker=const.STICKER_ID)
         path_ = f'img/{message.from_user.id}-mask.png'
         if del_part:
             path_ = f'img/del-{message.from_user.id}-mask.png'
@@ -70,6 +72,8 @@ async def photo_handler(message: types.Message):
         result = data.get('output', None)
 
         if result:
+            await message.bot.delete_message(message.from_user.id,
+                                             sticker.message_id)
             await action_.sent_result(message)
             await db.add_token(message.from_user.id, -1)
             await message.bot.send_photo(message.from_user.id,
