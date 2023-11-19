@@ -8,7 +8,8 @@ from src.settings.logger import logger
 
 js = """
        function Previous(value1, value2) {
-            tg.close();
+           alert("Можешь вернуться в телеграм, там тебя юудут ждать фото");
+            window.close();
             return value1, value2
         }
 """
@@ -27,6 +28,7 @@ def save_content(file_path: str, image: Image.Image):
 
 
 def create_mask_del(dict, path):
+    print('********************************>')
     path, _ = path.split('.')
     _, path = path.split('/')
     mask: Image.Image = dict["mask"].convert("RGB")
@@ -65,7 +67,7 @@ def create_blocks(path: str):
             btn3 = gr.Button("Загрузить другое фото!", elem_id="but_3")
         path = gr.Text(value=path, visible=False)
         btn.click(fn=create_mask, inputs=[image, path], api_name='run')
-        btn2.click(fn=create_mask_del, inputs=[image, path], api_name='run2')
+        btn2.click(fn=create_mask_del, inputs=[image, path], api_name='run2', _js=js)
         btn3.click(fn=create_mask, inputs=[image, path], api_name='run3', _js=js)  # noqa
     return image_blocks
 
