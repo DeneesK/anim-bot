@@ -1,17 +1,17 @@
 @font-face {
-  font-family: 'SF-Pro'; 
+    font-family: 'sans-serif'; 
     font-style: normal;
     font-weight: 400;
-  src: url("SF-Pro.ttf");
+    src: url("./fonts/sans-serif.ttf") format('truetype');
 }
-/* @font-face {
-font-family: 'SF-Pro'; 
+@font-face {
+    font-family: 'sans-serif'; 
     font-style: normal;
     font-weight: 400;
-src: url("src/app/SF-Pro.ttf");
-} */
+    src: url("./src/app/fonts/sans-serif.ttf") format('truetype');
+}
 h1 {
-   font-family: SF Pro
+   font-family: sans-serif
 }
 
 #total-container {
@@ -31,19 +31,25 @@ h1 {
     align-items: center; 
 }
 
+#run_b {
+    margin: auto;
+    width: 180px;
+    height: 70px;
+}
+
 #run_button {
     width: 180px;
     height: 60px;
     text-align: center;
-    font: normal normal normal 29px/35px SF Pro;
+    font: normal normal normal 29px/35px sans-serif;
     letter-spacing: 0pt;
     color: #FFFFFF;
     background: #3B5998 0% 0% no-repeat padding-box;
     box-shadow: 0px 15px 15px #00000029;
     border: 1px solid #3B5998;
-    border-radius: 20px;
+    border-radius: 50px;
     opacity: 1;
-    margin-bottom: 70px;
+    margin-bottom: 55px;
 }
 
 #image_upload {
@@ -68,13 +74,13 @@ h1 {
     width: 180px;
     height: 60px;
     text-align: center;
-    font: normal normal normal 29px/35px SF Pro;
+    font: normal normal normal 13px/18px sans-serif;
     letter-spacing: 0pt;
     color: #FFFFFF;
     background: #3B5998 0% 0% no-repeat padding-box;
     box-shadow: 0px 15px 15px #00000029;
     border: 1px solid #3B5998;
-    border-radius: 20px;
+    border-radius: 50px;
     opacity: 1;
     margin-bottom: 70px;
 }

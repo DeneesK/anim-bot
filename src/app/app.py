@@ -44,7 +44,7 @@ def create_blocks(path: str):
                                  elem_id="image_up",
                                  container=False,
                                  height=400)
-        with gr.Row():
+        with gr.Row(elem_id='run_b'):
             btn = gr.Button("Раздеть!", elem_id="run_button")
         with gr.Row():
             _ = gr.Button("Удалить выбранные элементы!", elem_id="but_2")
