@@ -1,5 +1,6 @@
 from src.tgbot.analysis.amplitude import amp
 from src.settings.logger import logger
+from src.settings.const import EVENTS
 
 
 async def send_and_log(event_name, id,
@@ -110,4 +111,27 @@ async def amplitude_referral(message, referral_user_id):
                        "last_name": message.from_user.last_name}
     await send_and_log(event_name, message.from_user.id,
                        event_properties=event_properties,
+                       user_properties=user_properties)
+
+
+async def user_start(message: types.Message) -> None:
+    event_name = EVENTS.get('start')
+    user_properties = {'user_id': message.from_user.id}
+    await send_and_log(event_name, message.from_user.id,
+                       user_properties=user_properties)
+
+
+async def user_singup(message: types.Message, group: str) -> None:
+    event_name = EVENTS.get('singup')
+    user_properties = {'user_id': message.from_user.id,
+                       'group': group}
+    await send_and_log(event_name, message.from_user.id,
+                       user_properties=user_properties)
+
+
+async def user_save_to_db(message: types.Message, group: str) -> None:
+    event_name = EVENTS.get('save_to_db')
+    user_properties = {'user_id': message.from_user.id,
+                       'group': group}
+    await send_and_log(event_name, message.from_user.id,
                        user_properties=user_properties)

@@ -7,9 +7,15 @@ load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 ADMIN_ID = 775221255
 
+# DB:
+DEFAULT_TOKENS = 1
+POSTGRES_DSN = os.getenv('POSTGRES_DSN')
+
+
 # AMPLITUDE:
 AMPLITUDE_KEY = os.getenv('AMPLITUDE_KEY')
 AMPLITUDE_PLATFORM = os.getenv('AMPLITUDE_PLATFORM')
+EVENTS = {}
 
 # Replicate:
 rep_url = 'https://api.replicate.com/v1/predictions'
