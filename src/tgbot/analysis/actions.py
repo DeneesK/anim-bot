@@ -38,6 +38,15 @@ async def ref_reg(message: types.Message,
                        user_properties=user_properties)
 
 
+async def organic_reg(message: types.Message,
+                      userid_referral: int) -> None:
+    event_name = 'Organic regestration'
+    user_properties = {'user_id': message.from_user.id,
+                       'userid_referral': userid_referral}
+    await send_and_log(event_name, message.from_user.id,
+                       user_properties=user_properties)
+
+
 async def amplitude_error(message, text_error,
                           event_name="error",
                           question_type="text"):

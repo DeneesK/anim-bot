@@ -2,6 +2,7 @@ import os
 import asyncio
 
 from aiogram import types
+from aiogram.utils.markdown import hlink
 
 from src.settings import const
 from src.settings.logger import logging
@@ -11,7 +12,7 @@ from src.database.service import PsgDB
 from src.database.db import get_session
 from src.tgbot.keyboards.inline import action, invite
 from src.tgbot.requests.replicate import request
-from src.tgbot.utils.url_creator import ref_url
+from src.tgbot.utils.url_creator import ref_url, organic_url
 from src.tgbot.analysis import actions as action_
 
 
@@ -76,6 +77,8 @@ async def photo_handler(message: types.Message):
                                              sticker.message_id)
             await action_.sent_result(message)
             await db.add_token(message.from_user.id, -1)
+            url = organic_url(message.from_user.id)
+            text = const.CONG + hlink('Хочешь так же? -> ', url)
             await message.bot.send_photo(message.from_user.id,
                                          photo=result,
                                          text=const.CONG)

@@ -35,6 +35,9 @@ async def user_start(message: types.Message):
                 await actions.ref_reg(message,
                                       userid_referral=ref_user_id)
                 await message.bot.send_message(user_id, text=const.GOT_TOKEN)
+            if payload.startswith('organic_'):
+                user_id = int(payload[8:])
+                await actions.organic_reg(message, user_id)
         await actions.user_start(message)
         await registration(message)
         await message.answer(text=const.WELCOME)
