@@ -4,7 +4,7 @@ import json
 from aiohttp import ClientSession
 from aiogram import types
 
-from src.tgbot.analysis import actions
+from src.tgbot.analysis import actions  # noqa
 from src.settings import const
 from src.settings.logger import logging
 

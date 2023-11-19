@@ -3,8 +3,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# BOT:
 BOT_TOKEN = os.getenv('BOT_TOKEN')
+ADMIN_ID = 775221255
 
+# AMPLITUDE:
 AMPLITUDE_KEY = os.getenv('AMPLITUDE_KEY')
 AMPLITUDE_PLATFORM = os.getenv('AMPLITUDE_PLATFORM')
 
