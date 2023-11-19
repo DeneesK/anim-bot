@@ -79,7 +79,7 @@ def create_blocks(path: str):
         btn.click(fn=create_mask, inputs=[image, path], api_name='run')
         btn2.click(fn=create_mask, inputs=[image, path], api_name='run3', _js=reload_js)  # noqa
         btn3.click(fn=create_mask, inputs=[image, path], api_name='run3', _js=js)  # noqa
-    # image_blocks.load(None, None, None, _js=onStart)
+        image_blocks.load(None, None, None, _js=onStart)
     return image_blocks
 
 
