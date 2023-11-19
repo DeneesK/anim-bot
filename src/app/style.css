@@ -69,6 +69,15 @@ h1 {
 
 #image_up {min-height: 400px}
 #image_up [data-testid="image"], #image_up [data-testid="image"] > div{min-height: 400px}
+#image_up .touch-none{display: flex}
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
 
 #but_2, #but_3 {
     width: 180px;
