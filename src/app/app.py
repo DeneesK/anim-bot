@@ -8,7 +8,7 @@ from src.settings.logger import logger
 
 js = """
        function Previous(value1, value2) {
-            alert("Вернись обратно в телеграм и отправьте новое фото");
+            window.close();
             return value1, value2
         }
 """
