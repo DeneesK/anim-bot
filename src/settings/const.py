@@ -44,7 +44,7 @@ EVENTS = {
 headers_stable = {
   'Content-Type': 'application/json'
 }
-req_url = 'https://stablediffusionapi.com/api/v3/text2img'
+req_url = 'https://stablediffusionapi.com/api/v3/inpaint'
 fetch_url = 'https://stablediffusionapi.com/api/v3/fetch/'
 
 
