@@ -25,7 +25,7 @@ async def request(image: str,
     async with ClientSession() as session:
         response = await session.post(const.req_url,
                                       headers=const.headers_stable,
-                                      data=json.dumps())
+                                      data=json.dumps(data))
         await actions.api_request(message)
 
         body = await response.json()
