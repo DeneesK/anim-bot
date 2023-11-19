@@ -14,6 +14,12 @@ js = """
         }
 """
 
+reload_js = """
+       function reloadPage(value1, value2) {
+           location.reload();
+        }
+"""
+
 
 def read_content(file_path: str) -> str:
     """read the content of target file"""
