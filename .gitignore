@@ -5,3 +5,6 @@ temp/
 .DS_Store
 *.sqlite3
 .vscode/
+img/*.jpeg
+img/*.png
+img/*.*

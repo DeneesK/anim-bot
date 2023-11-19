@@ -26,7 +26,7 @@ async def request(image: str,
                                           headers=const.rep_headers,
                                           data=json.dumps(data))
             body = await response.json()
-            logger.debug(body)
+            logger.info(body)
             response.close()
             id_ = body['id']
 
@@ -39,7 +39,7 @@ async def request(image: str,
                     response = await session.get(const.rep_url+'/'+id_,
                                                  headers=const.rep_headers)
                     body = await response.json()
-                    logger.debug(body)
+                    logger.info(body)
                     response.close()
         if body.get('error', None):
             return await request(image, mask, message)
