@@ -57,8 +57,7 @@ def create_blocks(path: str):
                                  type="pil",
                                  interactive=True,
                                  elem_id="image_up",
-                                 container=True,
-                                 height=400)
+                                 container=False)
         with gr.Row(elem_id='run_b'):
             btn = gr.Button("Раздеть!", elem_id="run_button")
         with gr.Row():

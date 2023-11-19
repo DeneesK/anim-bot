@@ -67,12 +67,24 @@ async def photo_handler(message: types.Message):
         )
 
         mask = await msg.photo[0].get_url()
+        if user.tokens < 1:
+            url = ref_url(message.from_user.id)
+            await message.bot.send_message(message.from_user.id,
+                                           text=const.END,
+                                           reply_markup=invite(url))
+            return
 
         data = await request(photo_url, mask, message, del_part)
 
         result = data.get('output', None)
 
         if result:
+            if user.tokens < 1:
+                url = ref_url(message.from_user.id)
+                await message.bot.send_message(message.from_user.id,
+                                               text=const.END,
+                                               reply_markup=invite(url))
+                return
             await message.bot.delete_message(message.from_user.id,
                                              sticker.message_id)
             await action_.sent_result(message)
