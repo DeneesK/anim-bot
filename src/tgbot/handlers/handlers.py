@@ -9,7 +9,7 @@ from src.tgbot.utils import download
 from src.app.app import start
 from src.database.service import PsgDB
 from src.database.db import get_session
-from src.tgbot.keyboards.inline import action
+from src.tgbot.keyboards.inline import action, invite
 from src.tgbot.requests.replicate import request
 from src.tgbot.utils.url_creator import ref_url
 
@@ -19,6 +19,15 @@ logger = logging.getLogger(__name__)
 
 async def photo_handler(message: types.Message):
     try:
+        db = PsgDB(await get_session())
+        user = await db.find_user(message.from_user.id)
+        if user.tokens < 1:
+            url = ref_url(message.from_user.id)
+            await message.bot.send_message(message.from_user.id,
+                                           text=const.END,
+                                           reply_markup=invite(url))
+            return
+
         if os.path.exists(f'img/{message.from_user.id}-mask.png'):
             os.remove(f'img/{message.from_user.id}-mask.png')
         photo = await message.bot.get_file(message.photo[-1].file_id)
@@ -47,6 +56,7 @@ async def photo_handler(message: types.Message):
         result = data.get('output', None)
 
         if result:
+            await db.add_token(message.from_user.id, -1)
             await message.bot.send_photo(message.from_user.id,
                                          photo=result)
     except Exception as ex:
