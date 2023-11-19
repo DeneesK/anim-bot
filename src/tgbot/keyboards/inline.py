@@ -9,7 +9,7 @@ def action(url: str):
     keyboard = types.InlineKeyboardMarkup()
     keyboard.add(
             types.InlineKeyboardButton(text='Ссылка на приложение',  # noqa
-                                       url=url))  # noqa
+                                       web_app=types.WebAppInfo(url)))  # noqa
     return keyboard
 
 

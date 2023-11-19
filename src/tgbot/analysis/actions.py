@@ -103,17 +103,19 @@ async def user_save_to_db(message: types.Message, group: str) -> None:
                        user_properties=user_properties)
 
 
-async def replicate_request(message: types.Message):
-    event_name = EVENTS.get('req_replicate')
+async def api_request(message: types.Message):
+    event_name = EVENTS.get('req_')
     user_properties = {'user_id': message.from_user.id}
     await send_and_log(event_name, message.from_user.id,
                        user_properties=user_properties)
 
 
-async def replicate_resp(message: types.Message):
-    event_name = EVENTS.get('resp_replicate')
+async def api_resp(message: types.Message, gen_time: int):
+    event_name = EVENTS.get('resp_')
+    event_properties = {'generationTime': gen_time}
     user_properties = {'user_id': message.from_user.id}
     await send_and_log(event_name, message.from_user.id,
+                       event_properties=event_properties,
                        user_properties=user_properties)
 
 

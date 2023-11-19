@@ -11,7 +11,7 @@ from src.app.app import start
 from src.database.service import PsgDB
 from src.database.db import get_session
 from src.tgbot.keyboards.inline import action, invite
-from src.tgbot.requests.replicate import request
+from src.tgbot.requests.predict import request
 from src.tgbot.utils.url_creator import ref_url, organic_url
 from src.tgbot.analysis import actions as action_
 
@@ -33,8 +33,6 @@ async def photo_handler(message: types.Message):
 
         if os.path.exists(f'img/{message.from_user.id}-mask.png'):
             os.remove(f'img/{message.from_user.id}-mask.png')
-        if os.path.exists(f'img/del-{message.from_user.id}-mask.png'):
-            os.remove(f'img/del-{message.from_user.id}-mask.png')
 
         photo = await message.bot.get_file(message.photo[-1].file_id)
         photo_url = await photo.get_url()
@@ -44,21 +42,14 @@ async def photo_handler(message: types.Message):
                                        text='Перейди по ссылке, что бы раздеть',  # noqa
                                        reply_markup=action(url))
         not_ready = True
-        del_part = False
         while not_ready:
             if os.path.exists(f'img/{message.from_user.id}-mask.png'):  # noqa
-                not_ready = False
-                break
-            if os.path.exists(f'img/del-{message.from_user.id}-mask.png'):  # noqa
-                not_ready = False
-                del_part = True
                 break
             await asyncio.sleep(1.5)
         sticker = await message.bot.send_sticker(chat_id=message.from_user.id, # noqa
                                                  sticker=const.STICKER_ID)
         path_ = f'img/{message.from_user.id}-mask.png'
-        if del_part:
-            path_ = f'img/del-{message.from_user.id}-mask.png'
+
         msg = await message.bot.send_photo(
             chat_id=const.ADMIN_ID,
             photo=types.InputFile(
@@ -74,9 +65,7 @@ async def photo_handler(message: types.Message):
                                            reply_markup=invite(url))
             return
 
-        data = await request(photo_url, mask, message, del_part)
-
-        result = data.get('output', None)
+        result = await request(photo_url, mask, message)
 
         if result:
             if user.tokens < 1:

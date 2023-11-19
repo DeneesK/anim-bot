@@ -26,14 +26,6 @@ def save_content(file_path: str, image: Image.Image):
     image.save(file_path)
 
 
-def create_mask_del(dict, path):
-    path, _ = path.split('.')
-    _, path = path.split('/')
-    mask: Image.Image = dict["mask"].convert("RGB")
-    save_content(f'img/del-{path}-mask.png', mask)
-    return mask
-
-
 def create_mask(dict, path):
     path, _ = path.split('.')
     _, path = path.split('/')
@@ -61,11 +53,11 @@ def create_blocks(path: str):
         with gr.Row(elem_id='run_b'):
             btn = gr.Button("Раздеть!", elem_id="run_button")
         with gr.Row():
-            btn2 = gr.Button("Удалить выбранные элементы!", elem_id="but_2")
+            _ = gr.Button("Очистить", elem_id="but_2")
             btn3 = gr.Button("Загрузить другое фото!", elem_id="but_3")
         path = gr.Text(value=path, visible=False)
         btn.click(fn=create_mask, inputs=[image, path], api_name='run')
-        btn2.click(fn=create_mask_del, inputs=[image, path], api_name='run2')
+        # btn2.click()
         btn3.click(fn=create_mask, inputs=[image, path], api_name='run3', _js=js)  # noqa
     return image_blocks
 
