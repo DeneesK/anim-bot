@@ -19,8 +19,9 @@ def save_content(file_path: str, image: Image.Image):
     image.save(file_path)
 
 
-def create_mask(dict, path: str):
+def create_mask(dict, path):
     path, _ = path.split('.')
+    _, path = path.split('/')
     mask: Image.Image = dict["mask"].convert("RGB")
     save_content(f'img/{path}-mask.png', mask)
     return mask
@@ -33,22 +34,21 @@ def create_blocks(path: str):
                              analytics_enabled=True)
     with image_blocks as _:
         gr.HTML(read_content("src/app/header.html"))
-        with gr.Row(elem_id="main-container",
-                    equal_height=False):
-            with gr.Row(elem_id="image_upload"):
-                image = gr.Image(value=path,
-                                 tool='sketch',
-                                 source='upload',
-                                 type="pil",
-                                 interactive=True,
-                                 elem_id="image_up",
-                                 container=False)
+
+        with gr.Row(elem_id="image_up"):
+            image = gr.Image(value=path,
+                             tool='sketch',
+                             source='upload',
+                             type="pil",
+                             interactive=True,
+                             elem_id="image_up",
+                             container=False)
         with gr.Row():
             btn = gr.Button("Раздеть!", elem_id="run_button")
         with gr.Row():
             _ = gr.Button("Удалить выбранные элементы!", elem_id="but_2")
             _ = gr.Button("Загрузить другое фото!", elem_id="but_3")
-
+        path = gr.Text(value=path, visible=False)
         btn.click(fn=create_mask, inputs=[image, path], api_name='run')
     return image_blocks
 
