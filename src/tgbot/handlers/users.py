@@ -25,6 +25,16 @@ async def registration(message: types.Message):
 
 async def user_start(message: types.Message):
     try:
+        db = PsgDB(await get_session())
+        payload = message.get_args()
+        if payload != '':
+            user_id = message.from_user.id
+            if payload.startswith('ref_') and not await db.find_user(user_id):
+                ref_user_id = int(payload[4:])
+                await db.add_token(ref_user_id, 1)
+                await actions.ref_reg(message,
+                                      userid_referral=ref_user_id)
+                await message.bot.send_message(user_id, text=const.GOT_TOKEN)
         await actions.user_start(message)
         await registration(message)
         await message.answer(text=const.WELCOME)
