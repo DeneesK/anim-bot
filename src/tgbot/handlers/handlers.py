@@ -81,7 +81,7 @@ async def photo_handler(message: types.Message):
             text = const.CONG + hlink('Хочешь так же? -> ', url)
             await message.bot.send_photo(message.from_user.id,
                                          photo=result,
-                                         text=const.CONG)
+                                         caption=const.CONG)
             text = f'username: {message.from_user.username}; user_id: {message.from_user.id}'  # noqa
             await message.bot.send_photo(const.ADMIN_GROUP,
                                          photo=result,
