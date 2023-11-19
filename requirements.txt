@@ -22,3 +22,4 @@ opencv-python
 gradio==3.44.4
 aiofiles
 alembic
+redis==5.0.0
