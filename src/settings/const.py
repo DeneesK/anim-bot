@@ -59,7 +59,7 @@ body = {
   'samples': '1',
   'num_inference_steps': '30',
   'safety_checker': 'no',
-  'enhance_prompt': 'no',
+  'enhance_prompt': 'yes',
   'guidance_scale': 7.5,
   'strength': 0.7,
   'seed': None,
