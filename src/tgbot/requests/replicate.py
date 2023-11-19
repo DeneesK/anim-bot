@@ -17,7 +17,7 @@ async def request(image: str,
                   message: types.Message) -> dict:
     try:
         logger.info('REPLICATE STARTING....')
-        # await actions.replicate_request(message)
+        await actions.replicate_request(message)
         data = const.body
         data['input']['image'] = image
         data['input']['mask'] = mask
@@ -46,4 +46,5 @@ async def request(image: str,
     except Exception as ex:
         logger.error(ex)
     logger.debug(body)
+    await actions.replicate_resp(message)
     return body

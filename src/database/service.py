@@ -14,14 +14,13 @@ class PsgDB:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
-    async def add_user(self, data: Message, group: str) -> User:
+    async def add_user(self, data: Message) -> User:
         try:
             async with self.session() as conn:
                 new_user = User(user_id=data.from_user.id,
                                 username=data.from_user.username,
                                 first_name=data.from_user.first_name,
-                                last_name=data.from_user.last_name,
-                                group=group)
+                                last_name=data.from_user.last_name)
                 conn.add(new_user)
                 await conn.commit()
                 await conn.close()
@@ -44,17 +43,6 @@ class PsgDB:
             await conn.execute(
                 update(User).values(
                         tokens=User.tokens+amount
-                        ).where(
-                    User.user_id == user_id)
-                    )
-            await conn.commit()
-            await conn.close()
-
-    async def add_tries(self, user_id: int) -> None:
-        async with self.session() as conn:
-            await conn.execute(
-                update(User).values(
-                        tries=User.tries+1
                         ).where(
                     User.user_id == user_id)
                     )
