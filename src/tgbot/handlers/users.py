@@ -41,7 +41,5 @@ async def user_start(message: types.Message):
         await actions.user_start(message)
         await registration(message)
         await message.answer(text=const.WELCOME)
-        db = PsgDB(await get_session())
-        await db.add_user(message)
     except Exception as ex:
         logger.error(ex)
