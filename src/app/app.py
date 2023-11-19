@@ -34,15 +34,16 @@ def create_blocks(path: str):
                              analytics_enabled=True)
     with image_blocks as _:
         gr.HTML(read_content("src/app/header.html"))
-
-        with gr.Row(elem_id="image_up"):
-            image = gr.Image(value=path,
-                             tool='sketch',
-                             source='upload',
-                             type="pil",
-                             interactive=True,
-                             elem_id="image_up",
-                             container=False)
+        with gr.Row(elem_id="image_upload"):
+            with gr.Row(elem_id="image_up"):
+                image = gr.Image(value=path,
+                                 tool='sketch',
+                                 source='upload',
+                                 type="pil",
+                                 interactive=True,
+                                 elem_id="image_up",
+                                 container=False,
+                                 height=400)
         with gr.Row():
             btn = gr.Button("Раздеть!", elem_id="run_button")
         with gr.Row():
