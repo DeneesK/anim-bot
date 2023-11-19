@@ -67,12 +67,12 @@ def create_blocks(path: str):
         path = gr.Text(value=path, visible=False)
         btn.click(fn=create_mask, inputs=[image, path], api_name='run')
         btn2.click(fn=create_mask_del, inputs=[image, path], api_name='run2')
-        btn3.click(inputs=[image, path], api_name='run3', _js=js)
+        btn3.click(fn=create_mask, inputs=[image, path], api_name='run3', _js=js)
     return image_blocks
 
 
 def close_server(server: gr.Blocks):
-    time.sleep(600)
+    time.sleep(280)
     server.close()
 
 
