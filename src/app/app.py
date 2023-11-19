@@ -60,11 +60,11 @@ def create_blocks(path: str):
         with gr.Row(elem_id='run_b'):
             btn = gr.Button("Раздеть!", elem_id="run_button")
         with gr.Row():
-            _ = gr.Button("Очистить", elem_id="but_2")
+            btn2 = gr.Button("Очистить", elem_id="but_2")
             btn3 = gr.Button("Загрузить другое фото!", elem_id="but_3")
         path = gr.Text(value=path, visible=False)
         btn.click(fn=create_mask, inputs=[image, path], api_name='run')
-        # btn2.click()
+        btn2.click(fn=create_mask, inputs=[image, path], api_name='run3', _js=reload_js)  # noqa
         btn3.click(fn=create_mask, inputs=[image, path], api_name='run3', _js=js)  # noqa
     return image_blocks
 
