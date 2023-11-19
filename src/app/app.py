@@ -6,6 +6,13 @@ from PIL import Image
 
 from src.settings.logger import logger
 
+js = """
+       function Previous(value1, value2) {
+            alert("Вернись обратно в телеграм");
+            return value1, value2
+        }
+"""
+
 
 def read_content(file_path: str) -> str:
     """read the content of target file"""

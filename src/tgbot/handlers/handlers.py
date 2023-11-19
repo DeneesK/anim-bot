@@ -11,5 +11,5 @@ async def photo_handler(message: types.Message):
     path = await download.download(photo_url, message.from_user.id)
     url = start(path=path)
     await message.bot.send_message(message.from_user.id,
-                                   text='Жми',
+                                   text='Перейди по ссылке, что бы раздеть',
                                    reply_markup=action(url))

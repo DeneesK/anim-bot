@@ -17,4 +17,5 @@ async def registration(message: types.Message):
 
 
 async def user_start(message: types.Message):
-    await message.answer(text='Пришли фото')
+    await registration(message)
+    await message.answer(text='Привет! Пришли фото')
