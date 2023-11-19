@@ -9,7 +9,7 @@ from src.settings.logger import logger
 js = """
        function Previous(value1, value2) {
            alert("Для этого вернись в телеграм");
-            return value1, value2
+           return value1, value2
         }
 """
 
