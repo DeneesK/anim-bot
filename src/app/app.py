@@ -6,26 +6,20 @@ from PIL import Image
 
 from src.settings.logger import logger
 
-js = """
-       function Previous(value1, value2) {
-            let tg = window.Telegram.WebApp;
-            tg.close();
+close_js = """
+       function Previous() {
             window.close();
         }
 """
 
 reload_js = """
-       function reloadPage(value1, value2) {
+       function reloadPage() {
            location.reload();
         }
 """
 
 onStart = """
     function reloadPage() {
-        import * from "https://telegram.org/js/telegram-web-app.js";
-
-        let tg = window.Telegram.WebApp;
-        tg.expand();
         let btn = document.getElementById("run_b");
         btn.addEventListener("click", () => {
         console.log('*******************>')
@@ -78,14 +72,15 @@ def create_blocks(path: str):
             btn3 = gr.Button("Загрузить другое фото!", elem_id="but_3")
         path = gr.Text(value=path, visible=False)
         btn.click(fn=create_mask, inputs=[image, path], api_name='run')
-        btn2.click(fn=create_mask, inputs=[image, path], api_name='run3', _js=reload_js)  # noqa
-        btn3.click(fn=create_mask, inputs=[image, path], api_name='run3', _js=js)  # noqa
-        image_blocks.load(None, None, None, _js=onStart)
+        btn2.click(None, None, None, _js=reload_js)  # noqa
+        btn3.click(None, None, None, _js=reload_js)  # noqa
 
         gr.HTML(
             """
-                <div class="footer" style="margin-bottom: 40px, margin-top: 30px">
-                    <p>Model by MindFusion style="text-decoration: underline;" target="_blank"></a> - Naked Bytes
+                <div class="footer" style="margin-bottom: 40px,
+                margin-top: 30px">
+                    <p>Model by MindFusion style="text-decoration: underline;"
+                    target="_blank"></a> - Naked Bytes
                     </p>
                 </div>
             """
