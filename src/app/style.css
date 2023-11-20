@@ -116,3 +116,8 @@ h1 {
 }
 
 footer {visibility: hidden}
+
+.button.svelte-1030q2h {
+    visibility: hidden;
+    display: none;
+}
