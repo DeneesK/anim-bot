@@ -40,8 +40,8 @@ async def request(image: str,
                 response = await session.post(const.fetch_url,
                                               headers=const.headers_stable,
                                               data=json.dumps(data))
-                logger.info(body)
                 body = await response.json()
+                logger.info(body)
                 response.close()
                 await asyncio.sleep(3)
             i -= 1

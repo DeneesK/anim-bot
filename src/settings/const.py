@@ -44,7 +44,7 @@ headers_stable = {
   'Content-Type': 'application/json'
 }
 req_url = 'https://stablediffusionapi.com/api/v3/inpaint'
-fetch_url = 'https://stablediffusionapi.com/api/v3/fetch/'
+fetch_url = 'https://stablediffusionapi.com/api/v4/dreambooth/fetch'
 
 
 body = {
