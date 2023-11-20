@@ -51,6 +51,10 @@ async def photo_handler(message: types.Message):
                                        reply_markup=action(url))  # noqa
 
         i = 600
+
+        while not await cache.get(sol_):
+            await asyncio.sleep(0.5)
+
         sol_ = await cache.get(sol_)
         print(f'SOL*****{sol_}')
         sol_ = sol_.decode('utf-8')
