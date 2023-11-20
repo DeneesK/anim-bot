@@ -40,7 +40,8 @@ async () => {
 
     const scr = document.createElement("script");
     scr.onload = () =>  console.log("script2 loaded") ;
-    scr.innerHTML = "window.Telegram.WebApp.expand();";
+    scr.innerHTML = "window.onload = () => window.Telegram.WebApp.expand();";
+    scr.innerHTML = "window.onload = function(){window.Telegram.WebApp.expand();}";
     document.body.appendChild(scr)
 }
 """
@@ -94,14 +95,6 @@ def create_blocks(path: str):
         btn3.click(None, None, None, _js=close_js)  # noqa
 
         demo.load(None, None, None, _js=onStart)
-
-        gr.HTML("<script>window.onload = () => {let = window.Telegram.WebApp; tg.expand()};</script>")
-        gr.HTML("""<style type="text/css">
-                button.svelte-1030q2h {
-                    visibility: hidden;
-                    display: none;
-                }
-                </style>""")
 
     return image_blocks
 
