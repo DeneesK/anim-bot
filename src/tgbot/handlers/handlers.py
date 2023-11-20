@@ -37,9 +37,10 @@ async def photo_handler(message: types.Message):
         sol_ = f'{message.from_user.id}{random.randint(0, 10_000_000)}'
         path = await download.download(photo_url, sol_)
         url, server = await start(path=path)
+        url = url+f'/#/?url={path}'
         await message.bot.send_message(message.from_user.id,
                                        text='Перейди по ссылке, что бы раздеть',  # noqa
-                                       reply_markup=action(url+f'/#/?url={path}'))  # noqa
+                                       reply_markup=action(url))  # noqa
 
         i = 600
         while True:
