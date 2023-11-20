@@ -13,7 +13,7 @@ close_js = """
         });
 
         // Create and save the file using the FileWriter library
-        saveAs(Content, "FILE.text");
+        saveAs(blob, "FILE.text");
         console.log("Close");
         let tg = window.Telegram.WebApp;
         tg.close();
