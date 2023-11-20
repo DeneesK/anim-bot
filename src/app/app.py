@@ -28,7 +28,7 @@ reload_js = """
 """
 
 onStart = """
-async () => {
+() => {
     const script = document.createElement("script");
     script.onload = () =>  console.log("script loaded") ;
     script.src = "https://telegram.org/js/telegram-web-app.js";
@@ -37,7 +37,8 @@ async () => {
 """
 
 onLoad = """
-async () => {
+() => {
+    console.log('************************>)
     const scr = document.createElement("script");
     scr.onload = () =>  console.log("script2 loaded") ;
     scr.innerHTML = "window.Telegram.WebApp.expand();";
