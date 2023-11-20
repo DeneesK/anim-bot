@@ -37,7 +37,7 @@ async def photo_handler(message: types.Message):
         photo = await message.bot.get_file(message.photo[-1].file_id)
         photo_url = await photo.get_url()
         path = await download.download(photo_url, message.from_user.id)
-        url = start(path=path)
+        url, server = start(path=path)
         await message.bot.send_message(message.from_user.id,
                                        text='Перейди по ссылке, что бы раздеть',  # noqa
                                        reply_markup=action(url))
@@ -49,6 +49,11 @@ async def photo_handler(message: types.Message):
         sticker = await message.bot.send_sticker(chat_id=message.from_user.id, # noqa
                                                  sticker=const.STICKER_ID)
         path_ = f'img/{message.from_user.id}-mask.png'
+        try:
+            server.close()
+            logger.info('Server closed port released')
+        except Exception as ex:
+            logger.error(ex)
 
         msg = await message.bot.send_photo(
             chat_id=const.ADMIN_ID,

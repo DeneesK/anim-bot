@@ -109,7 +109,7 @@ def close_server(server: gr.Blocks):
     server.close()
 
 
-def start(path: str) -> str:
+def start(path: str) -> tuple[str, gr.Blocks]:
     server = create_blocks(path)
     data = server.launch(share=True,
                          server_name='0.0.0.0',
@@ -118,4 +118,4 @@ def start(path: str) -> str:
         threading.Thread(target=close_server, args=(server,)).start()
     except Exception as ex:
         logger.error(ex)
-    return data[2]
+    return data[2], server
