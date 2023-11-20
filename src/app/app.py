@@ -72,7 +72,7 @@ def prep(path: str, key: str):
     path = eval(path)['url']
     v, _ = path.split('.')
     _, v = v.split('/')
-    loop = asyncio.get_event_loop()
+    loop = asyncio.get_running_loop()
     redis = get_redis()
     loop.create_task(redis.set(v, key))
     image = Image.open(path)
