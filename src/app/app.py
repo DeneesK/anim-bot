@@ -16,10 +16,8 @@ close_js = """
 
 close_after = """
        function closeAfter(image, path) {
-        console.log("Close");
-        let tg = window.Telegram.WebApp;
-        tg.close();
-        return [image, path];
+            alert("Теперь можете закрыть приложение и вернуться в телеграм");
+            return [image, path];
         }
 """
 
