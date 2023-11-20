@@ -91,14 +91,6 @@ def create_blocks(path: str):
         btn2.click(None, None, None, _js=reload_js)  # noqa
         btn3.click(None, None, None, _js=close_js)  # noqa
 
-        gr.HTML(
-            """
-                <div class="footer" style="margin-bottom: 40px,
-                margin-top: 30px">
-                    <p></p>
-                </div>
-            """
-        )
         demo.load(None, None, None, _js=onStart)
 
     return image_blocks
