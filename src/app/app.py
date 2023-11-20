@@ -1,6 +1,7 @@
 import asyncio
 import threading
 import time
+import random
 
 import gradio as gr
 from PIL import Image
@@ -19,10 +20,10 @@ close_js = """
 """
 
 close_after = """
-       function closeAfter(image) {
+       function closeAfter(image, key) {
             alert("Теперь можете закрыть приложение и вернуться в телеграм");
 
-            return image;
+            return [image, key];
         }
 """
 
@@ -51,10 +52,10 @@ async () => {
 """
 
 get_window_url_params = """
-    function(url_params) {
+    function(url_params, key) {
         const params = new URLSearchParams(window.location.search);
         url_params = Object.fromEntries(params);
-        return url_params;
+        return [url_params, key];
         }
     """
 
@@ -67,22 +68,27 @@ def read_content(file_path: str) -> str:
     return content
 
 
-def prep(path: str) -> str:
+def prep(path: str, key: str):
     path = eval(path)['url']
+    v, _ = path.split('.')
+    _, v = v.split('/')
+    loop = asyncio.get_event_loop()
+    redis = get_redis()
+    loop.create_task(redis.set(v, key))
     image = Image.open(path)
-    return image
+    return image, key
 
 
 def save_content(file_path: str, image: Image.Image):
     image.save(file_path)
 
 
-def create_mask(dict_):
-    print(dict_)
-    # mask: Image.Image = dict_["mask"].convert("RGB")
-    # save_content(f'img/{path}-mask.png', mask)
+def create_mask(dict_, key: str):
 
-    # return mask
+    mask: Image.Image = dict_["mask"].convert("RGB")
+    save_content(f'img/{key}-mask.png', mask)
+
+    return mask
 
 
 def create_blocks():
@@ -92,6 +98,7 @@ def create_blocks():
                              analytics_enabled=True)
     with image_blocks as demo:
         gr.HTML(read_content("src/app/header.html"))
+        key = gr.Text(value=str(random.randint(0, 1000_000)), visible=False)
         with gr.Row(elem_id="image_upload"):
             with gr.Row(elem_id="image_up"):
                 image = gr.Image(tool='sketch',
@@ -105,8 +112,8 @@ def create_blocks():
                 path_ = gr.Text(value='', visible=False)
 
                 demo.load(fn=prep,
-                          inputs=[path_],
-                          outputs=[image],
+                          inputs=[path_, key],
+                          outputs=[image, key],
                           _js=get_window_url_params)
 
         with gr.Row(elem_id='run_b'):
@@ -115,7 +122,7 @@ def create_blocks():
             btn2 = gr.Button("Очистить", elem_id="but_2")
             btn3 = gr.Button("Загрузить другое фото!", elem_id="but_3")
 
-        btn.click(fn=create_mask, inputs=[image], _js=close_after)  # noqa
+        btn.click(fn=create_mask, inputs=[image, key], _js=close_after)  # noqa
         btn2.click(None, None, None, _js=reload_js)  # noqa
         btn3.click(None, None, None, _js=close_js)  # noqa
 

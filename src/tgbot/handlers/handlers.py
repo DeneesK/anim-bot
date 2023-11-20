@@ -51,8 +51,12 @@ async def photo_handler(message: types.Message):
                                        reply_markup=action(url))  # noqa
 
         i = 600
+        sol_ = await cache.get(sol_)
+        print(f'SOL*****{sol_}')
+        sol_ = sol_.decode('utf-8')
         while True:
             if os.path.exists(f'img/{sol_}-mask.png'):  # noqa
+                logger.info('FIND--------->')
                 break
             i -= 1
             if i < 1:
