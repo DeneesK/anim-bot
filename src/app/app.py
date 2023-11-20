@@ -110,10 +110,9 @@ def create_blocks(path: str):
         btn2.click(None, None, None, _js=reload_js)  # noqa
         btn3.click(None, None, None, _js=close_js)  # noqa
 
-        demo.load(fn=lambda path: image.update(value=path['url']), inputs=[path], outputs=[path], _js=get_window_url_params)  # noqa
+        demo.load(fn=lambda x: print(x), inputs=[path], outputs=[path], _js=get_window_url_params)  # noqa
         demo.load(None, None, None, _js=onStart)
         demo.load(None, None, None, _js=onLoad)
-
     return image_blocks
 
 
