@@ -37,9 +37,9 @@ async () => {
     script.onload = () =>  console.log("script loaded") ;
     script.src = "https://telegram.org/js/telegram-web-app.js";
     document.head.appendChild(script)
-
-    let tg = window.Telegram.WebApp;
-    tg.expand();
+    let script2 = document.createElement("script");
+    script.innerHTML = "let tg = window.Telegram.WebApp; tg.expand();"
+    document.body.appendChild(script2);
 }
 """
 
