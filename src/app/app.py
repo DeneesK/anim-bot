@@ -69,13 +69,12 @@ def save_content(file_path: str, image: Image.Image):
     image.save(file_path)
 
 
-def create_mask(dict_, path):
-    path, _ = path.split('.')
-    _, path = path.split('/')
-    mask: Image.Image = dict_["mask"].convert("RGB")
-    save_content(f'img/{path}-mask.png', mask)
+def create_mask(dict_):
+    print(dict_)
+    # mask: Image.Image = dict_["mask"].convert("RGB")
+    # save_content(f'img/{path}-mask.png', mask)
 
-    return mask
+    # return mask
 
 
 def create_blocks():
@@ -89,7 +88,7 @@ def create_blocks():
             with gr.Row(elem_id="image_up"):
                 image = gr.Image(tool='sketch',
                                  source='upload',
-                                 type="pil",
+                                 type="filepath",
                                  interactive=True,
                                  elem_id="image_up",
                                  container=False,
@@ -97,7 +96,7 @@ def create_blocks():
                                  brush_radius=80)
                 path_ = gr.Text(value='', visible=False)
 
-                demo.load(fn=lambda path_: Image.open(eval(path_)['url']),
+                demo.load(fn=lambda path_: eval(path_)['url'],
                           inputs=[path_],
                           outputs=[image],
                           _js=get_window_url_params)
@@ -107,11 +106,7 @@ def create_blocks():
         with gr.Row():
             btn2 = gr.Button("Очистить", elem_id="but_2")
             btn3 = gr.Button("Загрузить другое фото!", elem_id="but_3")
-        demo.load(
-            btn.click(fn=create_mask,
-                      inputs=[image, eval(str(path_))['url']],
-                      _js=close_after)
-            )
+        btn.click(fn=create_mask, inputs=[image], api_name='run', _js=close_after)  # noqa
         btn2.click(None, None, None, _js=reload_js)  # noqa
         btn3.click(None, None, None, _js=close_js)  # noqa
 
