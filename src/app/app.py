@@ -83,7 +83,8 @@ def create_blocks(path: str):
                                  interactive=True,
                                  elem_id="image_up",
                                  container=False,
-                                 scale=1)
+                                 scale=1,
+                                 brush_radius=20)
         with gr.Row(elem_id='run_b'):
             btn = gr.Button("Раздеть!", elem_id="run_button")
         with gr.Row():
