@@ -10,10 +10,10 @@ from src.database import db, cache
 
 
 async def main():
-    # logger.info("APPP STARTING...")
-    # subprocess.call(['python3', 'src/app/app.py'])
-    logger.info("Starting Bot")
+    logger.info("APP STARTING...")
+    subprocess.call(['python3', 'src/app/app.py'])
 
+    logger.info("Starting Bot")
     bot = Bot(BOT_TOKEN, parse_mode='HTML')
 
     dp = Dispatcher(bot)
