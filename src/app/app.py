@@ -107,7 +107,7 @@ def create_blocks(path: str):
             btn2 = gr.Button("Очистить", elem_id="but_2")
             btn3 = gr.Button("Загрузить другое фото!", elem_id="but_3")
 
-        path = gr.Text(value='', visible=False)
+        path = gr.Text(value=path, visible=False)
 
         btn.click(fn=create_mask, inputs=[image, path], api_name='run', _js=close_after)  # noqa
         btn2.click(None, None, None, _js=reload_js)  # noqa
