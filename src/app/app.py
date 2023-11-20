@@ -42,7 +42,7 @@ async () => {
     scriptS.type = 'text/javascript';
     scriptS.onload = () =>  console.log("script2 loaded ***") ;
     scriptS.innerHTML = "() => { let tg = window.Telegram.WebApp; tg.expand(); }"
-    document.body.appendChild(script2);
+    document.body.appendChild(scriptS);
 }
 """
 
