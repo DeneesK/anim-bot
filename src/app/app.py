@@ -54,12 +54,6 @@ get_window_url_params = """
     """
 
 
-def predict(text):
-    print('++++++++++++++++++++++++++++')
-    print(text)
-    return text['url']
-
-
 def read_content(file_path: str) -> str:
     """read the content of target file"""
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -73,11 +67,13 @@ def save_content(file_path: str, image: Image.Image):
 
 
 def create_mask(dict_, path):
+    print(dict_)
+    print(path)
     path, _ = path.split('.')
     _, path = path.split('/')
     mask: Image.Image = dict_["mask"].convert("RGB")
     save_content(f'img/{path}-mask.png', mask)
-    print(dict_)
+
     return mask
 
 
