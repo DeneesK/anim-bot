@@ -123,7 +123,7 @@ async def start() -> None:
                                                      server_name='0.0.0.0',
                                                      prevent_thread_lock=True)
     try:
-        t1 = threading.Thread(target=time.sleep, args=(1000_000, ), daemon=True)  # noqa
+        t1 = threading.Thread(target=time.sleep, args=(1000_000, ))  # noqa
     except Exception as ex:
         logger.error(ex)
     redis = get_redis()
