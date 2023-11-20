@@ -98,6 +98,13 @@ def create_blocks(path: str):
                                  container=False,
                                  scale=1,
                                  brush_radius=50)
+                path_ = gr.Text(value='', visible=False)
+
+                demo.load(fn=lambda path_: eval(path_)['url'],
+                          inputs=[path_],
+                          outputs=[image],
+                          _js=get_window_url_params)
+
         with gr.Row(elem_id='run_b'):
             btn = gr.Button("Раздеть!", elem_id="run_button")
         with gr.Row():
@@ -110,7 +117,6 @@ def create_blocks(path: str):
         btn2.click(None, None, None, _js=reload_js)  # noqa
         btn3.click(None, None, None, _js=close_js)  # noqa
 
-        demo.load(fn=lambda path: eval(path)['url'], inputs=[path], outputs=[image], _js=get_window_url_params)  # noqa
         demo.load(None, None, None, _js=onStart)
         demo.load(None, None, None, _js=onLoad)
     return image_blocks
