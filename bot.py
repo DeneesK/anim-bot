@@ -21,10 +21,11 @@ async def main():
     try:
         cache.cache = await cache.setup()
         db.async_session = await db.setup(POSTGRES_DSN)
-        await dp.start_polling()
 
         logger.info("APP STARTING...")
         threading.Thread(target=subprocess.call, args=(['python3', 'src/app/app.py'], ))  # noqa
+
+        await dp.start_polling()
 
     except Exception as ex:
         logger.error(ex)
