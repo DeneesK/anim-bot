@@ -45,7 +45,7 @@ async def photo_handler(message: types.Message):
         while not_ready:
             if os.path.exists(f'img/{message.from_user.id}-mask.png'):  # noqa
                 break
-            await asyncio.sleep(1.5)
+            await asyncio.sleep(0.5)
         sticker = await message.bot.send_sticker(chat_id=message.from_user.id, # noqa
                                                  sticker=const.STICKER_ID)
         path_ = f'img/{message.from_user.id}-mask.png'
