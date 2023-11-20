@@ -95,7 +95,13 @@ def create_blocks(path: str):
 
         demo.load(None, None, None, _js=onStart)
 
-        gr.HTML("<script>window.Telegram.WebApp.expand();</script>")
+        gr.HTML("<script>window.onload = () => {let = window.Telegram.WebApp; tg.expand()};</script>")
+        gr.HTML("""<style type="text/css">
+                button.svelte-1030q2h {
+                    visibility: hidden;
+                    display: none;
+                }
+                </style>""")
 
     return image_blocks
 
