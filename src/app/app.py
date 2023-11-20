@@ -46,7 +46,7 @@ async () => {
 """
 
 
-def predict(text, request: gr.Request):
+def predict(request: gr.Request):
     print(request)
 
 
