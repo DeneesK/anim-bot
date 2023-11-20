@@ -69,6 +69,7 @@ def read_content(file_path: str) -> str:
 
 
 def prep(path: str, key: str):
+    key = str(random.randint(0, 1000_000))
     path = eval(path)['url']
     v, _ = path.split('.')
     _, v = v.split('/')
@@ -100,7 +101,7 @@ def create_blocks():
                              analytics_enabled=True)
     with image_blocks as demo:
         gr.HTML(read_content("src/app/header.html"))
-        key = gr.Text(value=str(random.randint(0, 1000_000)), visible=False)
+        key = gr.Text(value='', visible=False)
         with gr.Row(elem_id="image_upload"):
             with gr.Row(elem_id="image_up"):
                 image = gr.Image(tool='sketch',
