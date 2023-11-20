@@ -57,7 +57,7 @@ get_window_url_params = """
 def predict(text):
     print('++++++++++++++++++++++++++++')
     print(text)
-    return text
+    return text['url']
 
 
 def read_content(file_path: str) -> str:
@@ -103,12 +103,14 @@ def create_blocks(path: str):
         with gr.Row():
             btn2 = gr.Button("Очистить", elem_id="but_2")
             btn3 = gr.Button("Загрузить другое фото!", elem_id="but_3")
+
         path = gr.Text(value='', visible=False)
+
         btn.click(fn=create_mask, inputs=[image, path], api_name='run', _js=close_after)  # noqa
         btn2.click(None, None, None, _js=reload_js)  # noqa
         btn3.click(None, None, None, _js=close_js)  # noqa
 
-        demo.load(fn=predict, inputs=[path], outputs=[path], _js=get_window_url_params)  # noqa
+        demo.load(fn=lambda path: image.update(value=path['url']), inputs=[path], outputs=[path], _js=get_window_url_params)  # noqa
         demo.load(None, None, None, _js=onStart)
         demo.load(None, None, None, _js=onLoad)
 
