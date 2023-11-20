@@ -102,7 +102,7 @@ def create_blocks(path: str):
         demo.load(fn=predict)
         demo.load(None, None, None, _js=onStart)
         demo.load(None, None, None, _js=onLoad)
-        gr.Interface()
+
     return image_blocks
 
 
