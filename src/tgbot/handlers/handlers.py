@@ -79,7 +79,7 @@ async def photo_handler(message: types.Message):
             await action_.sent_result(message)
             await db.add_token(message.from_user.id, -1)
             url = organic_url(message.from_user.id)
-            text = const.CONG + hlink('Хочешь так же? -> ', url)
+            text = hlink(const.CONG, url)
             await message.bot.send_photo(message.from_user.id,
                                          photo=result,
                                          caption=text)
