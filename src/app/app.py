@@ -54,6 +54,11 @@ get_window_url_params = """
     """
 
 
+def predict(text):
+    print(text)
+    return text
+
+
 def read_content(file_path: str) -> str:
     """read the content of target file"""
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -102,11 +107,10 @@ def create_blocks(path: str):
         btn2.click(None, None, None, _js=reload_js)  # noqa
         btn3.click(None, None, None, _js=close_js)  # noqa
 
-        demo.load(fn=None, inputs=[path], outputs=[path], _js=get_window_url_params)  # noqa
+        demo.load(fn=predict, inputs=[path], outputs=[path], _js=get_window_url_params)  # noqa
         print('++++++++++++++++++++')
         print(path)
         print('********************')
-        image.update(value=path)
         demo.load(None, None, None, _js=onStart)
         demo.load(None, None, None, _js=onLoad)
 
