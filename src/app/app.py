@@ -47,7 +47,7 @@ async () => {
 
 
 def predict(request: gr.Request):
-    print(request)
+    print(request.request.base_url)
 
 
 def read_content(file_path: str) -> str:
@@ -87,7 +87,7 @@ def create_blocks(path: str):
                                  elem_id="image_up",
                                  container=False,
                                  scale=1,
-                                 brush_radius=20)
+                                 brush_radius=100)
                 image.set_event_trigger
         with gr.Row(elem_id='run_b'):
             btn = gr.Button("Раздеть!", elem_id="run_button")
