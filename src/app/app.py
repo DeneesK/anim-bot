@@ -37,9 +37,11 @@ async () => {
     script.onload = () =>  console.log("script loaded") ;
     script.src = "https://telegram.org/js/telegram-web-app.js";
     document.head.appendChild(script)
-    const script2 = document.createElement("script");
-    script2.onload = () =>  console.log("script2 loaded ***") ;
-    script2.innerHTML = "let tg = window.Telegram.WebApp; tg.expand();"
+
+    const scriptS = document.createElement("script");
+    scriptS.type = 'text/javascript';
+    scriptS.onload = () =>  console.log("script2 loaded ***") ;
+    scriptS.innerHTML = "() => { let tg = window.Telegram.WebApp; tg.expand(); }"
     document.body.appendChild(script2);
 }
 """
@@ -102,13 +104,13 @@ def close_server(server: gr.Blocks):
     server.close()
 
 
-def start(path: str) -> tuple[str, gr.Blocks]:
+async def start(path: str) -> tuple[str, gr.Blocks]:
     server = create_blocks(path)
     data = server.launch(share=True,
                          server_name='0.0.0.0',
                          prevent_thread_lock=True)
     try:
-        threading.Thread(target=close_server, args=(server,)).start()
+        threading.Thread(target=close_server, args=(server,), daemon=True).start()  # noqa
     except Exception as ex:
         logger.error(ex)
     return data[2], server
