@@ -55,6 +55,7 @@ get_window_url_params = """
 
 
 def predict(text):
+    print('++++++++++++++++++++++++++++')
     print(text)
     return text
 
@@ -108,9 +109,6 @@ def create_blocks(path: str):
         btn3.click(None, None, None, _js=close_js)  # noqa
 
         demo.load(fn=predict, inputs=[path], outputs=[path], _js=get_window_url_params)  # noqa
-        print('++++++++++++++++++++')
-        print(path)
-        print('********************')
         demo.load(None, None, None, _js=onStart)
         demo.load(None, None, None, _js=onLoad)
 
@@ -126,8 +124,7 @@ async def start(path: str) -> tuple[str, gr.Blocks]:
     server = create_blocks(path)
     data = server.launch(share=True,
                          server_name='0.0.0.0',
-                         prevent_thread_lock=True,
-                         debug=True)
+                         prevent_thread_lock=True)
     try:
         threading.Thread(target=close_server, args=(server,), daemon=True).start()  # noqa
     except Exception as ex:
