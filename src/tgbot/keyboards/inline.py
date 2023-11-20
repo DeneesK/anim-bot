@@ -8,7 +8,7 @@ from src.settings import const
 def action(url: str):
     keyboard = types.InlineKeyboardMarkup()
     keyboard.add(
-            types.InlineKeyboardButton(text='Ссылка на приложение',  # noqa
+            types.InlineKeyboardButton(text='Раздеть...',  # noqa
                                        web_app=types.WebAppInfo(url=url)))  # noqa
     return keyboard
 

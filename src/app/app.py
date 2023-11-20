@@ -8,7 +8,8 @@ from src.settings.logger import logger
 
 close_js = """
        function Previous() {
-            window.close();
+        let tg = window.Telegram.WebApp;
+        tg.close();
         }
 """
 
@@ -19,12 +20,19 @@ reload_js = """
 """
 
 onStart = """
-    function reloadPage() {
-        let btn = document.getElementById("run_b");
-        btn.addEventListener("click", () => {
-        console.log('*******************>')
-    });
-    }
+async () => {
+    // set testFn() function on globalThis, so you html onlclick can access it
+    // const d3 = await import("https://cdn.jsdelivr.net/npm/d3@7/+esm");
+    // globalThis.d3 = d3;
+    // or
+    const script = document.createElement("script");
+    script.onload = () =>  console.log("script loaded") ;
+    script.src = "https://telegram.org/js/telegram-web-app.js";
+    document.head.appendChild(script)
+
+    let tg = window.Telegram.WebApp;
+    tg.expand();
+}
 """
 
 
@@ -53,7 +61,7 @@ def create_blocks(path: str):
                              title='Naked Bytes',
                              elem_id="total-container",
                              analytics_enabled=True)
-    with image_blocks as _:
+    with image_blocks as demo:
         gr.HTML(read_content("src/app/header.html"))
         with gr.Row(elem_id="image_upload"):
             with gr.Row(elem_id="image_up"):
@@ -79,18 +87,16 @@ def create_blocks(path: str):
             """
                 <div class="footer" style="margin-bottom: 40px,
                 margin-top: 30px">
-                    <p>Model by MindFusion style="text-decoration: underline;"
-                    target="_blank"></a> - Naked Bytes
-                    </p>
+                    <p></p>
                 </div>
             """
         )
-
+        demo.load(None, None, None, _js=onStart)
     return image_blocks
 
 
 def close_server(server: gr.Blocks):
-    time.sleep(280)
+    time.sleep(300)
     server.close()
 
 
