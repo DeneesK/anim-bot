@@ -1,5 +1,6 @@
 import os
 import asyncio
+import random
 
 from aiogram import types
 from aiogram.utils.markdown import hlink
@@ -31,24 +32,28 @@ async def photo_handler(message: types.Message):
                                            reply_markup=invite(url))
             return
 
-        if os.path.exists(f'img/{message.from_user.id}-mask.png'):
-            os.remove(f'img/{message.from_user.id}-mask.png')
-
         photo = await message.bot.get_file(message.photo[-1].file_id)
         photo_url = await photo.get_url()
-        path = await download.download(photo_url, message.from_user.id)
+        sol_ = f'{message.from_user.id}{random.randint(0, 10_000_000)}'
+        path = await download.download(photo_url, sol_)
         url, server = start(path=path)
         await message.bot.send_message(message.from_user.id,
                                        text='Перейди по ссылке, что бы раздеть',  # noqa
                                        reply_markup=action(url))
-        not_ready = True
-        while not_ready:
-            if os.path.exists(f'img/{message.from_user.id}-mask.png'):  # noqa
+
+        i = 600
+        while True:
+            if os.path.exists(f'img/{sol_}-mask.png'):  # noqa
                 break
+            i -= 1
+            if i < 1:
+                return
             await asyncio.sleep(0.5)
+
         sticker = await message.bot.send_sticker(chat_id=message.from_user.id, # noqa
                                                  sticker=const.STICKER_ID)
-        path_ = f'img/{message.from_user.id}-mask.png'
+        path_ = f'img/{sol_}-mask.png'
+
         try:
             server.close()
             logger.info('Server closed port released')

@@ -7,17 +7,11 @@ from PIL import Image
 from src.settings.logger import logger
 
 close_js = """
-       function closeL() {
-        var blob = new Blob(["This is a sample file content."], {
-        type: "text/plain;charset=utf-8",
-        });
-
-        // Create and save the file using the FileWriter library
-        saveAs(blob, "FILE.text");
-        console.log("Close");
-        let tg = window.Telegram.WebApp;
-        tg.close();
-        }
+    function closeL() {
+    console.log("Close");
+    let tg = window.Telegram.WebApp;
+    tg.close();
+    }
 """
 
 close_after = """
