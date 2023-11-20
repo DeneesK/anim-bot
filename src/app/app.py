@@ -28,7 +28,6 @@ onStart = """
         let btn = document.getElementById("run_b");
         btn.addEventListener("click", () => {
         console.log('*******************>')
-        tg.close();
     });
     }
 """
@@ -80,6 +79,16 @@ def create_blocks(path: str):
         btn2.click(fn=create_mask, inputs=[image, path], api_name='run3', _js=reload_js)  # noqa
         btn3.click(fn=create_mask, inputs=[image, path], api_name='run3', _js=js)  # noqa
         image_blocks.load(None, None, None, _js=onStart)
+
+    gr.HTML(
+        """
+            <div class="footer" style="margin-bottom: 40px, margin-top: 30px">
+                <p>Model by MindFusion style="text-decoration: underline;" target="_blank"></a> - Naked Bytes
+                </p>
+            </div>
+        """
+    )
+
     return image_blocks
 
 
