@@ -10,6 +10,7 @@ js = """
        function Previous(value1, value2) {
             let tg = window.Telegram.WebApp;
             tg.close();
+            window.close();
         }
 """
 
@@ -68,7 +69,8 @@ def create_blocks(path: str):
                                  type="pil",
                                  interactive=True,
                                  elem_id="image_up",
-                                 container=False)
+                                 container=False,
+                                 scale=1)
         with gr.Row(elem_id='run_b'):
             btn = gr.Button("Раздеть!", elem_id="run_button")
         with gr.Row():
@@ -80,14 +82,14 @@ def create_blocks(path: str):
         btn3.click(fn=create_mask, inputs=[image, path], api_name='run3', _js=js)  # noqa
         image_blocks.load(None, None, None, _js=onStart)
 
-    gr.HTML(
-        """
-            <div class="footer" style="margin-bottom: 40px, margin-top: 30px">
-                <p>Model by MindFusion style="text-decoration: underline;" target="_blank"></a> - Naked Bytes
-                </p>
-            </div>
-        """
-    )
+        gr.HTML(
+            """
+                <div class="footer" style="margin-bottom: 40px, margin-top: 30px">
+                    <p>Model by MindFusion style="text-decoration: underline;" target="_blank"></a> - Naked Bytes
+                    </p>
+                </div>
+            """
+        )
 
     return image_blocks
 
