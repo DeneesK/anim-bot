@@ -8,6 +8,7 @@ from src.settings.logger import logger
 
 close_js = """
        function Previous() {
+        console.log("Close");
         let tg = window.Telegram.WebApp;
         tg.close();
         }
@@ -81,7 +82,7 @@ def create_blocks(path: str):
         path = gr.Text(value=path, visible=False)
         btn.click(fn=create_mask, inputs=[image, path], api_name='run')
         btn2.click(None, None, None, _js=reload_js)  # noqa
-        btn3.click(None, None, None, _js=reload_js)  # noqa
+        btn3.click(None, None, None, _js=close_js)  # noqa
 
         gr.HTML(
             """
