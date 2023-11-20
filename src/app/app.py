@@ -40,7 +40,7 @@ async () => {
 
     const scr = document.createElement("script");
     scr.onload = () =>  console.log("script2 loaded") ;
-    scr.innerHTML = "window.onload = () => window.Telegram.WebApp.expand();";
+    scr.innerHTML = "window.Telegram.WebApp.expand();";
     document.body.appendChild(scr)
 }
 """
@@ -94,6 +94,8 @@ def create_blocks(path: str):
         btn3.click(None, None, None, _js=close_js)  # noqa
 
         demo.load(None, None, None, _js=onStart)
+
+        gr.HTML("<script>window.Telegram.WebApp.expand();</script>")
 
     return image_blocks
 
