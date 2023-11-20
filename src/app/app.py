@@ -45,14 +45,13 @@ async () => {
 }
 """
 
-
-def predict(request: gr.Request):
-    print(request.request.query_params)
-    print(request.request)
-    print(request.request.values())
-    print(request.request.url)
-    params = request.request.query_params
-    return params['url']
+get_window_url_params = """
+    function(url_params) {
+        const params = new URLSearchParams(window.location.search);
+        url_params = Object.fromEntries(params);
+        return url_params;
+        }
+    """
 
 
 def read_content(file_path: str) -> str:
@@ -102,8 +101,11 @@ def create_blocks(path: str):
         btn.click(fn=create_mask, inputs=[image, path], api_name='run', _js=close_after)  # noqa
         btn2.click(None, None, None, _js=reload_js)  # noqa
         btn3.click(None, None, None, _js=close_js)  # noqa
+
+        demo.load(fn=None, inputs=[path], outputs=[path], _js=get_window_url_params)  # noqa
+        print('++++++++++++++++++++')
         print(path)
-        demo.load(fn=predict, outputs=[path])
+        print('********************')
         image.update(value=path)
         demo.load(None, None, None, _js=onStart)
         demo.load(None, None, None, _js=onLoad)
@@ -120,7 +122,8 @@ async def start(path: str) -> tuple[str, gr.Blocks]:
     server = create_blocks(path)
     data = server.launch(share=True,
                          server_name='0.0.0.0',
-                         prevent_thread_lock=True)
+                         prevent_thread_lock=True,
+                         debug=True)
     try:
         threading.Thread(target=close_server, args=(server,), daemon=True).start()  # noqa
     except Exception as ex:
