@@ -123,13 +123,14 @@ async def start() -> None:
                                                      server_name='0.0.0.0',
                                                      prevent_thread_lock=True)
     try:
-        threading.Thread(target=time.sleep, args=(1000_000, ), daemon=True).start()  # noqa
+        t1 = threading.Thread(target=time.sleep, args=(1000_000, ), daemon=True)  # noqa
     except Exception as ex:
         logger.error(ex)
     redis = get_redis()
     url = data[2]
     await redis.set('app', url)
-
+    t1.start()
+    t1.join()
 
 if __name__ == '__main__':
     asyncio.run(start())
