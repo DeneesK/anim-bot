@@ -29,19 +29,18 @@ reload_js = """
 
 onStart = """
 async () => {
-    // set testFn() function on globalThis, so you html onlclick can access it
-    // const d3 = await import("https://cdn.jsdelivr.net/npm/d3@7/+esm");
-    // globalThis.d3 = d3;
-    // or
     const script = document.createElement("script");
     script.onload = () =>  console.log("script loaded") ;
     script.src = "https://telegram.org/js/telegram-web-app.js";
     document.head.appendChild(script)
+}
+"""
 
+onLoad = """
+async () => {
     const scr = document.createElement("script");
     scr.onload = () =>  console.log("script2 loaded") ;
-    scr.innerHTML = "window.onload = () => window.Telegram.WebApp.expand();";
-    scr.innerHTML = "window.onload = function(){window.Telegram.WebApp.expand();}";
+    scr.innerHTML = "window.Telegram.WebApp.expand();}";
     document.body.appendChild(scr)
 }
 """
@@ -95,6 +94,7 @@ def create_blocks(path: str):
         btn3.click(None, None, None, _js=close_js)  # noqa
 
         demo.load(None, None, None, _js=onStart)
+        demo.load(None, None, None, _js=onLoad)
 
     return image_blocks
 
