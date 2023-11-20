@@ -72,13 +72,13 @@ def save_content(file_path: str, image: Image.Image):
     image.save(file_path)
 
 
-def create_mask(dict, path):
-    # path, _ = path.split('.')
-    # _, path = path.split('/')
-    # mask: Image.Image = dict["mask"].convert("RGB")
-    # save_content(f'img/{path}-mask.png', mask)
-    print(dict)
-    return ''
+def create_mask(dict_, path):
+    path, _ = path.split('.')
+    _, path = path.split('/')
+    mask: Image.Image = dict_["mask"].convert("RGB")
+    save_content(f'img/{path}-mask.png', mask)
+    print(dict_)
+    return mask
 
 
 def create_blocks(path: str):
@@ -92,15 +92,15 @@ def create_blocks(path: str):
             with gr.Row(elem_id="image_up"):
                 image = gr.Image(tool='sketch',
                                  source='upload',
-                                 type="filepath",
+                                 type="pil",
                                  interactive=True,
                                  elem_id="image_up",
                                  container=False,
                                  scale=1,
-                                 brush_radius=50)
+                                 brush_radius=80)
                 path_ = gr.Text(value='', visible=False)
 
-                demo.load(fn=lambda path_: eval(path_)['url'],
+                demo.load(fn=lambda path_: Image.open(eval(path_)['url']),
                           inputs=[path_],
                           outputs=[image],
                           _js=get_window_url_params)
