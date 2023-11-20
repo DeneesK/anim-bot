@@ -73,11 +73,12 @@ def save_content(file_path: str, image: Image.Image):
 
 
 def create_mask(dict, path):
-    path, _ = path.split('.')
-    _, path = path.split('/')
-    mask: Image.Image = dict["mask"].convert("RGB")
-    save_content(f'img/{path}-mask.png', mask)
-    return mask
+    # path, _ = path.split('.')
+    # _, path = path.split('/')
+    # mask: Image.Image = dict["mask"].convert("RGB")
+    # save_content(f'img/{path}-mask.png', mask)
+    print(dict)
+    return ''
 
 
 def create_blocks(path: str):
@@ -91,7 +92,7 @@ def create_blocks(path: str):
             with gr.Row(elem_id="image_up"):
                 image = gr.Image(tool='sketch',
                                  source='upload',
-                                 type="pil",
+                                 type="filepath",
                                  interactive=True,
                                  elem_id="image_up",
                                  container=False,
@@ -109,8 +110,7 @@ def create_blocks(path: str):
         btn2.click(None, None, None, _js=reload_js)  # noqa
         btn3.click(None, None, None, _js=close_js)  # noqa
 
-        demo.load(fn=lambda path: image.update(value=eval(path)['url']),
-                  inputs=[path], outputs=[path], _js=get_window_url_params)  # noqa
+        demo.load(fn=lambda path: eval(path)['url'], inputs=[path], outputs=[image], _js=get_window_url_params)  # noqa
         demo.load(None, None, None, _js=onStart)
         demo.load(None, None, None, _js=onLoad)
     return image_blocks
