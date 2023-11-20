@@ -131,6 +131,7 @@ async def start() -> None:
     await redis.set('app', url)
     t1.start()
     t1.join()
+    logger.info('APP SHUTDOWN...')
 
 if __name__ == '__main__':
     asyncio.run(start())
