@@ -60,7 +60,7 @@ body = {
   'safety_checker': 'no',
   'enhance_prompt': 'no',
   'guidance_scale': 7.5,
-  'strength': 0.7,
+  'strength': 0.8,
   'seed': None,
   'webhook': None,
   'track_id': None

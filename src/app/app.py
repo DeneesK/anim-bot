@@ -7,10 +7,19 @@ from PIL import Image
 from src.settings.logger import logger
 
 close_js = """
-       function Previous() {
+       function closeL() {
         console.log("Close");
         let tg = window.Telegram.WebApp;
         tg.close();
+        }
+"""
+
+close_after = """
+       function closeAfter(image, path) {
+        console.log("Close");
+        let tg = window.Telegram.WebApp;
+        tg.close();
+        return [image, path];
         }
 """
 
@@ -93,6 +102,7 @@ def create_blocks(path: str):
             """
         )
         demo.load(None, None, None, _js=onStart)
+
     return image_blocks
 
 
