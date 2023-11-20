@@ -40,7 +40,7 @@ async () => {
 
     const scr = document.createElement("script");
     scr.onload = () =>  console.log("script2 loaded") ;
-    scr.innerHTML = "window.Telegram.WebApp.expand();";
+    scr.innerHTML = "window.onload = () => window.Telegram.WebApp.expand();";
     document.head.appendChild(scr)
 }
 """
