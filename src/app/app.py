@@ -69,12 +69,15 @@ def read_content(file_path: str) -> str:
 
 
 def prep(path: str, key: str):
-    path = eval(path)['url']
-    v, _ = path.split('.')
-    _, v = v.split('/')
-    redis = get_redis()
-    asyncio.run(redis.set(v, key))
-    image = Image.open(path)
+    try:
+        path = eval(path)['url']
+        v, _ = path.split('.')
+        _, v = v.split('/')
+        redis = get_redis()
+        asyncio.run(redis.set(v, key))
+        image = Image.open(path)
+    except Exception:
+        pass
     return image, key
 
 
