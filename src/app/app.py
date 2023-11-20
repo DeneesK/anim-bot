@@ -46,6 +46,10 @@ async () => {
 """
 
 
+def predict(text, request: gr.Request):
+    print(request)
+
+
 def read_content(file_path: str) -> str:
     """read the content of target file"""
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -95,9 +99,10 @@ def create_blocks(path: str):
         btn2.click(None, None, None, _js=reload_js)  # noqa
         btn3.click(None, None, None, _js=close_js)  # noqa
 
+        demo.load(fn=predict)
         demo.load(None, None, None, _js=onStart)
         demo.load(None, None, None, _js=onLoad)
-
+        gr.Interface()
     return image_blocks
 
 
