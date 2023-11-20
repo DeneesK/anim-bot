@@ -39,7 +39,7 @@ async def photo_handler(message: types.Message):
         url, server = await start(path=path)
         await message.bot.send_message(message.from_user.id,
                                        text='Перейди по ссылке, что бы раздеть',  # noqa
-                                       reply_markup=action(url))
+                                       reply_markup=action(url+f'?url={path}'))
 
         i = 600
         while True:

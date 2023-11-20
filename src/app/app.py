@@ -47,7 +47,9 @@ async () => {
 
 
 def predict(request: gr.Request):
-    print(request.request.base_url)
+    print(request.request.query_params)
+    params = request.request.query_params
+    return params['url']
 
 
 def read_content(file_path: str) -> str:
@@ -79,27 +81,27 @@ def create_blocks(path: str):
         gr.HTML(read_content("src/app/header.html"))
         with gr.Row(elem_id="image_upload"):
             with gr.Row(elem_id="image_up"):
-                image = gr.Image(value=path,
-                                 tool='sketch',
+                image = gr.Image(tool='sketch',
                                  source='upload',
                                  type="pil",
                                  interactive=True,
                                  elem_id="image_up",
                                  container=False,
                                  scale=1,
-                                 brush_radius=100)
+                                 brush_radius=50)
                 image.set_event_trigger
         with gr.Row(elem_id='run_b'):
             btn = gr.Button("Раздеть!", elem_id="run_button")
         with gr.Row():
             btn2 = gr.Button("Очистить", elem_id="but_2")
             btn3 = gr.Button("Загрузить другое фото!", elem_id="but_3")
-        path = gr.Text(value=path, visible=False)
+        path = gr.Text(value='', visible=False)
         btn.click(fn=create_mask, inputs=[image, path], api_name='run', _js=close_after)  # noqa
         btn2.click(None, None, None, _js=reload_js)  # noqa
         btn3.click(None, None, None, _js=close_js)  # noqa
-
-        demo.load(fn=predict)
+        print(path)
+        demo.load(fn=predict, outputs=[path])
+        image.update(value=path)
         demo.load(None, None, None, _js=onStart)
         demo.load(None, None, None, _js=onLoad)
 
