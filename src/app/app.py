@@ -38,7 +38,6 @@ async () => {
 
 onLoad = """
 async () => {
-    window.onload = console.log('************************>)
     const scr = document.createElement("script");
     scr.onload = () =>  console.log("script2 loaded") ;
     scr.innerHTML = "window.Telegram.WebApp.expand();";
@@ -85,6 +84,7 @@ def create_blocks(path: str):
                                  container=False,
                                  scale=1,
                                  brush_radius=20)
+                image.set_event_trigger
         with gr.Row(elem_id='run_b'):
             btn = gr.Button("Раздеть!", elem_id="run_button")
         with gr.Row():
