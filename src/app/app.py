@@ -121,7 +121,7 @@ async def start() -> None:
                                                      server_name='0.0.0.0',
                                                      prevent_thread_lock=True)
     try:
-        threading.Thread(target=time.sleep, args=(1000_000), daemon=True).start()  # noqa
+        threading.Thread(target=time.sleep, args=(1000_000, ), daemon=True).start()  # noqa
     except Exception as ex:
         logger.error(ex)
     cache = get_redis()
