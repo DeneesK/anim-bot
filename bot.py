@@ -1,5 +1,6 @@
 import asyncio
 import subprocess
+import threading
 
 from aiogram import Bot, Dispatcher
 
@@ -10,9 +11,6 @@ from src.database import db, cache
 
 
 async def main():
-    logger.info("APP STARTING...")
-    subprocess.call(['python3', 'src/app/app.py'])
-
     logger.info("Starting Bot")
     bot = Bot(BOT_TOKEN, parse_mode='HTML')
 
@@ -24,6 +22,10 @@ async def main():
         cache.cache = await cache.setup()
         db.async_session = await db.setup(POSTGRES_DSN)
         await dp.start_polling()
+
+        logger.info("APP STARTING...")
+        threading.Thread(target=subprocess.call, args=(['python3', 'src/app/app.py'], ))  # noqa
+
     except Exception as ex:
         logger.error(ex)
         db.async_session.close_all()

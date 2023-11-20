@@ -6,6 +6,7 @@ import gradio as gr
 from PIL import Image
 
 from src.settings.logger import logger
+from src.database import cache as cache_redis
 from src.database.cache import get_redis
 
 
@@ -116,6 +117,7 @@ def create_blocks():
 
 
 async def start() -> None:
+    cache_redis.cache = await cache_redis.setup()
     server = create_blocks()
     data = server.queue(concurrency_count=64).launch(share=True,
                                                      server_name='0.0.0.0',
@@ -124,9 +126,9 @@ async def start() -> None:
         threading.Thread(target=time.sleep, args=(1000_000, ), daemon=True).start()  # noqa
     except Exception as ex:
         logger.error(ex)
-    cache = get_redis()
+    redis = get_redis()
     url = data[2]
-    await cache.set('app', url)
+    await redis.set('app', url)
 
 
 if __name__ == '__main__':
