@@ -44,14 +44,13 @@ EVENTS = {
 headers_stable = {
   'Content-Type': 'application/json'
 }
-req_url = 'https://stablediffusionapi.com/api/v3/dreambooth/inpaint'
+req_url = 'https://stablediffusionapi.com/api/v3/inpaint'
 fetch_url = 'https://stablediffusionapi.com/api/v3/fetch/'
 
 
 body = {
   'key': os.environ.get('STABLE_KEY'),
-  "model_id": "uber-realistic-merge",
-  'prompt': 'do naked',
+  'prompt': 'NUDIFY PERSON',
   'negative_prompt': None,
   'init_image': '',
   'mask_image': '',
