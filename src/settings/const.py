@@ -53,7 +53,7 @@ body = {
   'negative_prompt': None,
   'init_image': '',
   'mask_image': '',
-  'width': '1024',
+  'width': '768',
   'height': '1024',
   'samples': '1',
   'num_inference_steps': '30',
