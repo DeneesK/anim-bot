@@ -42,7 +42,8 @@ async def photo_handler(message: types.Message):
         photo_url = await photo.get_url()
         sol_ = f'{message.from_user.id}{random.randint(0, 10_000_000)}'
         path = await download.download(photo_url, sol_)
-        url = cache.get('app')
+        url = await cache.get('app')
+        print(url)
         url = url.decode('utf-8')+f'?url={path}'
         print(f'{url}-------bot')
         await message.bot.send_message(message.from_user.id,
