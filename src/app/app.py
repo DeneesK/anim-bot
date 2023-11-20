@@ -48,6 +48,9 @@ async () => {
 
 def predict(request: gr.Request):
     print(request.request.query_params)
+    print(request.request)
+    print(request.request.values())
+    print(request.request.url)
     params = request.request.query_params
     return params['url']
 
