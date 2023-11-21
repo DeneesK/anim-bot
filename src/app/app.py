@@ -20,16 +20,16 @@ close_js = """
 """
 
 close_after = """
-       function closeAfter(image, key) {
-            alert("Теперь можете закрыть приложение и вернуться в телеграм"));
-            return [image, key];
-        }
+    function closeAfter(image, key) {
+        alert("Теперь можете закрыть приложение и вернуться в телеграм");
+        return [image, key];
+    }
 """
 
 reload_js = """
-       function reloadPage() {
-           location.reload();
-        }
+    function reloadPage() {
+        location.reload();
+    }
 """
 
 onStart = """
