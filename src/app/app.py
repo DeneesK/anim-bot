@@ -137,7 +137,7 @@ async def start() -> None:
     cache_redis.cache = await cache_redis.setup()
     server = create_blocks()
     logger.info("APP STARTING...")
-    data = server.queue(concurrency_count=30, max_size=40).launch(share=True,
+    data = server.queue(concurrency_count=10, max_size=10).launch(share=True,
                                                                   server_name='0.0.0.0',
                                                                   prevent_thread_lock=True)
     try:
