@@ -62,7 +62,7 @@ body = {
   'enhance_prompt': 'no',
   'guidance_scale': 7.5,
   'strength': 0.8,
-  'seed': None,
+  'seed': 3090185627,
   'webhook': None,
   'track_id': None
 }

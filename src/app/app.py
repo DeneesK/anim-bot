@@ -128,7 +128,7 @@ def create_blocks():
         btn2.click(None, None, None, _js=reload_js)  # noqa
         btn3.click(None, None, None, _js=close_js)  # noqa
 
-        demo.load(lambda: gr.Warning("После нажатия на кнопку 'Раздеть, дождись сообщения о том что приложение можно закрыть'"))
+        demo.load(lambda: gr.Warning("После нажатия на кнопку 'Раздеть, дождись сообщения о том что приложение можно закрыть'"))  # noqa
         demo.load(None, None, None, _js=onStart)
         demo.load(None, None, None, _js=onLoad)
     return image_blocks
