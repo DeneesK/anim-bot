@@ -55,13 +55,13 @@ async def photo_handler(message: types.Message):
         while not await cache.get(sol_):
             await asyncio.sleep(0.2)
 
-        sol_ = await cache.get(sol_)
-        logger.info(f'SOL*****{sol_}')
-        sol_ = sol_.decode('utf-8')
+        path_ = await cache.get(sol_)
+        logger.info(f'SOL*****{path_}')
+        path_ = sol_.decode('utf-8')
 
         while True:
-            if os.path.exists(f'img/{sol_}-mask.png'):  # noqa
-                logger.info(f'FIND--------->{sol_}')
+            if os.path.exists(f'img/{path_}-mask.png'):  # noqa
+                logger.info(f'FIND--------->{path_}')
                 break
             i -= 1
             path_ = await cache.get(sol_)
