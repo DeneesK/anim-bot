@@ -87,6 +87,7 @@ def save_content(file_path: str, image: Image.Image):
 
 
 def create_mask(dict_, key: str):
+    gr.Info("Пару секунд...")
     mask: Image.Image = dict_["mask"].convert("RGB")
     save_content(f'img/{key}-mask.png', mask)
     gr.Info("Теперь можете закрыть приложение, результат мы отправим тебе в телеграм!")  # noqa
