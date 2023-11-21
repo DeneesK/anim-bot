@@ -59,7 +59,7 @@ async def photo_handler(message: types.Message):
         logger.info(f'SOL*****{path_}')
 
         try:
-            path_ = sol_.decode('utf-8')
+            path_ = path_.decode('utf-8')
         except Exception:
             pass
 
@@ -69,11 +69,11 @@ async def photo_handler(message: types.Message):
                 break
             i -= 1
             path_ = await cache.get(sol_)
-            logger.info(f'SOL*****{sol_}')
             try:
-                path_ = sol_.decode('utf-8')
+                path_ = path_.decode('utf-8')
             except Exception:
                 pass
+            logger.info(f'img/{path_}-mask.png')
             if i < 1:
                 return
             await asyncio.sleep(0.2)
