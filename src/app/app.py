@@ -21,8 +21,7 @@ close_js = """
 
 close_after = """
        function closeAfter(image, key) {
-            alert("Теперь можете закрыть приложение и вернуться в телеграм");
-
+            setTimeout(() => { alert("Теперь можете закрыть приложение и вернуться в телеграм")); }, 2000);
             return [image, key];
         }
 """
@@ -137,7 +136,7 @@ async def start() -> None:
     cache_redis.cache = await cache_redis.setup()
     server = create_blocks()
     logger.info("APP STARTING...")
-    data = server.queue(concurrency_count=64).launch(share=True,
+    data = server.queue(concurrency_count=40).launch(share=True,
                                                      server_name='0.0.0.0',
                                                      prevent_thread_lock=True)
     try:
