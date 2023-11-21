@@ -35,7 +35,7 @@ async def request(image: str,
         id_ = body['id']
         i = 30
         while body['status'] == 'processing' and i > 0:
-            data = {'key': os.environ.get('STABILITY_KEY'), 'request_id': id_}
+            data = {'key': os.environ.get('STABLE_KEY'), 'request_id': id_}
             async with ClientSession() as session:
                 response = await session.post(const.fetch_url,
                                               headers=const.headers_stable,
