@@ -41,16 +41,6 @@ async () => {
 }
 """
 
-onLoad = """
-function () {
-    const scriptJ = document.createElement('script');
-    scriptJ.innerHTML = "console.log('LOADED *');
-    let tg = window.Telegram.WebApp;
-    tg.expand();"
-    document.body.appendChild(scriptJ)
-}
-"""
-
 get_window_url_params = """
     function(url_params, key) {
         const params = new URLSearchParams(window.location.search);
@@ -131,7 +121,6 @@ def create_blocks():
 
         demo.load(lambda: gr.Warning("После нажатия на кнопку 'Раздеть, дождись сообщения о том что приложение можно закрыть'"))  # noqa
         demo.load(None, None, None, _js=onStart)
-        # demo.load(None, None, None, _js=onLoad)
     return image_blocks
 
 
