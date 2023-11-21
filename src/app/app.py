@@ -110,7 +110,7 @@ def create_blocks():
                                  elem_id="image_up",
                                  container=False,
                                  scale=1,
-                                 brush_radius=80)
+                                 brush_radius=110)
                 path_ = gr.Text(value='', visible=False)
 
                 demo.load(fn=prep,
