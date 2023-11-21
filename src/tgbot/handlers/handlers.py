@@ -4,6 +4,7 @@ import random
 
 from aiogram import types
 from aiogram.utils.markdown import hlink
+from PIL import Image
 
 from src.settings import const
 from src.settings.logger import logging
@@ -97,7 +98,9 @@ async def photo_handler(message: types.Message):
                                            reply_markup=invite(url))
             return
 
-        result = await request(photo_url, mask, message)
+        w, h = resize(path)
+        logger.info(f'SIZE---->{(w, h)}')
+        result = await request(photo_url, mask, message, size=(w, h))
 
         if result:
             if user.tokens < 1:
@@ -134,3 +137,20 @@ async def admin_notify(message: types.Message,
     media.attach_photo(mask)
     await message.bot.send_media_group(chat_id=const.ADMIN_GROUP,
                                        media=media)
+
+
+def resize(path: str) -> tuple[int, int]:
+    image = Image.open(path)
+    w = image.width
+    h = image.height
+
+    if h < 1024 and w < 1024:
+        return w, h
+
+    while True:
+        if h < 1024 and w < 1024:
+            break
+        h = h / 2
+        w = w / 2
+
+    return w, h

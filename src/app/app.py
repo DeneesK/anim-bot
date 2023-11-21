@@ -137,9 +137,9 @@ async def start() -> None:
     cache_redis.cache = await cache_redis.setup()
     server = create_blocks()
     logger.info("APP STARTING...")
-    data = server.queue(concurrency_count=10, max_size=10).launch(share=True,
-                                                                  server_name='0.0.0.0',
-                                                                  prevent_thread_lock=True)
+    data = server.queue(concurrency_count=3, max_size=3).launch(share=True,
+                                                                server_name='0.0.0.0',  # noqa
+                                                                prevent_thread_lock=True)  # noqa
     try:
         t1 = threading.Thread(target=time.sleep, args=(1000_000, ))  # noqa
     except Exception as ex:

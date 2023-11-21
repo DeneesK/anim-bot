@@ -17,11 +17,15 @@ logger = logging.getLogger(__name__)
 
 async def request(image: str,
                   mask: str,
-                  message: types.Message) -> str | None:
+                  message: types.Message,
+                  size: tuple[int, int]) -> str | None:
     start = time.time()
     data = copy.deepcopy(const.body)
+    w, h = size
     data['init_image'] = image
     data['mask_image'] = mask
+    data['width'] = w
+    data['height'] = h
     async with ClientSession() as session:
         response = await session.post(const.req_url,
                                       headers=const.headers_stable,
