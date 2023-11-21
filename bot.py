@@ -1,6 +1,4 @@
 import asyncio
-import subprocess
-import threading
 
 from aiogram import Bot, Dispatcher
 
@@ -21,8 +19,6 @@ async def main():
     try:
         cache.cache = await cache.setup()
         db.async_session = await db.setup(POSTGRES_DSN)
-
-        # threading.Thread(target=subprocess.call, args=(['python3', 'src/app/app.py'], )).start()  # noqa
 
         await dp.start_polling()
 

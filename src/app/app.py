@@ -89,7 +89,7 @@ def save_content(file_path: str, image: Image.Image):
 def create_mask(dict_, key: str):
     mask: Image.Image = dict_["mask"].convert("RGB")
     save_content(f'img/{key}-mask.png', mask)
-    gr.Info("Теперь можете закрыть приложение, реззультат мы отправим тебе в телеграм!")  # noqa
+    gr.Info("Теперь можете закрыть приложение, результат мы отправим тебе в телеграм!")  # noqa
     return mask
 
 
@@ -137,9 +137,9 @@ async def start() -> None:
     cache_redis.cache = await cache_redis.setup()
     server = create_blocks()
     logger.info("APP STARTING...")
-    data = server.queue(concurrency_count=30).launch(share=True,
-                                                     server_name='0.0.0.0',
-                                                     prevent_thread_lock=True)
+    data = server.queue(concurrency_count=30, max_size=40).launch(share=True,
+                                                                  server_name='0.0.0.0',
+                                                                  prevent_thread_lock=True)
     try:
         t1 = threading.Thread(target=time.sleep, args=(1000_000, ))  # noqa
     except Exception as ex:
