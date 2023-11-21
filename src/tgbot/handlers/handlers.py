@@ -145,6 +145,10 @@ def resize(path: str) -> tuple[int, int]:
     h = image.height
 
     if h < 1024 and w < 1024:
+        if h % 8 == 0 and w % 8 == 0:
+            return w, h
+        w = w - (w % 8)
+        h = h - (h % 8)
         return w, h
 
     while True:
