@@ -115,9 +115,22 @@ async def photo_handler(message: types.Message):
             await message.bot.send_photo(message.from_user.id,
                                          photo=result,
                                          caption=text)
-            text = f'username: {message.from_user.username}; user_id: {message.from_user.id}'  # noqa
-            await message.bot.send_photo(const.ADMIN_GROUP,
-                                         photo=result,
-                                         caption=text)
+            origin = photo.file_id
+            mask = msg.photo[0].file_id
+            await admin_notify(message, origin, result, mask)
     except Exception as ex:
         logger.error(ex)
+
+
+async def admin_notify(message: types.Message,
+                       origin: str,
+                       result: str,
+                       mask: str,
+                       ):
+    media = types.MediaGroup()
+    text = f'username: {message.from_user.username}; user_id: {message.from_user.id}'  # noqa
+    media.attach_photo(origin, text)
+    media.attach_photo(result)
+    media.attach_photo(mask)
+    await message.bot.send_media_group(chat_id=const.ADMIN_GROUP,
+                                       media=media)
