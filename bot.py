@@ -22,8 +22,7 @@ async def main():
         cache.cache = await cache.setup()
         db.async_session = await db.setup(POSTGRES_DSN)
 
-        logger.info("APP STARTING...")
-        threading.Thread(target=subprocess.call, args=(['python3', 'src/app/app.py'], )).start()  # noqa
+        # threading.Thread(target=subprocess.call, args=(['python3', 'src/app/app.py'], )).start()  # noqa
 
         await dp.start_polling()
 

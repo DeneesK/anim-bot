@@ -53,19 +53,19 @@ async def photo_handler(message: types.Message):
         i = 600
 
         while not await cache.get(sol_):
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.2)
 
         sol_ = await cache.get(sol_)
-        print(f'SOL*****{sol_}')
+        logger.info(f'SOL*****{sol_}')
         sol_ = sol_.decode('utf-8')
         while True:
             if os.path.exists(f'img/{sol_}-mask.png'):  # noqa
-                logger.info('FIND--------->')
+                logger.info(f'FIND--------->{sol_}')
                 break
             i -= 1
             if i < 1:
                 return
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.2)
 
         sticker = await message.bot.send_sticker(chat_id=message.from_user.id, # noqa
                                                  sticker=const.STICKER_ID)

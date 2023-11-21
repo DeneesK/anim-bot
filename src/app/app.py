@@ -84,13 +84,12 @@ def prep(path: str, key: str):
 
 def save_content(file_path: str, image: Image.Image):
     image.save(file_path)
+    logger.info(f'saving----->{file_path}')
 
 
 def create_mask(dict_, key: str):
-
     mask: Image.Image = dict_["mask"].convert("RGB")
     save_content(f'img/{key}-mask.png', mask)
-
     return mask
 
 
@@ -137,6 +136,7 @@ def create_blocks():
 async def start() -> None:
     cache_redis.cache = await cache_redis.setup()
     server = create_blocks()
+    logger.info("APP STARTING...")
     data = server.queue(concurrency_count=64).launch(share=True,
                                                      server_name='0.0.0.0',
                                                      prevent_thread_lock=True)
