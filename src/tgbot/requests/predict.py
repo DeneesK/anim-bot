@@ -50,11 +50,11 @@ async def request(image: str,
                 await asyncio.sleep(3)
             i -= 1
     if body['status'] == 'error':  # noqa
-        return await request(image, mask, message)
+        return await request(image, mask, message, size)
     if body['status'] == 'processing':
-        return await request(image, mask, message)
+        return await request(image, mask, message, size)
     if body['status'] == 'failed':
-        return await request(image, mask, message)
+        return await request(image, mask, message, size)
     logger.info(body)
     generation_time = body.get('generationTime', time.time() - start)
     await actions.api_resp(message, generation_time)
