@@ -149,12 +149,10 @@ def resize(path: str) -> tuple[int, int]:
 
     while True:
         if h < 1024 and w < 1024:
-            break
+            if h % 8 == 0 and w % 8 == 0:
+                return w, h
+            w = w - (w % 8)
+            h = h - (h % 8)
+            return w, h
         h = int(h / 2)
         w = int(w / 2)
-
-    if h % 8 == 0 and w % 8 == 0:
-        return w, h
-    w = w - (w % 8)
-    h = h - (h % 8)
-    return w, h
