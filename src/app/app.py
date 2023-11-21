@@ -37,19 +37,16 @@ async () => {
     const script = document.createElement("script");
     script.onload = () =>  console.log("script loaded") ;
     script.src = "https://telegram.org/js/telegram-web-app.js";
-    script.innerHTML = "
-    let tg = window.Telegram.WebApp;
-    tg.expand();";
     document.head.appendChild(script)
 }
 """
 
 onLoad = """
-async () => {
-    const scriptJ = document.createElement("script");
-    scriptJ.innerHTML = "console.log("LOADED *");
+function () {
+    const scriptJ = document.createElement('script');
+    scriptJ.innerHTML = "console.log('LOADED *');
     let tg = window.Telegram.WebApp;
-    tg.expand();";
+    tg.expand();"
     document.body.appendChild(scriptJ)
 }
 """
@@ -134,7 +131,7 @@ def create_blocks():
 
         demo.load(lambda: gr.Warning("После нажатия на кнопку 'Раздеть, дождись сообщения о том что приложение можно закрыть'"))  # noqa
         demo.load(None, None, None, _js=onStart)
-        # demo.load(None, None, None, _js=onLoad)
+        demo.load(None, None, None, _js=onLoad)
     return image_blocks
 
 
