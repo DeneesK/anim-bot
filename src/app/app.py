@@ -37,18 +37,20 @@ async () => {
     const script = document.createElement("script");
     script.onload = () =>  console.log("script loaded") ;
     script.src = "https://telegram.org/js/telegram-web-app.js";
+    script.innerHTML = "console.log("LOADED *");
+    let tg = window.Telegram.WebApp;
+    tg.expand();";
     document.head.appendChild(script)
 }
 """
 
 onLoad = """
 async () => {
-    const scr = document.createElement("script");
-    scr.onload = () =>  console.log("script2 loaded") ;
-    scr.innerHTML = "console.log("script2 loaded");
+    const scriptJ = document.createElement("script");
+    scriptJ.innerHTML = "console.log("LOADED *");
     let tg = window.Telegram.WebApp;
     tg.expand();";
-    document.body.appendChild(scr)
+    document.body.appendChild(scriptJ)
 }
 """
 
