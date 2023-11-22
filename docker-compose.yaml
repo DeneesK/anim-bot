@@ -21,7 +21,7 @@ services:
     depends_on:
       - db
     entrypoint: >
-      sh -c "sleep 8
+      sh -c "sleep 4
       && alembic upgrade head
       && python3 bot.py"
 volumes:

@@ -35,23 +35,15 @@ reload_js = """
 onStart = """
 function startPage() {
     const script = document.createElement("script");
-    script.onload = () =>  console.log("script loaded") ;
+    script.onload = () =>  window.Telegram.WebApp.expand();
     script.src = "https://telegram.org/js/telegram-web-app.js";
     document.head.appendChild(script)
-    let event = new CustomEvent("name-of-event", { "detail": "EVENT!" });
-    // Dispatch/Trigger/Fire the event
-    document.dispatchEvent(event);
 }
 """
 
 onReady = """
 function readyPage() {
     console.log("loaded");
-    document.addEventListener("name-of-event", function(e) {
-    console.log(e.detail); // Prints "Example of an event"
-    let tg = window.Telegram.WebApp;
-    tg.expand();
-    });
 }
 """
 
