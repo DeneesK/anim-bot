@@ -71,7 +71,7 @@ async def request(photo: str) -> types.InputFile:
         return await request(photo)
     if status == 'COMPLETED':
         output = body.get('output')
-        image_data = output[len("data:image/jpeg;base64,"):]  # 23
+        image_data = output[len("data:image/png;base64,"):]  # 23
     try:
         image_bytes = base64.b64decode(image_data)
         image_io = io.BytesIO(image_bytes)
