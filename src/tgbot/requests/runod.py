@@ -59,7 +59,6 @@ async def request(photo: str) -> types.InputFile:
                                           data=json.dumps(data))
 
             body = await response.json()
-            logger.info(body)
         status = body.get('status')
 
         logger.info(f'STATUS ------> {status}')
