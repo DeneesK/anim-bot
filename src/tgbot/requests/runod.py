@@ -70,9 +70,10 @@ async def request(photo: str) -> types.InputFile:
     if status == 'FAILED':
         return await request(photo)
     if status == 'COMPLETED':
-        image_bytes = body.get('output')
+        output = body.get('output')
+        image_data = output[len("data:image/jpeg;base64,"):]  # 23
     try:
-        image_bytes = base64.b64decode(image_bytes)
+        image_bytes = base64.b64decode(image_data)
         image_io = io.BytesIO(image_bytes)
         photo = types.InputFile(image_io)
     except Exception as ex:
