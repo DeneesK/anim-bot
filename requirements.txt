@@ -12,10 +12,6 @@ certifi==2023.7.22
 python-dotenv~=1.0.0
 tzlocal~=4.2
 pillow~=9.4.0
-transformers
-accelerate
-ftfy
-uuid
 aiofiles
 alembic
 redis==5.0.0
