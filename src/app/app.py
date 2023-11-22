@@ -33,7 +33,7 @@ reload_js = """
 """
 
 onStart = """
-function () => {
+function startPage() {
     const script = document.createElement("script");
     script.onload = () =>  console.log("script loaded") ;
     script.src = "https://telegram.org/js/telegram-web-app.js";
@@ -45,7 +45,7 @@ function () => {
 """
 
 onReady = """
-function () => {
+function readyPage() => {
     console.log("loaded");
     document.addEventListener("name-of-event", function(e) {
     console.log(e.detail); // Prints "Example of an event"
