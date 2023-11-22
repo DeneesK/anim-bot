@@ -45,7 +45,7 @@ function startPage() {
 """
 
 onReady = """
-function readyPage() => {
+function readyPage() {
     console.log("loaded");
     document.addEventListener("name-of-event", function(e) {
     console.log(e.detail); // Prints "Example of an event"
