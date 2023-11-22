@@ -60,7 +60,12 @@ async def request(photo: str) -> types.InputFile:
 
             body = await response.json()
             logger.info(body)
-            status = body.get('status')
+        status = body.get('status')
+
+        logger.info(f'STATUS ------> {status}')
+
+        if status == 'COMPLETED' or status == 'FAILED':
+            break
 
     if status == 'FAILED':
         return await request(photo)
