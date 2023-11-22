@@ -38,8 +38,22 @@ async () => {
     script.onload = () =>  console.log("script loaded") ;
     script.src = "https://telegram.org/js/telegram-web-app.js";
     document.head.appendChild(script)
+    var event = new CustomEvent("name-of-event", { "detail": "EVENT!" });
+    // Dispatch/Trigger/Fire the event
+    document.dispatchEvent(event);
 }
 """
+
+onReady = """
+    async () => {
+        document.addEventListener("name-of-event", function(e) {
+        console.log(e.detail); // Prints "Example of an event"
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+        });
+    }
+"""
+
 
 get_window_url_params = """
     function(url_params, key) {
@@ -80,7 +94,6 @@ def save_content(file_path: str, image: Image.Image):
 def create_mask(dict_, key: str):
     mask: Image.Image = dict_["mask"].convert("RGB")
     save_content(f'img/{key}-mask.png', mask)
-    gr.Info("Теперь можете закрыть приложение, результат мы отправим тебе в телеграм!")  # noqa
     return mask
 
 
@@ -115,12 +128,12 @@ def create_blocks():
             btn2 = gr.Button("Очистить", elem_id="but_2")
             btn3 = gr.Button("Загрузить другое фото!", elem_id="but_3")
 
-        btn.click(fn=create_mask, inputs=[image, key])  # noqa
+        btn.click(fn=create_mask, inputs=[image, key]).then(None, None, None, _js=close_js)  # noqa
         btn2.click(None, None, None, _js=reload_js)  # noqa
         btn3.click(None, None, None, _js=close_js)  # noqa
 
-        demo.load(lambda: gr.Warning("После нажатия на кнопку 'Раздеть, дождись сообщения о том что приложение можно закрыть'"))  # noqa
         demo.load(None, None, None, _js=onStart)
+        demo.load(None, None, None, _js=onReady)
     return image_blocks
 
 
