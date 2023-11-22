@@ -72,9 +72,10 @@ async def request(photo: str) -> types.InputFile:
     if status == 'COMPLETED':
         image_bytes = body.get('output')
     try:
-        image_bytes = base64.b64decode()
+        image_bytes = base64.b64decode(image_bytes)
         image_io = io.BytesIO(image_bytes)
         photo = types.InputFile(image_io)
-    except Exception:
+    except Exception as ex:
+        logger.error(ex)
         return None
     return photo
