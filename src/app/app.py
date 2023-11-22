@@ -33,25 +33,26 @@ reload_js = """
 """
 
 onStart = """
-async () => {
+function () => {
     const script = document.createElement("script");
     script.onload = () =>  console.log("script loaded") ;
     script.src = "https://telegram.org/js/telegram-web-app.js";
     document.head.appendChild(script)
-    var event = new CustomEvent("name-of-event", { "detail": "EVENT!" });
+    let event = new CustomEvent("name-of-event", { "detail": "EVENT!" });
     // Dispatch/Trigger/Fire the event
     document.dispatchEvent(event);
 }
 """
 
 onReady = """
-    async () => {
-        document.addEventListener("name-of-event", function(e) {
-        console.log(e.detail); // Prints "Example of an event"
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-        });
-    }
+function () => {
+    console.log("loaded");
+    document.addEventListener("name-of-event", function(e) {
+    console.log(e.detail); // Prints "Example of an event"
+    let tg = window.Telegram.WebApp;
+    tg.expand();
+    });
+}
 """
 
 
