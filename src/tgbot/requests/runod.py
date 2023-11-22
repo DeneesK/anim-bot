@@ -22,7 +22,7 @@ async def request(photo: str) -> types.InputFile:
             'body': {
                 'version': 'mulm1y2ddu4ehb',
                 'input': {
-                    'image': ''
+                    'image': photo
                 }
             }
     }
