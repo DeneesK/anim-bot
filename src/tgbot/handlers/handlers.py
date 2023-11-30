@@ -90,7 +90,7 @@ async def photo_handler(message: types.Message):
             r = await message.bot.send_photo(message.from_user.id,
                                              photo=result,
                                              caption=text)
-            origin = photo.file_id
+            origin = photo.photo[-1].file_id
             mask = msg.photo[-1].file_id
             result = r.photo[-1].file_id
             await admin_notify(message, origin, result, mask)
