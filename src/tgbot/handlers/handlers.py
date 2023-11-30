@@ -72,11 +72,12 @@ async def photo_handler(message: types.Message):
             await db.add_token(message.from_user.id, -1)
             url = organic_url(message.from_user.id)
             text = hlink(const.CONG, url)
-            await message.bot.send_photo(message.from_user.id,
-                                         photo=result,
-                                         caption=text)
+            r = await message.bot.send_photo(message.from_user.id,
+                                             photo=result,
+                                             caption=text)
             origin = photo.file_id
             mask = msg.photo[0].file_id
+            result = r.photo[0].file_id
             await admin_notify(message, origin, result, mask)
     except Exception as ex:
         logger.error(ex)
