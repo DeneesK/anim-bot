@@ -7,9 +7,8 @@ from src.settings.logger import logging
 from src.database.service import PsgDB
 from src.database.db import get_session
 from src.tgbot.keyboards.inline import invite
-from src.tgbot.requests.predict import request
 from src.tgbot.requests import runod
-from src.tgbot.utils.download import download
+# from src.tgbot.utils.download import download
 from src.tgbot.utils.url_creator import ref_url, organic_url
 from src.tgbot.analysis import actions as action_
 
@@ -40,8 +39,8 @@ async def photo_handler(message: types.Message):
         sticker = await message.bot.send_sticker(chat_id=message.from_user.id, # noqa
                                                  sticker=const.STICKER_ID)
 
-        mask = await runod.request(photo_url)
-        path = await download(photo_url, message.from_user.id)
+        mask = await runod.request_mask(photo_url)
+        # path = await download(photo_url, message.from_user.id)
         if not mask:
             logger.error('NO MASK')
         msg = await message.bot.send_photo(
@@ -56,9 +55,9 @@ async def photo_handler(message: types.Message):
                                            reply_markup=invite(url))
             return
 
-        w, h = resize(path)
-        logger.info(f'SIZE---->{(w, h)}')
-        result = await request(photo_url, mask, message, size=(w, h))
+        # w, h = resize(path)
+        # logger.info(f'SIZE---->{(w, h)}')
+        result = await runod.request_processing(photo, photo_url)
 
         if result:
             if user.tokens < 1:
