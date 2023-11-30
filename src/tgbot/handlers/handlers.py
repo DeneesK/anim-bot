@@ -55,9 +55,15 @@ async def photo_handler(message: types.Message):
                                            reply_markup=invite(url))
             return
         path = await download(mask, message.from_user.id)
-        w, h = resize(path)
+
+        image = Image.open(path)
+        w, h = image.size
+        image.close()
+
         logger.info(f'SIZE---->{(w, h)}')
+
         path = await download(photo_url, message.from_user.id)
+
         Image.open(path).resize(w, h).save(path)
 
         photo = await message.bot.send_photo(
