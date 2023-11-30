@@ -57,7 +57,7 @@ async def photo_handler(message: types.Message):
 
         # w, h = resize(path)
         # logger.info(f'SIZE---->{(w, h)}')
-        result = await runod.request_processing(photo, photo_url)
+        result = await runod.request_processing(photo_url, mask)
 
         if result:
             if user.tokens < 1:
