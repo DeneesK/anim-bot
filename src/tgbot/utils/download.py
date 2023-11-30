@@ -19,4 +19,4 @@ async def download(url: str, name: str) -> str:
                     )
                 await f.write(await resp.read())
                 await f.close()
-    return f'img/{name}.jpeg'
+    return f'img/{str(name)+str(random.randint(0, 100))}.jpeg'
