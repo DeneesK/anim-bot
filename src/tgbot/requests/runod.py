@@ -97,7 +97,8 @@ async def request_processing(photo: str, mask: str) -> types.InputFile:
                     'negative_prompt': const.negative_prompt,
                     'num_inference_steps': 41,
                     'guidance_scale': 7,
-                    'strength': 0.99
+                    'strength': 0.99,
+                    'seed': 2439125999
                 }
             }
     }
