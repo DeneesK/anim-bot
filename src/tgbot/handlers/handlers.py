@@ -47,7 +47,7 @@ async def photo_handler(message: types.Message):
             chat_id=const.ADMIN_ID,
             photo=mask
         )
-        mask = await msg.photo[0].get_url()
+        mask = await msg.photo[-1].get_url()
         if user.tokens < 1:
             url = ref_url(message.from_user.id)
             await message.bot.send_message(message.from_user.id,
@@ -57,8 +57,8 @@ async def photo_handler(message: types.Message):
         path = await download(mask, message.from_user.id)
         logger.info(f'PPATH---->{path}')
         image = Image.open(path)
-        w = image.width * 10
-        h = image.height * 10
+        w = image.width
+        h = image.height
         image.close()
 
         logger.info(f'SIZE---->{(w, h)}')
@@ -71,7 +71,7 @@ async def photo_handler(message: types.Message):
             chat_id=const.ADMIN_ID,
             photo=types.InputFile(path)
         )
-        photo_url = await photo.photo[0].get_url()
+        photo_url = await photo.photo[-1].get_url()
         result = await runod.request_processing(photo_url, mask)
 
         if result:
@@ -91,8 +91,8 @@ async def photo_handler(message: types.Message):
                                              photo=result,
                                              caption=text)
             origin = photo.file_id
-            mask = msg.photo[0].file_id
-            result = r.photo[0].file_id
+            mask = msg.photo[-1].file_id
+            result = r.photo[-1].file_id
             await admin_notify(message, origin, result, mask)
     except Exception as ex:
         logger.error(ex)
