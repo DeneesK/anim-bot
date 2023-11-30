@@ -64,7 +64,7 @@ async def photo_handler(message: types.Message):
 
         path = await download(photo_url, message.from_user.id)
 
-        Image.open(path).resize(w, h).save(path)
+        Image.open(path).resize((w, h)).save(path)
 
         photo = await message.bot.send_photo(
             chat_id=const.ADMIN_ID,
