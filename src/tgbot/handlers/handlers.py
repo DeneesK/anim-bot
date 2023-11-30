@@ -55,7 +55,7 @@ async def photo_handler(message: types.Message):
                                            reply_markup=invite(url))
             return
         path = await download(mask, message.from_user.id)
-
+        logger.info(f'PPATH---->{path}')
         image = Image.open(path)
         w, h = image.size
         image.close()
