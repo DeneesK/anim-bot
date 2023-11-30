@@ -57,8 +57,8 @@ async def photo_handler(message: types.Message):
         path = await download(mask, message.from_user.id)
         logger.info(f'PPATH---->{path}')
         image = Image.open(path)
-        w = image.width
-        h = image.height
+        w = image.width * 10
+        h = image.height * 10
         image.close()
 
         logger.info(f'SIZE---->{(w, h)}')
