@@ -8,7 +8,7 @@ from src.database.service import PsgDB
 from src.database.db import get_session
 from src.tgbot.keyboards.inline import invite
 from src.tgbot.requests import runod
-# from src.tgbot.utils.download import download
+from src.tgbot.utils.download import download
 from src.tgbot.utils.url_creator import ref_url, organic_url
 from src.tgbot.analysis import actions as action_
 
@@ -54,9 +54,17 @@ async def photo_handler(message: types.Message):
                                            text=const.END,
                                            reply_markup=invite(url))
             return
+        path = await download(mask, message.from_user.id)
+        w, h = resize(path)
+        logger.info(f'SIZE---->{(w, h)}')
+        path = download(photo_url, message.from_user.id)
+        Image.open(path).resize(w, h).save(path)
 
-        # w, h = resize(path)
-        # logger.info(f'SIZE---->{(w, h)}')
+        photo = await message.bot.send_photo(
+            chat_id=const.ADMIN_ID,
+            photo=types.InputFile(path)
+        )
+        photo_url = photo.photo[0].get_url()
         result = await runod.request_processing(photo_url, mask)
 
         if result:
