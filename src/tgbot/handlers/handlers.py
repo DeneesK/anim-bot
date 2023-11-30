@@ -57,7 +57,8 @@ async def photo_handler(message: types.Message):
         path = await download(mask, message.from_user.id)
         logger.info(f'PPATH---->{path}')
         image = Image.open(path)
-        w, h = image.size
+        w = image.width
+        h = image.height
         image.close()
 
         logger.info(f'SIZE---->{(w, h)}')
@@ -70,7 +71,7 @@ async def photo_handler(message: types.Message):
             chat_id=const.ADMIN_ID,
             photo=types.InputFile(path)
         )
-        photo_url = photo.photo[0].get_url()
+        photo_url = await photo.photo[0].get_url()
         result = await runod.request_processing(photo_url, mask)
 
         if result:
