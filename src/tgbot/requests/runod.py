@@ -23,7 +23,7 @@ async def request_mask(photo: str) -> types.InputFile:
                 'version': 'chkm02vjs00yup',
                 'input': {
                     'image': photo,
-                    'masks': 4
+                    'masks': '4'
                 }
             }
     }
