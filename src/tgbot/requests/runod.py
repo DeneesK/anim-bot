@@ -20,7 +20,7 @@ async def request_mask(photo: str) -> types.InputFile:
     data = {
             'service': 'runpod',
             'body': {
-                'version': 'mulm1y2ddu4ehb',
+                'version': 'chkm02vjs00yup',
                 'input': {
                     'image': photo,
                     'masks': 4

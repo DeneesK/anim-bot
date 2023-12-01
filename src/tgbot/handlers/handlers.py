@@ -8,7 +8,6 @@ from src.database.service import PsgDB
 from src.database.db import get_session
 from src.tgbot.keyboards.inline import invite
 from src.tgbot.requests import runod
-from src.tgbot.utils.download import download
 from src.tgbot.utils.url_creator import ref_url, organic_url
 from src.tgbot.analysis import actions as action_
 
