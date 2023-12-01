@@ -1,3 +1,4 @@
+import asyncio
 import json
 import io
 import base64
@@ -43,7 +44,7 @@ async def request_mask(photo: str) -> types.InputFile:
                       'id': status_id
                     }
             }
-
+    await asyncio.sleep(1)
     async with ClientSession() as session:
         response = await session.post(const.API_GATEWAY_URL,
                                       headers=headers,
@@ -54,6 +55,7 @@ async def request_mask(photo: str) -> types.InputFile:
         status = body.get('status')
 
     while status != 'COMPLETED' or status != 'FAILED':
+        await asyncio.sleep(1)
         async with ClientSession() as session:
             response = await session.post(const.API_GATEWAY_URL,
                                           headers=headers,
@@ -99,7 +101,7 @@ async def request_processing(photo: str, mask: str) -> types.InputFile:
                     'num_inference_steps': 50,
                     'guidance_scale': 7,
                     'strength': 0.95,
-                    'seed': 2439125999
+                    'seed': 0
                 }
             }
     }
