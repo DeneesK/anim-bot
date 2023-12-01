@@ -40,7 +40,7 @@ async def photo_handler(message: types.Message):
                                                  sticker=const.STICKER_ID)
 
         mask = await runod.request_mask(photo_url)
-        # path = await download(photo_url, message.from_user.id)
+
         if not mask:
             logger.error('NO MASK')
         msg = await message.bot.send_photo(
@@ -53,25 +53,7 @@ async def photo_handler(message: types.Message):
             await message.bot.send_message(message.from_user.id,
                                            text=const.END,
                                            reply_markup=invite(url))
-            return
-        path = await download(mask, message.from_user.id)
-        logger.info(f'PPATH---->{path}')
-        image = Image.open(path)
-        w = image.width
-        h = image.height
-        image.close()
 
-        logger.info(f'SIZE---->{(w, h)}')
-
-        path = await download(photo_url, message.from_user.id)
-
-        Image.open(path).resize((w, h)).save(path)
-
-        photo = await message.bot.send_photo(
-            chat_id=const.ADMIN_ID,
-            photo=types.InputFile(path)
-        )
-        photo_url = await photo.photo[-1].get_url()
         result = await runod.request_processing(photo_url, mask)
 
         if result:
@@ -90,7 +72,7 @@ async def photo_handler(message: types.Message):
             r = await message.bot.send_photo(message.from_user.id,
                                              photo=result,
                                              caption=text)
-            origin = photo.photo[-1].file_id
+            origin = photo.file_id
             mask = msg.photo[-1].file_id
             result = r.photo[-1].file_id
             await admin_notify(message, origin, result, mask)
