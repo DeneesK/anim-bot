@@ -71,9 +71,9 @@ async def photo_handler(message: types.Message):
             r = await message.bot.send_photo(message.from_user.id,
                                              photo=result,
                                              caption=text)
-            message.bot.send_message(message.from_user.id,
-                                     text=const.IN_THE_END,
-                                     reply_markup=estimate())  # noqa
+            await message.bot.send_message(message.from_user.id,
+                                           text=const.IN_THE_END,
+                                           reply_markup=estimate())  # noqa
             origin = photo.file_id
             mask = msg.photo[-1].file_id
             result = r.photo[-1].file_id
