@@ -43,7 +43,7 @@ async def user_start(message: types.Message):
         await message.bot.send_photo(
             message.from_user.id,
             caption=const.WELCOME,
-            photo=types.InputFile('imgs/start.jpg')
+            photo=types.InputFile('src/imgs/start.jpg')
             )
     except Exception as ex:
         logger.error(ex)
