@@ -121,7 +121,7 @@ async def request_processing(photo: str, mask: str) -> types.InputFile:
                       'id': status_id
                     }
             }
-
+    await asyncio.sleep(1)
     async with ClientSession() as session:
         response = await session.post(const.API_GATEWAY_URL,
                                       headers=headers,
@@ -132,6 +132,7 @@ async def request_processing(photo: str, mask: str) -> types.InputFile:
         status = body.get('status')
 
     while status != 'COMPLETED' or status != 'FAILED':
+        await asyncio.sleep(1)
         async with ClientSession() as session:
             response = await session.post(const.API_GATEWAY_URL,
                                           headers=headers,
