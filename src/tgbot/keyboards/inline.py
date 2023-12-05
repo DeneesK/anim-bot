@@ -28,6 +28,6 @@ def invite(url: str):
 
 def estimate():
     keyboard = types.InlineKeyboardMarkup()
-    keyboard.add(text='👍🏻', callback_data='estimate-like')
-    keyboard.insert(text='👎🏻', callback_data='estimate-dislike')
+    keyboard.add(types.InlineKeyboardButton(text='👍🏻', callback_data='estimate-like')) # noqa
+    keyboard.insert(types.InlineKeyboardButton(text='👎🏻', callback_data='estimate-dislike')) # noqa
     return keyboard
