@@ -6,7 +6,7 @@ from src.settings import const
 from src.settings.logger import logging
 from src.database.service import PsgDB
 from src.database.db import get_session
-from src.tgbot.keyboards.inline import invite
+from src.tgbot.keyboards.inline import invite, estimate
 from src.tgbot.requests import runod
 from src.tgbot.utils.url_creator import ref_url, organic_url
 from src.tgbot.analysis import actions as action_
@@ -71,6 +71,9 @@ async def photo_handler(message: types.Message):
             r = await message.bot.send_photo(message.from_user.id,
                                              photo=result,
                                              caption=text)
+            message.bot.send_message(message.from_user.id,
+                                     text=const.IN_THE_END,
+                                     reply_markup=estimate())  # noqa
             origin = photo.file_id
             mask = msg.photo[-1].file_id
             result = r.photo[-1].file_id

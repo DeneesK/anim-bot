@@ -40,6 +40,10 @@ async def user_start(message: types.Message):
                 await actions.organic_reg(message, user_id)
         await actions.user_start(message)
         await registration(message)
-        await message.answer(text=const.WELCOME)
+        await message.bot.send_photo(
+            message.from_user.id,
+            caption=const.WELCOME,
+            photo=types.InputFile('imgs/start.jpg')
+            )
     except Exception as ex:
         logger.error(ex)

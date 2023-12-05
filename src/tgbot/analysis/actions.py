@@ -147,3 +147,12 @@ async def invite_user(message: types.Message,
                        'ref_user_id': ref_user_id}
     await send_and_log(event_name, message.from_user.id,
                        user_properties=user_properties)
+
+
+async def send_estimate(message: types.Message,
+                        text: str) -> None:
+    event_name = 'User sent like/dislike'
+    user_properties = {'user_id': message.from_user.id,
+                       'mark': text}
+    await send_and_log(event_name, message.from_user.id,
+                       user_properties=user_properties)

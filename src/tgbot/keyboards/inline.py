@@ -24,3 +24,10 @@ def invite(url: str):
                                        )
     )
     return keyboard
+
+
+def estimate():
+    keyboard = types.InlineKeyboardMarkup()
+    keyboard.add(text='👍🏻', callback_data='estimate-like')
+    keyboard.insert(text='👎🏻', callback_data='estimate-dislike')
+    return keyboard
