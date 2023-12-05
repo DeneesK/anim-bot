@@ -5,6 +5,7 @@ from PIL import Image
 from src.settings import const
 from src.settings.logger import logging
 from src.database.service import PsgDB
+from src.database.cache import get_redis
 from src.database.db import get_session
 from src.tgbot.keyboards.inline import invite, estimate
 from src.tgbot.requests import runod
@@ -71,9 +72,11 @@ async def photo_handler(message: types.Message):
             r = await message.bot.send_photo(message.from_user.id,
                                              photo=result,
                                              caption=text)
-            await message.bot.send_message(message.from_user.id,
-                                           text=const.IN_THE_END,
-                                           reply_markup=estimate())  # noqa
+            to_delete = await message.bot.send_message(message.from_user.id,
+                                                       text=const.IN_THE_END,
+                                                       reply_markup=estimate())  # noqa
+            cache = get_redis()
+            await cache.set(message.from_user.id, to_delete.message_id)
             origin = photo.file_id
             mask = msg.photo[-1].file_id
             result = r.photo[-1].file_id
