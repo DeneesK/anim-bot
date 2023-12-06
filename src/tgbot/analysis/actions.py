@@ -156,3 +156,12 @@ async def send_estimate(message: types.Message,
                        'mark': text}
     await send_and_log(event_name, message.from_user.id,
                        user_properties=user_properties)
+
+
+async def user_sub(message: types.Message,
+                   text: str) -> None:
+    event_name = 'User subscribed to the group'
+    user_properties = {'user_id': message.from_user.id,
+                       'group': text}
+    await send_and_log(event_name, message.from_user.id,
+                       user_properties=user_properties)

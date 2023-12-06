@@ -39,6 +39,8 @@ async def photo_handler(message: types.Message):
                                            text=const.TOO_MUCH)
             return
 
+        await del_msg(message)
+
         if not await sub_check(message):
             photo = await message.bot.get_file(message.photo[-1].file_id)
             photo_url = await photo.get_url()
@@ -53,6 +55,7 @@ async def photo_handler(message: types.Message):
             while not is_sub:
                 is_sub = await sub_check(message)
                 if is_sub:
+                    await action_.user_sub(message, 'group')
                     await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
                 await asyncio.sleep(1)
 
@@ -130,6 +133,16 @@ async def admin_notify(message: types.Message,
     media.attach_photo(mask)
     await message.bot.send_media_group(chat_id=const.ADMIN_GROUP,
                                        media=media)
+
+
+async def del_msg(message: types.Message):
+    try:
+        cache = get_redis()
+        to_delete_ = await cache.get(message.from_user.id)
+        await message.bot.delete_message(message.from_user.id,
+                                         to_delete_)
+    except Exception:
+        pass
 
 
 def resize(path: str) -> tuple[int, int]:
