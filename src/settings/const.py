@@ -6,12 +6,12 @@ from aiogram.utils.markdown import hlink
 load_dotenv()
 
 # DB:
-DEFAULT_TOKENS = 10
+DEFAULT_TOKENS = 5
 POSTGRES_DSN = os.getenv('POSTGRES_DSN')
 
 # BOT:
 BOT_TOKEN = os.getenv('BOT_TOKEN')
-BOT_NAME = 'TeleCharacterAI'
+BOT_NAME = 'razdetdevushku_18bot'
 ADMIN_ID = -4095118494
 ADMIN_GROUP = -1002104627479
 APPLY = hlink('принимаете пользовательское соглашение', 'https://telegra.ph/Polzovatelskoe-soglashenie-08-25-6') # noqa
@@ -21,7 +21,7 @@ END = '🔞📸 У тебя закончились все бесплатные �
 GOT_TOKEN = f'🔞📸 Ура! Тебе зачислены +{DEFAULT_TOKENS} попыток.\n\nЖду от тебя фото 😉'  # noqa
 CONG = '🔞📸 Телеграм бот, который разденет твою подругу за 15 секунд'
 TOO_MUCH = '❌ Отправляй по одной фотке за раз, пожалуйста.'
-STICKER_ID = 'CAACAgIAAxkBAALVtWTmObbto5xMq3bIpP4-WEB6EfeMAAI2MgACGn8oS_JRDDF-gq41MAQ'  # noqa
+STICKER_ID = 'CAACAgQAAxkBAAECTx5lcB3ZVZXSSE_CuRFNKuo8V48vhgAC_g8AAlxuMVMBfH8BURLP7zME'  # noqa
 NEW_ONE = 'Отправь мне новое фото девушки, где четко видно ее лицо'
 IN_THE_END = '🔞 Жду от тебя следующее фото!\n\nОцени качество фото 👇🏻'
 THE_END = '🔞 Жду от тебя следующее фото!'
