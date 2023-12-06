@@ -1,7 +1,7 @@
 import random
 
 from PIL import Image, ImageFilter
-from download import download
+from src.tgbot.utils.download import download
 
 
 async def blur_it(path: str, name: int) -> str:
