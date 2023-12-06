@@ -1,7 +1,8 @@
-import os
 from urllib.parse import quote
 
 from aiogram import types
+from src.database.service import SubListDB
+from src.database.db import get_session
 
 from src.settings import const
 
@@ -34,9 +35,11 @@ def estimate():
     return keyboard
 
 
-def subscribe():
+async def subscribe():
+    subDb = SubListDB(await get_session())
+    r = await subDb.get_sublist()
     keyboard = types.InlineKeyboardMarkup()
     keyboard.add(
             types.InlineKeyboardButton(text='🌐 Подписаться',  # noqa
-                                       url=str(os.environ.get('SUB'))))  # noqa
+                                       url=str(r[1])))  # noqa
     return keyboard

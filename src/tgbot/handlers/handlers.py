@@ -1,4 +1,3 @@
-import os
 import asyncio
 
 from aiogram import types
@@ -24,8 +23,7 @@ async def sub_check(message: types.Message) -> bool:
     try:
         subDb = SubListDB(await get_session())
         r = await subDb.get_sublist()
-        print(r)
-        status = await message.bot.get_chat_member(int(os.environ.get('SUB_ID')),  # noqa
+        status = await message.bot.get_chat_member(int(r[2]),
                                                     message.from_user.id)  # noqa
         if status["status"] != 'left':
             return True
@@ -45,10 +43,11 @@ async def photo_handler(message: types.Message):
             photo = await message.bot.get_file(message.photo[-1].file_id)
             photo_url = await photo.get_url()
             blur = await blur_it(photo_url, message.from_user.id)
+            keyboard = await subscribe()
             msg_sub = await message.bot.send_photo(message.from_user.id,
                                                    photo=types.InputFile(blur),
                                                    caption=const.SUB_TEXT,
-                                                   reply_markup=subscribe())
+                                                   reply_markup=keyboard)
             is_sub = False
 
             while not is_sub:
