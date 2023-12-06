@@ -58,8 +58,8 @@ fetch_url = 'https://stablediffusionapi.com/api/v4/dreambooth/fetch'
 
 body = {
   'key': os.environ.get('STABLE_KEY'),
-  'prompt': 'nudify, nude photo of a naked woman, beautiful breast, seductive, flirting',  # noqa
-  'negative_prompt': "((underwear, hairy genitals)), hair, text, cropped, out of frame, worst quality, low quality, jpeg artifacts, duplicate, morbid, mutilated, extra fingers, mutated hands, poorly drawn hands, poorly drawn face, mutation, deformed, blurry, dehydrated, bad anatomy, bad proportions, extra limbs, cloned face, disfigured, gross proportions, malformed limbs, missing arms, missing legs",  # noqa
+  'prompt': 'nude photo of a (naked woman), beautiful breast, seductive, flirting, ((naked body)), naked breast, naked pussy',  # noqa
+  'negative_prompt': "((underwear, bra, brassiere hairy genitals)), (((hair))), text, cropped, out of frame, worst quality, low quality, jpeg artifacts, duplicate, morbid, mutilated, extra fingers, mutated hands, poorly drawn hands, poorly drawn face, mutation, deformed, blurry, dehydrated, bad anatomy, bad proportions, extra limbs, cloned face, disfigured, gross proportions, malformed limbs, missing arms, missing legs",  # noqa
   'init_image': '',
   'mask_image': '',
   'width': '',
