@@ -30,8 +30,8 @@ async def sub_check(message: types.Message) -> bool:
         if status["status"] != 'left':
             return True
         return False
-    except Exception:
-        return True
+    except Exception as ex:
+        logger.error(ex)
 
 
 async def photo_handler(message: types.Message):
