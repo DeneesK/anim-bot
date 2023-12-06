@@ -2,6 +2,7 @@ from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import select, update
+from sqlalchemy.sql import text
 
 from .models.user import User
 from src.settings.logger import logging
@@ -57,7 +58,7 @@ class SubListDB:
     async def get_sublist(self) -> User | None:
         async with self.session() as conn:
             sub = await conn.execute(
-                "SELECT * FROM sublist"
+                text("SELECT * FROM sublist")
             )
             sub = sub.first()
         if sub:
