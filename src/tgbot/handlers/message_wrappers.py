@@ -14,5 +14,7 @@ async def call_back_handler(message: types.CallbackQuery):
         await actions.send_estimate(message, mark)
         await message.bot.delete_message(message.from_user.id,
                                          to_delete)
-        await message.bot.send_message(message.from_user.id,
-                                       text=const.THE_END)
+        msg = await message.bot.send_message(message.from_user.id,
+                                             text=const.THE_END)
+
+        await cache.set(message.from_user.id, msg.message_id)
