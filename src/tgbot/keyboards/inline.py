@@ -1,3 +1,4 @@
+import os
 from urllib.parse import quote
 
 from aiogram import types
@@ -30,4 +31,12 @@ def estimate():
     keyboard = types.InlineKeyboardMarkup()
     keyboard.add(types.InlineKeyboardButton(text='👍🏻', callback_data='estimate-like')) # noqa
     keyboard.insert(types.InlineKeyboardButton(text='👎🏻', callback_data='estimate-dislike')) # noqa
+    return keyboard
+
+
+def subscribe():
+    keyboard = types.InlineKeyboardMarkup()
+    keyboard.add(
+            types.InlineKeyboardButton(text='🌐 Подписаться',  # noqa
+                                       url=str(os.environ.get('SUB'))))  # noqa
     return keyboard

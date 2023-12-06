@@ -1,3 +1,6 @@
+import os
+import asyncio
+
 from aiogram import types
 from aiogram.utils.markdown import hlink
 from PIL import Image
@@ -7,13 +10,25 @@ from src.settings.logger import logging
 from src.database.service import PsgDB
 from src.database.cache import get_redis
 from src.database.db import get_session
-from src.tgbot.keyboards.inline import invite, estimate
+from src.tgbot.keyboards.inline import invite, estimate, subscribe
 from src.tgbot.requests import runod
 from src.tgbot.utils.url_creator import ref_url, organic_url
 from src.tgbot.analysis import actions as action_
+from src.tgbot.utils.blur import blur_it
 
 
 logger = logging.getLogger(__name__)
+
+
+async def sub_check(message: types.Message) -> bool:
+    try:
+        status = await message.bot.get_chat_member(int(os.environ.get('SUB_ID')),  # noqa
+                                                    message.from_user.id)  # noqa
+        if status["status"] != 'left':
+            return True
+        return False
+    except Exception:
+        return True
 
 
 async def photo_handler(message: types.Message):
@@ -22,6 +37,22 @@ async def photo_handler(message: types.Message):
             await message.bot.send_message(message.from_user.id,
                                            text=const.TOO_MUCH)
             return
+
+        if not await sub_check(message):
+            photo = await message.bot.get_file(message.photo[-1].file_id)
+            photo_url = await photo.get_url()
+            blur = await blur_it(photo_url, message.from_user.id)
+            msg_sub = await message.bot.send_photo(message.from_user.id,
+                                                   photo=types.InputFile(blur),
+                                                   caption=const.SUB_TEXT,
+                                                   reply_markup=subscribe())
+            is_sub = False
+
+            while not is_sub:
+                is_sub = await sub_check(message)
+                if is_sub:
+                    await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
+                await asyncio.sleep(1)
 
         await action_.user_sent_photo(message)
         db = PsgDB(await get_session())
