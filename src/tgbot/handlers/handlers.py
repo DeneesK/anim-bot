@@ -138,9 +138,10 @@ async def admin_notify(message: types.Message,
 async def del_msg(message: types.Message):
     try:
         cache = get_redis()
-        to_delete_ = await cache.get(message.from_user.id)
+        to_delete = await cache.get(message.from_user.id)
+        to_delete = int(to_delete.decode('utf-8'))
         await message.bot.delete_message(message.from_user.id,
-                                         to_delete_)
+                                         to_delete)
     except Exception:
         pass
 
