@@ -48,3 +48,18 @@ class PsgDB:
                     )
             await conn.commit()
             await conn.close()
+
+
+class SubListDB:
+    def __init__(self, session: AsyncSession) -> None:
+        self.session = session
+
+    async def get_sublist(self) -> User | None:
+        async with self.session() as conn:
+            sub = await conn.execute(
+                "SELECT * FROM sublist"
+            )
+            sub = sub.first()
+        if sub:
+            return sub
+        return None

@@ -7,7 +7,7 @@ from PIL import Image
 
 from src.settings import const
 from src.settings.logger import logging
-from src.database.service import PsgDB
+from src.database.service import PsgDB, SubListDB
 from src.database.cache import get_redis
 from src.database.db import get_session
 from src.tgbot.keyboards.inline import invite, estimate, subscribe
@@ -22,6 +22,9 @@ logger = logging.getLogger(__name__)
 
 async def sub_check(message: types.Message) -> bool:
     try:
+        subDb = SubListDB(await get_session())
+        r = await subDb.get_sublist()
+        print(r)
         status = await message.bot.get_chat_member(int(os.environ.get('SUB_ID')),  # noqa
                                                     message.from_user.id)  # noqa
         if status["status"] != 'left':
