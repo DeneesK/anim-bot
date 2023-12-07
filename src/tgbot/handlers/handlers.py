@@ -1,4 +1,5 @@
 import asyncio
+import random
 
 from aiogram import types
 from aiogram.utils.markdown import hlink
@@ -41,6 +42,8 @@ async def photo_handler(message: types.Message):
         subDb = SubListDB(await get_session())
         sublist = await subDb.get_sublist()
         if sublist:
+            sublist.sort(key=lambda i: i['type'])
+            random.shuffle(sublist)
             for sub in sublist:
 
                 if not await sub_check(message, sub['group_id']):
