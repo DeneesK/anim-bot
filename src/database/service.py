@@ -55,13 +55,12 @@ class SubListDB:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
-    async def get_sublist(self) -> User | None:
+    async def get_sublist(self) -> list[dict] | None:
         async with self.session() as conn:
             sub = await conn.execute(
                 text("SELECT * FROM sublist")
             )
             sub = sub.mappings().all()
         if sub:
-            print(sub)
             return sub
         return None

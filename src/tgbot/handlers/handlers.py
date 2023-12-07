@@ -39,26 +39,27 @@ async def photo_handler(message: types.Message):
 
         await del_msg(message)
         subDb = SubListDB(await get_session())
-        r = await subDb.get_sublist()
-        if r:
-            pass
-        if not await sub_check(message):
-            photo = await message.bot.get_file(message.photo[-1].file_id)
-            photo_url = await photo.get_url()
-            blur = await blur_it(photo_url, message.from_user.id)
-            keyboard = await subscribe()
-            msg_sub = await message.bot.send_photo(message.from_user.id,
-                                                   photo=types.InputFile(blur),
-                                                   caption=const.SUB_TEXT,
-                                                   reply_markup=keyboard)
-            is_sub = False
+        sublist = await subDb.get_sublist()
+        if sublist:
+            for sub in sublist:
 
-            while not is_sub:
-                is_sub = await sub_check(message)
-                if is_sub:
-                    await action_.user_sub(message, 'group')
-                    await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
-                await asyncio.sleep(1)
+                if not await sub_check(message, sub['group_id']):
+                    photo = await message.bot.get_file(message.photo[-1].file_id)  # noqa
+                    photo_url = await photo.get_url()
+                    blur = await blur_it(photo_url, message.from_user.id)
+                    keyboard = await subscribe(sub['name', sub['group_url']])
+                    msg_sub = await message.bot.send_photo(message.from_user.id,  # noqa
+                                                           photo=types.InputFile(blur),  # noqa
+                                                           caption=const.SUB_TEXT,  # noqa
+                                                           reply_markup=keyboard)  # noqa
+                    is_sub = False
+
+                    while not is_sub:
+                        is_sub = await sub_check(message)
+                        if is_sub:
+                            await action_.user_sub(message, 'group')
+                            await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
+                        await asyncio.sleep(1)
 
         await action_.user_sent_photo(message)
         db = PsgDB(await get_session())
