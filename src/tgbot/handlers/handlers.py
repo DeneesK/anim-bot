@@ -44,7 +44,8 @@ async def photo_handler(message: types.Message):
             one = [r for r in sublist if r['type'] == 'chat']
             two = [r for r in sublist if r['type'] == 'channel']
             sublist = [result for x in zip(one, two) for result in x]
-
+            print('---->list')
+            print(sublist)
             for sub in sublist:
                 print(sub)
                 if not await sub_check(message, sub['group_id']):
