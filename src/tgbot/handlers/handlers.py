@@ -45,9 +45,10 @@ async def photo_handler(message: types.Message):
             two = [r for r in sublist if r['type'] == 'channel']
             if one and two:
                 sublist = [result for x in zip(one, two) for result in x]
-
+                print('--------->')
+                print(sublist)
             for sub in sublist:
-                print(sub)
+
                 if not await sub_check(message, sub['group_id']):
                     photo = await message.bot.get_file(message.photo[-1].file_id)  # noqa
                     photo_url = await photo.get_url()
@@ -62,7 +63,7 @@ async def photo_handler(message: types.Message):
                     while not is_sub:
                         is_sub = await sub_check(message, sub['group_id'])
                         if is_sub:
-                            await action_.user_sub(message, 'group')
+                            await action_.user_sub(message, sub['group_id'])
                             await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
                         await asyncio.sleep(1)
 
