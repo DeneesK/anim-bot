@@ -2,7 +2,6 @@ import asyncio
 
 from aiogram import types
 from aiogram.utils.markdown import hlink
-from PIL import Image
 
 from src.settings import const
 from src.settings.logger import logging
@@ -82,22 +81,13 @@ async def photo_handler(message: types.Message):
         sticker = await message.bot.send_sticker(chat_id=message.from_user.id, # noqa
                                                  sticker=const.STICKER_ID)
 
-        mask = await runod.request_mask(photo_url)
-
-        if not mask:
-            logger.error('NO MASK')
-        msg = await message.bot.send_photo(
-            chat_id=const.ADMIN_ID,
-            photo=mask
-        )
-        mask = await msg.photo[-1].get_url()
         if user.tokens < 1:
             url = ref_url(message.from_user.id)
             await message.bot.send_message(message.from_user.id,
                                            text=const.END,
                                            reply_markup=invite(url))
 
-        result = await runod.request_processing(photo_url, mask)
+        result = await runod.request_processing(photo_url)
 
         if result:
             if user.tokens < 1:
@@ -121,23 +111,20 @@ async def photo_handler(message: types.Message):
             cache = get_redis()
             await cache.set(message.from_user.id, to_delete.message_id)
             origin = photo.file_id
-            mask = msg.photo[-1].file_id
             result = r.photo[-1].file_id
-            await admin_notify(message, origin, result, mask)
+            await admin_notify(message, origin, result)
     except Exception as ex:
         logger.error(ex)
 
 
 async def admin_notify(message: types.Message,
                        origin: str,
-                       result: str,
-                       mask: str,
+                       result: str
                        ):
     media = types.MediaGroup()
     text = f'username: {message.from_user.username}; user_id: {message.from_user.id}'  # noqa
     media.attach_photo(origin, text)
     media.attach_photo(result)
-    media.attach_photo(mask)
     await message.bot.send_media_group(chat_id=const.ADMIN_GROUP,
                                        media=media)
 
@@ -151,26 +138,3 @@ async def del_msg(message: types.Message):
                                          to_delete)
     except Exception:
         pass
-
-
-def resize(path: str) -> tuple[int, int]:
-    image = Image.open(path)
-    w = image.width
-    h = image.height
-
-    if h < 1024 and w < 1024:
-        if h % 8 == 0 and w % 8 == 0:
-            return w, h
-        w = w - (w % 8)
-        h = h - (h % 8)
-        return w, h
-
-    while True:
-        if h < 1024 and w < 1024:
-            if h % 8 == 0 and w % 8 == 0:
-                return w, h
-            w = w - (w % 8)
-            h = h - (h % 8)
-            return w, h
-        h = int(h / 2)
-        w = int(w / 2)

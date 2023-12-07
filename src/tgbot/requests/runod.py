@@ -84,7 +84,7 @@ async def request_mask(photo: str) -> types.InputFile:
     return photo
 
 
-async def request_processing(photo: str, mask: str) -> types.InputFile:
+async def request_processing(photo: str) -> types.InputFile:
     headers = {
         'Content-Type': 'application/json',
     }
@@ -95,7 +95,6 @@ async def request_processing(photo: str, mask: str) -> types.InputFile:
                 'version': const.inpaint_ver,
                 'input': {
                     'image': photo,
-                    'mask': mask,
                     'prompt': const.prompt,
                     'negative_prompt': const.negative_prompt,
                     'num_inference_steps': 50,
@@ -147,7 +146,7 @@ async def request_processing(photo: str, mask: str) -> types.InputFile:
             break
 
     if status == 'FAILED':
-        return await request_processing(photo, mask)
+        return await request_processing(photo)
     if status == 'COMPLETED':
         output = body.get('output')
         image_data = output[len("data:image/png;base64,"):]  # 23
