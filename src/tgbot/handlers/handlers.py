@@ -42,12 +42,12 @@ async def photo_handler(message: types.Message):
         sublist = await subDb.get_sublist()
         if sublist:
             for sub in sublist:
-                print(sub)
+
                 if not await sub_check(message, sub['group_id']):
                     photo = await message.bot.get_file(message.photo[-1].file_id)  # noqa
                     photo_url = await photo.get_url()
                     blur = await blur_it(photo_url, message.from_user.id)
-                    keyboard = await subscribe(sub['name', sub['group_url']])
+                    keyboard = await subscribe(sub['name'], sub['group_url'])
                     msg_sub = await message.bot.send_photo(message.from_user.id,  # noqa
                                                            photo=types.InputFile(blur),  # noqa
                                                            caption=const.SUB_TEXT,  # noqa
