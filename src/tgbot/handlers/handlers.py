@@ -55,7 +55,7 @@ async def photo_handler(message: types.Message):
                     is_sub = False
 
                     while not is_sub:
-                        is_sub = await sub_check(message)
+                        is_sub = await sub_check(message, sub['group_id'])
                         if is_sub:
                             await action_.user_sub(message, 'group')
                             await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
