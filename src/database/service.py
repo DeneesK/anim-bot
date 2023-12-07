@@ -60,7 +60,7 @@ class SubListDB:
             sub = await conn.execute(
                 text("SELECT * FROM sublist")
             )
-            sub = sub.first()
         if sub:
+            print(sub)
             return sub
         return None

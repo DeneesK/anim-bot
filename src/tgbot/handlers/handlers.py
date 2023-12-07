@@ -19,11 +19,9 @@ from src.tgbot.utils.blur import blur_it
 logger = logging.getLogger(__name__)
 
 
-async def sub_check(message: types.Message) -> bool:
+async def sub_check(message: types.Message, sub_id: int) -> bool:
     try:
-        subDb = SubListDB(await get_session())
-        r = await subDb.get_sublist()
-        status = await message.bot.get_chat_member(int(r[2]),
+        status = await message.bot.get_chat_member(int(sub_id),
                                                     message.from_user.id)  # noqa
         if status["status"] != 'left':
             return True
@@ -40,7 +38,10 @@ async def photo_handler(message: types.Message):
             return
 
         await del_msg(message)
-
+        subDb = SubListDB(await get_session())
+        r = await subDb.get_sublist()
+        if r:
+            pass
         if not await sub_check(message):
             photo = await message.bot.get_file(message.photo[-1].file_id)
             photo_url = await photo.get_url()
