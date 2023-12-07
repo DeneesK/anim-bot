@@ -42,7 +42,7 @@ async def photo_handler(message: types.Message):
         sublist = await subDb.get_sublist()
         if sublist:
             for sub in sublist:
-
+                print(sub)
                 if not await sub_check(message, sub['group_id']):
                     photo = await message.bot.get_file(message.photo[-1].file_id)  # noqa
                     photo_url = await photo.get_url()

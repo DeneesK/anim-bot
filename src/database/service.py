@@ -62,5 +62,6 @@ class SubListDB:
             )
             sub = sub.mappings().all()
         if sub:
+            print(sub)
             return sub
         return None
