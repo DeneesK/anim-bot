@@ -124,7 +124,7 @@ async def sub_bot(message: types.Message, sub: dict, blur: str) -> None:
     if sub['token']:
         bot = Bot(sub['token'], parse_mode='HTML')
         try:
-            msg: types.Message = await bot.send_message(message.from_user.id, text='c')  # noqa
+            msg: types.Message = await bot.send_message(message.from_user.id, text='👋👋👋')  # noqa
             await bot.delete_message(message.from_user.id, msg.message_id)  # noqa
             is_sub = True
         except Exception as ex:
@@ -137,7 +137,7 @@ async def sub_bot(message: types.Message, sub: dict, blur: str) -> None:
                             reply_markup=keyboard)  # noqa
             while not is_sub:
                 try:
-                    msg = await bot.send_message(message.from_user.id, text='c')  # noqa
+                    msg = await bot.send_message(message.from_user.id, text='👋👋👋')  # noqa
                     await bot.delete_message(message.from_user.id, msg.message_id)  # noqa
                     is_sub = True
                     await bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
