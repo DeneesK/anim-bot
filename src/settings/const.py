@@ -48,37 +48,10 @@ EVENTS = {
     'wrong_cont': 'User sent wrong content type'
 }
 
-# STABLE
-headers_stable = {
-  'Content-Type': 'application/json'
-}
-req_url = 'https://stablediffusionapi.com/api/v3/inpaint'
-fetch_url = 'https://stablediffusionapi.com/api/v4/dreambooth/fetch'
-
-
-body = {
-  'key': os.environ.get('STABLE_KEY'),
-  'prompt': 'nude photo of a (naked woman), beautiful breast, seductive, flirting, ((naked body)), naked breast, naked pussy',  # noqa
-  'negative_prompt': "((underwear, bra, brassiere hairy genitals)), (((hair))), text, cropped, out of frame, worst quality, low quality, jpeg artifacts, duplicate, morbid, mutilated, extra fingers, mutated hands, poorly drawn hands, poorly drawn face, mutation, deformed, blurry, dehydrated, bad anatomy, bad proportions, extra limbs, cloned face, disfigured, gross proportions, malformed limbs, missing arms, missing legs",  # noqa
-  'init_image': '',
-  'mask_image': '',
-  'width': '',
-  'height': '',
-  'samples': '1',
-  'num_inference_steps': '30',
-  'safety_checker': 'no',
-  'enhance_prompt': 'no',
-  'guidance_scale': 7.5,
-  'strength': 0.8,
-  'seed': 3090185627,
-  'webhook': None,
-  'track_id': None
-}
-
 # AWS:
 API_GATEWAY_URL = os.environ.get('API_GATEWAY_URL')
 
 # Runpod
-prompt = 'nsfw, nude, breast, pussy, 4k, masterpiece, sexy, seductive'
-negative_prompt = '(deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime:1.4), text, close up, cropped, out of frame, worst quality, low quality, jpeg artifacts, ugly, duplicate, morbid, mutilated, extra fingers, mutated hands, poorly drawn hands, poorly drawn face, mutation, deformed, blurry, dehydrated, bad anatomy, bad proportions, extra limbs, cloned face, disfigured, gross proportions, malformed limbs, missing arms, missing legs, extra arms, extra legs, fused fingers, too many fingers, long neck'  # noqa
-inpaint_ver = '2898z4adqruxdn'
+prompt = 'A photo of a person, (anime style, colourful), cartoon'
+negative_prompt = '((((ugly)))), (((duplicate))), ((morbid)), ((mutilated)), [out of frame], extra fingers, mutated hands, ((poorly drawn hands)), ((poorly drawn face)), (((mutation))), (((deformed))), blurry, ((bad anatomy)), (((bad proportions))), ((extra limbs)), cloned face, (((disfigured))), gross proportions, (malformed limbs), ((missing arms)), ((missing legs)), (((extra arms))), (((extra legs))), (fused fingers), (too many fingers), (((long neck)))'  # noqa
+inpaint_ver = ''

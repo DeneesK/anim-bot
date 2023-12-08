@@ -13,77 +13,6 @@ from src.settings.logger import logging
 logger = logging.getLogger(__name__)
 
 
-async def request_mask(photo: str) -> types.InputFile:
-    headers = {
-        'Content-Type': 'application/json',
-    }
-
-    data = {
-            'service': 'runpod',
-            'body': {
-                'version': 'chkm02vjs00yup',
-                'input': {
-                    'image': photo,
-                    'masks': '4'
-                }
-            }
-    }
-    async with ClientSession() as session:
-        response = await session.post(const.API_GATEWAY_URL,
-                                      headers=headers,
-                                      data=json.dumps(data))
-        body = await response.json()
-        logger.info(body)
-        response.close()
-
-    status_id = body.get('id')
-
-    data = {'service': 'runpod',
-            'body': {
-                      'version': 'chkm02vjs00yup',
-                      'id': status_id
-                    }
-            }
-    await asyncio.sleep(1)
-    async with ClientSession() as session:
-        response = await session.post(const.API_GATEWAY_URL,
-                                      headers=headers,
-                                      data=json.dumps(data))
-
-        body = await response.json()
-        logger.info(body)
-        status = body.get('status')
-
-    while status != 'COMPLETED' or status != 'FAILED':
-        await asyncio.sleep(1)
-        async with ClientSession() as session:
-            response = await session.post(const.API_GATEWAY_URL,
-                                          headers=headers,
-                                          data=json.dumps(data))
-
-            body = await response.json()
-        status = body.get('status')
-
-        logger.info(f'STATUS ------> {status}')
-
-        if status == 'COMPLETED' or status == 'FAILED':
-            break
-
-    if status == 'FAILED':
-        return await request_mask(photo)
-    if status == 'COMPLETED':
-        output = body.get('output')
-        image_data = output[len("data:image/png;base64,"):]  # 23
-    try:
-        image_bytes = base64.b64decode(image_data)
-        image_io = io.BytesIO(image_bytes)
-        photo = types.InputFile(image_io)
-    except Exception as ex:
-        logger.error(ex)
-        return None
-    return photo
-
-
 async def request_processing(photo: str) -> types.InputFile:
     headers = {
         'Content-Type': 'application/json',
@@ -99,7 +28,7 @@ async def request_processing(photo: str) -> types.InputFile:
                     'negative_prompt': const.negative_prompt,
                     'num_inference_steps': 50,
                     'guidance_scale': 7,
-                    'strength': 0.95,
+                    'strength': 0.6,
                     'seed': 0
                 }
             }
