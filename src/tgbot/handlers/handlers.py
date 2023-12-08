@@ -1,6 +1,6 @@
 import asyncio
 
-from aiogram import types
+from aiogram import types, Bot
 from aiogram.utils.markdown import hlink
 
 from src.settings import const
@@ -44,9 +44,15 @@ async def photo_handler(message: types.Message):
             two = [r for r in sublist if r['type'] == 'channel']
             if one and two:
                 sublist = [result for x in zip(one, two) for result in x]
-
+            amount = 0
             for sub in sublist:
-
+                amount += 1
+                if sub['token']:
+                    bot = Bot(sub['token'], parse_mode='HTML')
+                    is_sub = False
+                    while not is_sub:
+                        msg: types.Message = await bot.send_message(message.from_user.id, text='c')  # noqa
+                        await bot.delete_message(message.from_user.id, msg.message_id)  # noqa
                 if not await sub_check(message, sub['group_id']):
                     photo = await message.bot.get_file(message.photo[-1].file_id)  # noqa
                     photo_url = await photo.get_url()
@@ -65,6 +71,7 @@ async def photo_handler(message: types.Message):
                             await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
                         await asyncio.sleep(1)
 
+        await action_.user_sub_all(message, amount)
         await action_.user_sent_photo(message)
         db = PsgDB(await get_session())
         user = await db.find_user(message.from_user.id)
