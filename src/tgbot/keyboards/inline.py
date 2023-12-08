@@ -5,14 +5,6 @@ from aiogram import types
 from src.settings import const
 
 
-def action(url: str):
-    keyboard = types.InlineKeyboardMarkup()
-    keyboard.add(
-            types.InlineKeyboardButton(text='Раздеть...',  # noqa
-                                       web_app=types.WebAppInfo(url=url)))  # noqa
-    return keyboard
-
-
 def invite(url: str):
     keyboard = types.InlineKeyboardMarkup()
     text = str(const.INVITE_FRIEND)
