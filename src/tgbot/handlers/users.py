@@ -1,4 +1,5 @@
 from aiogram import types
+import time
 
 from src.settings import const
 from src.settings.logger import logging
@@ -40,6 +41,7 @@ async def user_start(message: types.Message):
                 await actions.organic_reg(message, user_id)
         await actions.user_start(message)
         await registration(message)
+        time.sleep(20)
         msg = await message.bot.send_photo(
             message.from_user.id,
             caption=const.WELCOME,
