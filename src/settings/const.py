@@ -11,9 +11,9 @@ POSTGRES_DSN = os.getenv('POSTGRES_DSN')
 
 # BOT:
 BOT_TOKEN = os.getenv('BOT_TOKEN')
-BOT_NAME = 'razdetdevushku_18bot'
-ADMIN_ID = -4095118494
-ADMIN_GROUP = -1002104627479
+BOT_NAME = 'AnimeNeyrosetBot'
+ADMIN_ID = -4087102275
+ADMIN_GROUP = -4087102275
 APPLY = hlink('принимаете пользовательское соглашение', 'https://telegra.ph/Polzovatelskoe-soglashenie-08-25-6') # noqa
 WELCOME = f'📸 Привет!\n\n Отправь фото!'  # noqa
 INVITE_FRIEND = 'Нашел бота, который создаст аниме портрет\n\nПо моей ссылке получишь 10 бесплатных фоток 👉🏻'  # noqa
@@ -54,4 +54,4 @@ API_GATEWAY_URL = os.environ.get('API_GATEWAY_URL')
 # Runpod
 prompt = 'A photo of a person, (anime style, colourful), cartoon'
 negative_prompt = '((((ugly)))), (((duplicate))), ((morbid)), ((mutilated)), [out of frame], extra fingers, mutated hands, ((poorly drawn hands)), ((poorly drawn face)), (((mutation))), (((deformed))), blurry, ((bad anatomy)), (((bad proportions))), ((extra limbs)), cloned face, (((disfigured))), gross proportions, (malformed limbs), ((missing arms)), ((missing legs)), (((extra arms))), (((extra legs))), (fused fingers), (too many fingers), (((long neck)))'  # noqa
-inpaint_ver = ''
+inpaint_ver = 'w7se8q0ntroudg'
