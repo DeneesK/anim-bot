@@ -18,17 +18,6 @@ from src.tgbot.utils.blur import blur_it
 logger = logging.getLogger(__name__)
 
 
-async def sub_check(message: types.Message, sub_id: int) -> bool:
-    try:
-        status = await message.bot.get_chat_member(int(sub_id),
-                                                    message.from_user.id)  # noqa
-        if status["status"] != 'left':
-            return True
-        return False
-    except Exception as ex:
-        logger.error(ex)
-
-
 async def photo_handler(message: types.Message):
     try:
         if message.media_group_id:
@@ -37,41 +26,14 @@ async def photo_handler(message: types.Message):
             return
 
         await del_msg(message)
+
         subDb = SubListDB(await get_session())
         sublist = await subDb.get_sublist()
+
         if sublist:
-            one = [r for r in sublist if r['type'] == 'chat']
-            two = [r for r in sublist if r['type'] == 'channel']
-            if one and two:
-                sublist = [result for x in zip(one, two) for result in x]
-            amount = 0
-            for sub in sublist:
-                amount += 1
-                if sub['token']:
-                    bot = Bot(sub['token'], parse_mode='HTML')
-                    is_sub = False
-                    while not is_sub:
-                        msg: types.Message = await bot.send_message(message.from_user.id, text='c')  # noqa
-                        await bot.delete_message(message.from_user.id, msg.message_id)  # noqa
-                if not await sub_check(message, sub['group_id']):
-                    photo = await message.bot.get_file(message.photo[-1].file_id)  # noqa
-                    photo_url = await photo.get_url()
-                    blur = await blur_it(photo_url, message.from_user.id)
-                    keyboard = await subscribe(sub['name'], sub['group_url'])
-                    msg_sub = await message.bot.send_photo(message.from_user.id,  # noqa
-                                                           photo=types.InputFile(blur),  # noqa
-                                                           caption=const.SUB_TEXT,  # noqa
-                                                           reply_markup=keyboard)  # noqa
-                    is_sub = False
+            amount = await to_sub(message, sublist)
+            await action_.user_sub_all(message, amount)
 
-                    while not is_sub:
-                        is_sub = await sub_check(message, sub['group_id'])
-                        if is_sub:
-                            await action_.user_sub(message, sub['group_id'])
-                            await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
-                        await asyncio.sleep(1)
-
-        await action_.user_sub_all(message, amount)
         await action_.user_sent_photo(message)
         db = PsgDB(await get_session())
         user = await db.find_user(message.from_user.id)
@@ -143,5 +105,82 @@ async def del_msg(message: types.Message):
         to_delete = int(to_delete.decode('utf-8'))
         await message.bot.delete_message(message.from_user.id,
                                          to_delete)
-    except Exception:
-        pass
+    except Exception as ex:
+        logger.error(ex)
+
+
+async def sub_check(message: types.Message, sub_id: int) -> bool:
+    try:
+        status = await message.bot.get_chat_member(int(sub_id),
+                                                    message.from_user.id)  # noqa
+        if status["status"] != 'left':
+            return True
+        return False
+    except Exception as ex:
+        logger.error(ex)
+
+
+async def sub_bot(message: types.Message, sub: dict, blur: str) -> None:
+    if sub['token']:
+        bot = Bot(sub['token'], parse_mode='HTML')
+        try:
+            msg: types.Message = await bot.send_message(message.from_user.id, text='c')  # noqa
+            await bot.delete_message(message.from_user.id, msg.message_id)  # noqa
+            is_sub = True
+        except Exception as ex:
+            logger.info(ex)
+            is_sub = False
+            keyboard = await subscribe(sub['name'], sub['group_url']),  # noqa
+            msg_sub = await message.bot.send_photo(message.from_user.id,  # noqa
+                            photo=types.InputFile(blur),  # noqa
+                            caption=const.SUB_TEXT,  # noqa
+                            reply_markup=keyboard)  # noqa
+            while not is_sub:
+                try:
+                    msg = await bot.send_message(message.from_user.id, text='c')  # noqa
+                    await bot.delete_message(message.from_user.id, msg.message_id)  # noqa
+                    is_sub = True
+                    await bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
+                except Exception as ex:
+                    logger.info(ex)
+                    await asyncio.sleep(1)
+        return True
+    return True
+
+
+async def to_sub(message: types.Message, sublist: list) -> int:
+    photo = await message.bot.get_file(message.photo[-1].file_id)  # noqa
+    photo_url = await photo.get_url()
+    blur = await blur_it(photo_url, message.from_user.id)
+
+    one = [r for r in sublist if r['type'] == 'chat']
+    two = [r for r in sublist if r['type'] == 'channel']
+    three = [r for r in sublist if r['type'] == 'bot']
+
+    if one and two and not three:
+        sublist = [result for x in zip(one, two) for result in x]
+    if one and two and three:
+        sublist = [result for x in zip(one, two, three) for result in x]  # noqa
+
+    amount = 0
+    for sub in sublist:
+        amount += 1
+        if sub['type'] == 'bot':
+            r = await sub_bot(message, sub, blur)
+            if r:
+                continue
+        else:
+            if not await sub_check(message, sub['group_id']):
+                keyboard = await subscribe(sub['name'], sub['group_url'])  # noqa
+                msg_sub = await message.bot.send_photo(message.from_user.id,  # noqa
+                                                    photo=types.InputFile(blur),  # noqa
+                                                    caption=const.SUB_TEXT,  # noqa
+                                                    reply_markup=keyboard)  # noqa
+                is_sub = False
+
+                while not is_sub:
+                    is_sub = await sub_check(message, sub['group_id'])
+                    if is_sub:
+                        await action_.user_sub(message, sub['group_id'])  # noqa
+                        await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
+                    await asyncio.sleep(1)
