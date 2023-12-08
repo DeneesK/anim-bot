@@ -184,3 +184,4 @@ async def to_sub(message: types.Message, sublist: list) -> int:
                         await action_.user_sub(message, sub['group_id'])  # noqa
                         await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
                     await asyncio.sleep(1)
+    return amount
