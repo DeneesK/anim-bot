@@ -27,8 +27,8 @@ async def call_back_handler(message: types.CallbackQuery):
 
 
 async def reply_keybuttons_handler(message: types.Message):
-    if str(message.data).startswith(const.BUTTON_NEWONE):
+    if str(message.text).startswith(const.BUTTON_NEWONE):
         await message.bot.send_message(message.from_user.id,
                                        text=const.ONE_MORE)
-    if str(message.data).startswith(const.BUTTON_ONEMORE):
+    if str(message.text).startswith(const.BUTTON_ONEMORE):
         await one_more(message)
