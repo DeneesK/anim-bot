@@ -11,7 +11,7 @@ POSTGRES_DSN = os.getenv('POSTGRES_DSN')
 
 # BOT:
 BOT_TOKEN = os.getenv('BOT_TOKEN')
-BOT_NAME = 'AnimeNeyrosetBot'
+BOT_NAME = 'i2animebot'
 ADMIN_ID = -4087102275
 ADMIN_GROUP = -4087102275
 APPLY = hlink('принимаете пользовательское соглашение', 'https://telegra.ph/Polzovatelskoe-soglashenie-08-25-6') # noqa
