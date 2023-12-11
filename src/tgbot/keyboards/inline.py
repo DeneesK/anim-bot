@@ -22,6 +22,11 @@ def estimate():
     keyboard = types.InlineKeyboardMarkup()
     keyboard.add(types.InlineKeyboardButton(text='👍🏻', callback_data='estimate-like')) # noqa
     keyboard.insert(types.InlineKeyboardButton(text='👎🏻', callback_data='estimate-dislike')) # noqa
+    return keyboard
+
+
+def inline_at_end():
+    keyboard = types.InlineKeyboardMarkup()
     keyboard.add(types.InlineKeyboardButton(text=const.BUTTON_ONEMORE, callback_data='onemore')) # noqa
     keyboard.add(types.InlineKeyboardButton(text=const.BUTTON_NEWONE, callback_data='newone')) # noqa
     return keyboard

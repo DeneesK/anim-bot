@@ -8,7 +8,7 @@ from src.settings.logger import logging
 from src.database.service import PsgDB, SubListDB
 from src.database.cache import get_redis
 from src.database.db import get_session
-from src.tgbot.keyboards.inline import invite, estimate, subscribe, at_end
+from src.tgbot.keyboards.inline import invite, estimate, subscribe, at_end, inline_at_end  # noqa
 from src.tgbot.requests import runod
 from src.tgbot.utils.url_creator import ref_url, organic_url
 from src.tgbot.analysis import actions as action_
@@ -49,7 +49,8 @@ async def photo_handler(message: types.Message):
         cache = get_redis()
         await cache.set(f'photo-{message.from_user.id}', str(message.photo[-1].file_id)) # noqa
         sticker = await message.bot.send_sticker(chat_id=message.from_user.id, # noqa
-                                                 sticker=const.STICKER_ID)
+                                                 sticker=const.STICKER_ID,
+                                                 reply_markup=at_end())
 
         if user.tokens < 1:
             url = ref_url(message.from_user.id)
@@ -75,10 +76,10 @@ async def photo_handler(message: types.Message):
             r = await message.bot.send_photo(message.from_user.id,
                                              photo=result,
                                              caption=text,
-                                             reply_markup=at_end())
+                                             reply_markup=estimate())
             to_delete = await message.bot.send_message(message.from_user.id,
                                                        text=const.IN_THE_END,
-                                                       reply_markup=estimate())  # noqa
+                                                       reply_markup=inline_at_end())  # noqa
             await cache.set(message.from_user.id, to_delete.message_id)
             origin = photo.file_id
             result = r.photo[-1].file_id
@@ -114,7 +115,8 @@ async def one_more(message: types.Message):
         photo_url = await photo.get_url()
         await cache.set(f'photo-{message.from_user.id}', photo_id)
         sticker = await message.bot.send_sticker(chat_id=message.from_user.id, # noqa
-                                                 sticker=const.STICKER_ID)
+                                                 sticker=const.STICKER_ID,
+                                                 reply_markup=at_end())
 
         if user.tokens < 1:
             url = ref_url(message.from_user.id)
@@ -140,10 +142,10 @@ async def one_more(message: types.Message):
             r = await message.bot.send_photo(message.from_user.id,
                                              photo=result,
                                              caption=text,
-                                             reply_markup=at_end())
+                                             reply_markup=estimate())
             to_delete = await message.bot.send_message(message.from_user.id,
                                                        text=const.IN_THE_END,
-                                                       reply_markup=estimate())  # noqa
+                                                       reply_markup=inline_at_end())  # noqa
             cache = get_redis()
             await cache.set(message.from_user.id, to_delete.message_id)
             origin = photo.file_id

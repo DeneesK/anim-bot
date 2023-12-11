@@ -23,7 +23,8 @@ async def request_processing(photo: str) -> types.InputFile:
             'body': {
                 'version': const.inpaint_ver,
                 'input': {
-                    'image': photo
+                    'image': photo,
+                    'negative_prompt': const.negative_prompt,
                 }
             }
     }
