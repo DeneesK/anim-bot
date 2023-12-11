@@ -76,10 +76,10 @@ async def photo_handler(message: types.Message):
             r = await message.bot.send_photo(message.from_user.id,
                                              photo=result,
                                              caption=text,
-                                             reply_markup=estimate())
+                                             reply_markup=inline_at_end())
             to_delete = await message.bot.send_message(message.from_user.id,
                                                        text=const.IN_THE_END,
-                                                       reply_markup=inline_at_end())  # noqa
+                                                       reply_markup=estimate())  # noqa
             await cache.set(message.from_user.id, to_delete.message_id)
             origin = photo.file_id
             result = r.photo[-1].file_id
