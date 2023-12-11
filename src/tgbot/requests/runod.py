@@ -25,6 +25,7 @@ async def request_processing(photo: str) -> types.InputFile:
                 'input': {
                     'image': photo,
                     'negative_prompt': const.negative_prompt,
+                    'strength': 0.5
                 }
             }
     }
