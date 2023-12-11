@@ -8,7 +8,7 @@ from src.settings.logger import logging
 from src.database.service import PsgDB, SubListDB
 from src.database.cache import get_redis
 from src.database.db import get_session
-from src.tgbot.keyboards.inline import invite, estimate, subscribe
+from src.tgbot.keyboards.inline import invite, estimate, subscribe, at_end
 from src.tgbot.requests import runod
 from src.tgbot.utils.url_creator import ref_url, organic_url
 from src.tgbot.analysis import actions as action_
@@ -46,7 +46,8 @@ async def photo_handler(message: types.Message):
             return
         photo = await message.bot.get_file(message.photo[-1].file_id)
         photo_url = await photo.get_url()
-
+        cache = get_redis()
+        await cache.set(f'photo-{message.from_user.id}', str(message.photo[-1].file_id)) # noqa
         sticker = await message.bot.send_sticker(chat_id=message.from_user.id, # noqa
                                                  sticker=const.STICKER_ID)
 
@@ -73,7 +74,73 @@ async def photo_handler(message: types.Message):
             text = hlink(const.CONG, url)
             r = await message.bot.send_photo(message.from_user.id,
                                              photo=result,
-                                             caption=text)
+                                             caption=text,
+                                             reply_markup=at_end())
+            to_delete = await message.bot.send_message(message.from_user.id,
+                                                       text=const.IN_THE_END,
+                                                       reply_markup=estimate())  # noqa
+            await cache.set(message.from_user.id, to_delete.message_id)
+            origin = photo.file_id
+            result = r.photo[-1].file_id
+            await admin_notify(message, origin, result)
+    except Exception as ex:
+        logger.error(ex)
+
+
+async def one_more(message: types.Message):
+    try:
+
+        subDb = SubListDB(await get_session())
+        sublist = await subDb.get_sublist()
+
+        if sublist:
+            amount = await to_sub(message, sublist)
+            await action_.user_sub_all(message, amount)
+
+        await action_.user_sent_photo(message)
+        db = PsgDB(await get_session())
+        user = await db.find_user(message.from_user.id)
+
+        if user.tokens < 1:
+            url = ref_url(message.from_user.id)
+            await message.bot.send_message(message.from_user.id,
+                                           text=const.END,
+                                           reply_markup=invite(url))
+            return
+        cache = get_redis()
+        photo_id = await cache.get(f'photo-{message.from_user.id}')
+        photo_id = str(photo_id.decode('utf-8'))
+        photo = await message.bot.get_file(photo_id)
+        photo_url = await photo.get_url()
+        await cache.set(f'photo-{message.from_user.id}', photo_id)
+        sticker = await message.bot.send_sticker(chat_id=message.from_user.id, # noqa
+                                                 sticker=const.STICKER_ID)
+
+        if user.tokens < 1:
+            url = ref_url(message.from_user.id)
+            await message.bot.send_message(message.from_user.id,
+                                           text=const.END,
+                                           reply_markup=invite(url))
+
+        result = await runod.request_processing(photo_url)
+
+        if result:
+            if user.tokens < 1:
+                url = ref_url(message.from_user.id)
+                await message.bot.send_message(message.from_user.id,
+                                               text=const.END,
+                                               reply_markup=invite(url))
+                return
+            await message.bot.delete_message(message.from_user.id,
+                                             sticker.message_id)
+            await action_.sent_result(message)
+            await db.add_token(message.from_user.id, -1)
+            url = organic_url(message.from_user.id)
+            text = hlink(const.CONG, url)
+            r = await message.bot.send_photo(message.from_user.id,
+                                             photo=result,
+                                             caption=text,
+                                             reply_markup=at_end())
             to_delete = await message.bot.send_message(message.from_user.id,
                                                        text=const.IN_THE_END,
                                                        reply_markup=estimate())  # noqa
