@@ -115,8 +115,7 @@ async def one_more(message: types.Message):
         photo_url = await photo.get_url()
         await cache.set(f'photo-{message.from_user.id}', photo_id)
         sticker = await message.bot.send_sticker(chat_id=message.from_user.id, # noqa
-                                                 sticker=const.STICKER_ID,
-                                                 reply_markup=at_end())
+                                                 sticker=const.STICKER_ID)
 
         if user.tokens < 1:
             url = ref_url(message.from_user.id)
@@ -142,10 +141,10 @@ async def one_more(message: types.Message):
             r = await message.bot.send_photo(message.from_user.id,
                                              photo=result,
                                              caption=text,
-                                             reply_markup=estimate())
+                                             reply_markup=inline_at_end())
             to_delete = await message.bot.send_message(message.from_user.id,
                                                        text=const.IN_THE_END,
-                                                       reply_markup=inline_at_end())  # noqa
+                                                       reply_markup=estimate())  # noqa
             cache = get_redis()
             await cache.set(message.from_user.id, to_delete.message_id)
             origin = photo.file_id
