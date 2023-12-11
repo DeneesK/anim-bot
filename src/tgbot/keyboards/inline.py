@@ -33,7 +33,7 @@ def inline_at_end():
 
 
 def at_end():
-    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, is_persistent=True)
     keyboard.add(types.KeyboardButton(const.BUTTON_ONEMORE))
     keyboard.add(types.KeyboardButton(const.BUTTON_NEWONE))
     return keyboard

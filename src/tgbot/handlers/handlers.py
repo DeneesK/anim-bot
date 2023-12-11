@@ -49,8 +49,7 @@ async def photo_handler(message: types.Message):
         cache = get_redis()
         await cache.set(f'photo-{message.from_user.id}', str(message.photo[-1].file_id)) # noqa
         sticker = await message.bot.send_sticker(chat_id=message.from_user.id, # noqa
-                                                 sticker=const.STICKER_ID,
-                                                 reply_markup=at_end())
+                                                 sticker=const.STICKER_ID)
 
         if user.tokens < 1:
             url = ref_url(message.from_user.id)
