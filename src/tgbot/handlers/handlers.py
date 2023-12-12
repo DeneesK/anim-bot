@@ -252,8 +252,8 @@ async def to_sub(message: types.Message, sublist: list, file_id: str = None) -> 
             if r:
                 continue
         else:
-            amount += 1
             if not await sub_check(message, sub['group_id']):
+                amount += 1
                 keyboard = await subscribe(sub['name'], sub['group_url'])  # noqa
                 msg_sub = await message.bot.send_photo(message.from_user.id,  # noqa
                                                     photo=types.InputFile(blur),  # noqa
