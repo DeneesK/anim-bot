@@ -79,6 +79,6 @@ class SubListDB:
     async def done(self, user_id: int):
         async with self.session() as conn:
             await conn.execute(
-                text(f"UPDATE done_list SET is_done='true' WHERE user_id={user_id};")  # noqa
+                text(f"INSERT INTO done_list (user_id) VALUES ({user_id})")  # noqa
             )
             await conn.commit()

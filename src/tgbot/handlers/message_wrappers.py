@@ -21,9 +21,6 @@ async def call_back_handler(message: types.CallbackQuery):
                                              text=const.THE_END)
 
         await cache.set(message.from_user.id, msg.message_id)
-    # if str(message.data).startswith('newone'):
-    #     await message.bot.send_message(message.from_user.id,
-    #                                    text=const.ONE_MORE)
     if str(message.data).startswith('onemore'):
         await one_more(message)
     if str(message.data).startswith('done'):
@@ -32,8 +29,5 @@ async def call_back_handler(message: types.CallbackQuery):
 
 
 async def reply_keybuttons_handler(message: types.Message):
-    # if str(message.text).startswith(const.BUTTON_NEWONE):
-    #     await message.bot.send_message(message.from_user.id,
-    #                                    text=const.ONE_MORE)
     if str(message.text).startswith(const.BUTTON_ONEMORE):
         await one_more(message)
