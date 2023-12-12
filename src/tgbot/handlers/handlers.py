@@ -32,7 +32,8 @@ async def photo_handler(message: types.Message):
 
         if sublist:
             amount = await to_sub(message, sublist)
-            await action_.user_sub_all(message, amount)
+            if amount:
+                await action_.user_sub_all(message, amount)
 
         await action_.user_sent_photo(message)
         db = PsgDB(await get_session())
@@ -98,7 +99,8 @@ async def one_more(message: types.Message):
         print(photo_id)
         if sublist:
             amount = await to_sub(message, sublist, photo_id)
-            await action_.user_sub_all(message, amount)
+            if amount:
+                await action_.user_sub_all(message, amount)
 
         await action_.user_sent_photo(message)
         db = PsgDB(await get_session())
