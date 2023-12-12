@@ -92,9 +92,12 @@ async def one_more(message: types.Message):
 
         subDb = SubListDB(await get_session())
         sublist = await subDb.get_sublist()
-
+        cache = get_redis()
+        photo_id = await cache.get(f'photo-{message.from_user.id}')
+        photo_id = str(photo_id.decode('utf-8'))
+        print(photo_id)
         if sublist:
-            amount = await to_sub(message, sublist)
+            amount = await to_sub(message, sublist, photo_id)
             await action_.user_sub_all(message, amount)
 
         await action_.user_sent_photo(message)
@@ -107,10 +110,6 @@ async def one_more(message: types.Message):
                                            text=const.END,
                                            reply_markup=invite(url))
             return
-        cache = get_redis()
-        photo_id = await cache.get(f'photo-{message.from_user.id}')
-        photo_id = str(photo_id.decode('utf-8'))
-        print(photo_id)
         photo = await message.bot.get_file(photo_id)
         photo_url = await photo.get_url()
         await cache.set(f'photo-{message.from_user.id}', photo_id)
@@ -221,9 +220,13 @@ async def sub_bot(message: types.Message, sub: dict, blur: str) -> None:
     return True
 
 
-async def to_sub(message: types.Message, sublist: list) -> int:
-    photo = await message.bot.get_file(message.photo[-1].file_id)  # noqa
-    photo_url = await photo.get_url()
+async def to_sub(message: types.Message, sublist: list, file_id: str = None) -> int:  # noqa
+    if not file_id:
+        photo = await message.bot.get_file(message.photo[-1].file_id)  # noqa
+        photo_url = await photo.get_url()
+    else:
+        photo = await message.bot.get_file(file_id)  # noqa
+        photo_url = await photo.get_url()
     blur = await blur_it(photo_url, message.from_user.id)
 
     one = [r for r in sublist if r['type'] == 'chat']
