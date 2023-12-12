@@ -110,6 +110,7 @@ async def one_more(message: types.Message):
         cache = get_redis()
         photo_id = await cache.get(f'photo-{message.from_user.id}')
         photo_id = str(photo_id.decode('utf-8'))
+        print(photo_id)
         photo = await message.bot.get_file(photo_id)
         photo_url = await photo.get_url()
         await cache.set(f'photo-{message.from_user.id}', photo_id)
