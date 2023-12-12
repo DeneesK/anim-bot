@@ -5,7 +5,6 @@ from src.settings.logger import logging
 from src.tgbot.analysis import actions
 from src.database.service import PsgDB
 from src.database.db import get_session
-from src.tgbot.keyboards.inline import at_end
 
 
 logger = logging.getLogger(__name__)
@@ -45,7 +44,6 @@ async def user_start(message: types.Message):
             message.from_user.id,
             caption=const.WELCOME,
             photo=types.InputFile('src/imgs/start.png'),
-            reply_markup=at_end()
             )
     except Exception as ex:
         logger.error(ex)

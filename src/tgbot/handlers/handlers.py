@@ -141,6 +141,10 @@ async def one_more(message: types.Message):
                                              photo=result,
                                              caption=text,
                                              reply_markup=inline_at_end())
+            to_delete2 = await message.bot.send_message(message.from_user.id,
+                                                        text='⬇️⬇️⬇️',
+                                                        reply_markup=at_end())  # noqa
+            await message.bot.delete_message(message.from_user.id, to_delete2.message_id)  # noqa
             to_delete = await message.bot.send_message(message.from_user.id,
                                                        text=const.IN_THE_END,
                                                        reply_markup=estimate())  # noqa
