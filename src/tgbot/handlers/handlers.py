@@ -189,6 +189,7 @@ async def sub_check(message: types.Message, sub_id: int) -> bool:
 
 async def sub_bot(message: types.Message, sub: dict, blur: str) -> None:
     if sub['token']:
+        print('--------------->')
         bot = Bot(sub['token'], parse_mode='HTML')
         try:
             msg: types.Message = await bot.send_message(message.from_user.id, text='👋👋👋')  # noqa
