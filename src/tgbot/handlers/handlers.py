@@ -77,6 +77,9 @@ async def photo_handler(message: types.Message):
                                              photo=result,
                                              caption=text,
                                              reply_markup=inline_at_end())
+            await message.bot.send_message(message.from_user.id,
+                                           text=const.EMPTY,
+                                           reply_markup=at_end())
             to_delete = await message.bot.send_message(message.from_user.id,
                                                        text=const.IN_THE_END,
                                                        reply_markup=estimate())  # noqa
