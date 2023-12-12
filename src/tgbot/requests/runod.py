@@ -24,7 +24,7 @@ async def request_processing(photo: str) -> types.InputFile:
                 'version': const.inpaint_ver,
                 'input': {
                     'image': photo,
-                    'num_inference_steps': 61
+                    'num_inference_steps': 41
                 }
             }
     }
