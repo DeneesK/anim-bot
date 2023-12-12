@@ -4,6 +4,8 @@ from src.tgbot.handlers.handlers import one_more
 from src.tgbot.analysis import actions
 from src.settings import const
 from src.database.cache import get_redis
+from src.database.service import SubListDB
+from src.database.db import get_session
 
 
 async def call_back_handler(message: types.CallbackQuery):
@@ -24,6 +26,9 @@ async def call_back_handler(message: types.CallbackQuery):
     #                                    text=const.ONE_MORE)
     if str(message.data).startswith('onemore'):
         await one_more(message)
+    if str(message.data).startswith('done'):
+        subDb = SubListDB(await get_session())
+        await subDb.done(message.from_user.id)
 
 
 async def reply_keybuttons_handler(message: types.Message):

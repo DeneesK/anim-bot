@@ -65,3 +65,20 @@ class SubListDB:
             print(sub)
             return sub
         return None
+
+    async def is_done(self, user_id: int) -> bool:
+        async with self.session() as conn:
+            user = await conn.execute(
+                text(f"SELECT done FROM done_list WHERE user_id={user_id}")
+            )
+            user = user.first()
+        if user:
+            return user[0]
+        return False
+
+    async def done(self, user_id: int):
+        async with self.session() as conn:
+            await conn.execute(
+                text(f"UPDATE done_list SET is_done='true' WHERE user_id={user_id};")  # noqa
+            )
+            await conn.commit()

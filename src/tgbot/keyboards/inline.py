@@ -32,6 +32,16 @@ def inline_at_end():
     return keyboard
 
 
+def out_bot_sub(sublist: list):
+    keyboard = types.InlineKeyboardMarkup()
+    for sub in sublist:
+        keyboard.add(
+                types.InlineKeyboardButton(text=sub['name'],  # noqa
+                                            url=sub['url']))  # noqa
+    keyboard.add(types.InlineKeyboardButton(text=const.BUTTON_ONEMORE, callback_data='done'))  # noqa
+    return keyboard
+
+
 def at_end():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True,
                                          is_persistent=True)

@@ -8,7 +8,7 @@ from src.settings.logger import logging
 from src.database.service import PsgDB, SubListDB
 from src.database.cache import get_redis
 from src.database.db import get_session
-from src.tgbot.keyboards.inline import invite, estimate, subscribe, at_end, inline_at_end  # noqa
+from src.tgbot.keyboards.inline import invite, estimate, subscribe, at_end, inline_at_end, out_bot_sub  # noqa
 from src.tgbot.requests import runod
 from src.tgbot.utils.url_creator import ref_url, organic_url
 from src.tgbot.analysis import actions as action_
@@ -141,10 +141,6 @@ async def one_more(message: types.Message):
                                              photo=result,
                                              caption=text,
                                              reply_markup=inline_at_end())
-            to_delete2 = await message.bot.send_message(message.from_user.id,
-                                                        text='⬇️⬇️⬇️',
-                                                        reply_markup=at_end())  # noqa
-            await message.bot.delete_message(message.from_user.id, to_delete2.message_id)  # noqa
             to_delete = await message.bot.send_message(message.from_user.id,
                                                        text=const.IN_THE_END,
                                                        reply_markup=estimate())  # noqa
@@ -231,7 +227,9 @@ async def to_sub(message: types.Message, sublist: list, file_id: str = None) -> 
 
     one = [r for r in sublist if r['type'] == 'chat']
     two = [r for r in sublist if r['type'] == 'channel']
-    three = [r for r in sublist if r['type'] == 'bot']
+    three = [r for r in sublist if r['type'] == 'bot' and r['token']]
+
+    out_bot = [r for r in sublist if r['type'] == 'bot' and not r['token']]
 
     if one and two and not three:
         sublist = [result for x in zip(one, two) for result in x]
@@ -241,7 +239,7 @@ async def to_sub(message: types.Message, sublist: list, file_id: str = None) -> 
     amount = 0
     for sub in sublist:
         amount += 1
-        if sub['type'] == 'bot':
+        if sub['type'] == 'bot' and not ['token']:
             r = await sub_bot(message, sub, blur)
             if r:
                 continue
@@ -253,11 +251,24 @@ async def to_sub(message: types.Message, sublist: list, file_id: str = None) -> 
                                                     caption=const.SUB_TEXT,  # noqa
                                                     reply_markup=keyboard)  # noqa
                 is_sub = False
-
                 while not is_sub:
                     is_sub = await sub_check(message, sub['group_id'])
                     if is_sub:
                         await action_.user_sub(message, sub['group_id'])  # noqa
                         await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
                     await asyncio.sleep(1)
+    if out_bot:
+        amount += len(out_bot)
+        keyboard = out_bot_sub(out_bot)
+        msg_sub = await message.bot.send_photo(message.from_user.id,  # noqa
+                                            photo=types.InputFile(blur),  # noqa
+                                            caption=const.SUB_TEXT,  # noqa
+                                            reply_markup=keyboard)  # noqa
+
+        subDb = SubListDB(await get_session())
+        while True:
+            if subDb.is_done(message.from_user.id):
+                break
+            await asyncio.sleep(1)
+
     return amount
