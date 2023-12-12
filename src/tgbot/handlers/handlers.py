@@ -275,5 +275,5 @@ async def to_sub(message: types.Message, sublist: list, file_id: str = None) -> 
             if subDb.is_done(message.from_user.id):
                 break
             await asyncio.sleep(1)
-    await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
+        await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
     return amount
