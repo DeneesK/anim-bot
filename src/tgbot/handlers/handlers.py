@@ -73,13 +73,13 @@ async def photo_handler(message: types.Message):
             await db.add_token(message.from_user.id, -1)
             url = organic_url(message.from_user.id)
             text = hlink(const.CONG, url)
+            await message.bot.send_message(message.from_user.id,
+                                           text=const.EMPTY,
+                                           reply_markup=at_end())
             r = await message.bot.send_photo(message.from_user.id,
                                              photo=result,
                                              caption=text,
                                              reply_markup=inline_at_end())
-            await message.bot.send_message(message.from_user.id,
-                                           text=const.EMPTY,
-                                           reply_markup=at_end())
             to_delete = await message.bot.send_message(message.from_user.id,
                                                        text=const.IN_THE_END,
                                                        reply_markup=estimate())  # noqa
