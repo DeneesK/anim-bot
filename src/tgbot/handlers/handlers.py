@@ -73,9 +73,13 @@ async def photo_handler(message: types.Message):
             await db.add_token(message.from_user.id, -1)
             url = organic_url(message.from_user.id)
             text = hlink(const.CONG, url)
-            await message.bot.send_message(message.from_user.id,
-                                           text=const.EMPTY,
-                                           reply_markup=at_end())
+
+            if not await cache.get(f'key-{message.from_user.id}'):
+                await cache.set(f'key-{message.from_user.id}', 1)
+                await message.bot.send_message(message.from_user.id,
+                                               text=const.EMPTY,
+                                               reply_markup=at_end())
+
             r = await message.bot.send_photo(message.from_user.id,
                                              photo=result,
                                              caption=text,
@@ -243,12 +247,12 @@ async def to_sub(message: types.Message, sublist: list, file_id: str = None) -> 
 
     amount = 0
     for sub in sublist:
-        amount += 1
         if sub['type'] == 'bot' and not ['token']:
             r = await sub_bot(message, sub, blur)
             if r:
                 continue
         else:
+            amount += 1
             if not await sub_check(message, sub['group_id']):
                 keyboard = await subscribe(sub['name'], sub['group_url'])  # noqa
                 msg_sub = await message.bot.send_photo(message.from_user.id,  # noqa
