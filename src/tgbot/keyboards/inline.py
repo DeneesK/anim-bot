@@ -28,7 +28,7 @@ def estimate():
 def inline_at_end():
     keyboard = types.InlineKeyboardMarkup()
     keyboard.add(types.InlineKeyboardButton(text=const.BUTTON_ONEMORE, callback_data='onemore')) # noqa
-    keyboard.add(types.InlineKeyboardButton(text=const.BUTTON_NEWONE, callback_data='newone')) # noqa
+    # keyboard.add(types.InlineKeyboardButton(text=const.BUTTON_NEWONE, callback_data='newone')) # noqa
     return keyboard
 
 
@@ -36,7 +36,7 @@ def at_end():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True,
                                          is_persistent=True)
     keyboard.add(types.KeyboardButton(const.BUTTON_ONEMORE))
-    keyboard.insert(types.KeyboardButton(const.BUTTON_NEWONE))
+    # keyboard.insert(types.KeyboardButton(const.BUTTON_NEWONE))
     return keyboard
 
 
