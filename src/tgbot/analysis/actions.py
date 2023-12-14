@@ -180,13 +180,14 @@ async def response_from_runpod(user_id,
                                steps, prompt,
                                ex_time: float) -> None:
     event_name = 'Got response from runpod'
-    user_properties = {'execute time': ex_time, 'steps': steps,
+    user_properties = {'execute time': ex_time,
+                       'steps': steps,
                        'prompt': prompt,
                        'user_id': user_id}
-    await send_and_log(event_name, user_properties=user_properties)
+    await send_and_log(event_name, user_id,  user_properties=user_properties)
 
 
 async def req_runpod(user_id: int, steps, prompt) -> None:
     event_name = 'Sent request to runpod'
     user_properties = {'user_id': user_id, 'steps': steps, 'prompt': prompt}
-    await send_and_log(event_name, user_properties=user_properties)
+    await send_and_log(event_name, user_id, user_properties=user_properties)
