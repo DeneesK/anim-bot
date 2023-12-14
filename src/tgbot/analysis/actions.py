@@ -176,14 +176,17 @@ async def user_sub_all(message: types.Message,
                        user_properties=user_properties)
 
 
-async def response_from_runpod(user_id: int, ex_time: float) -> None:
+async def response_from_runpod(user_id,
+                               steps, prompt,
+                               ex_time: float) -> None:
     event_name = 'Got response from runpod'
-    user_properties = {'execute time': ex_time,
+    user_properties = {'execute time': ex_time, 'steps': steps,
+                       'prompt': prompt,
                        'user_id': user_id}
     await send_and_log(event_name, user_properties=user_properties)
 
 
-async def req_runpod(user_id: int) -> None:
+async def req_runpod(user_id: int, steps, prompt) -> None:
     event_name = 'Sent request to runpod'
-    user_properties = {'user_id': user_id}
+    user_properties = {'user_id': user_id, 'steps': steps, 'prompt': prompt}
     await send_and_log(event_name, user_properties=user_properties)
