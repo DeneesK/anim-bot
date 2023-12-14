@@ -244,6 +244,8 @@ async def to_sub(message: types.Message, sublist: list, file_id: str = None) -> 
         sublist = [result for x in zip(one, two) for result in x]
     if one and two and three:
         sublist = [result for x in zip(one, two, three) for result in x]  # noqa
+    else:
+        sublist = []
 
     amount = 0
     for sub in sublist:
