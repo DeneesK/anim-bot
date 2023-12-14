@@ -69,7 +69,7 @@ class SubListDB:
     async def is_done(self, user_id: int) -> bool:
         async with self.session() as conn:
             user = await conn.execute(
-                text(f"SELECT done FROM done_list WHERE user_id={user_id}")
+                text(f"SELECT * FROM done_list WHERE user_id={user_id}")
             )
             user = user.first()
         if user:
