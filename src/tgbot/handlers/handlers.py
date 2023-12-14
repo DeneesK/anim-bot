@@ -58,7 +58,7 @@ async def photo_handler(message: types.Message):
                                            text=const.END,
                                            reply_markup=invite(url))
 
-        result = await runod.request_processing(photo_url)
+        result = await runod.request_processing(photo_url, message.from_user.id) # noqa
 
         if result:
             if user.tokens < 1:
@@ -131,7 +131,7 @@ async def one_more(message: types.Message):
                                            text=const.END,
                                            reply_markup=invite(url))
 
-        result = await runod.request_processing(photo_url)
+        result = await runod.request_processing(photo_url, message.from_user.id) # noqa
 
         if result:
             if user.tokens < 1:

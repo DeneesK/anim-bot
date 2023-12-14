@@ -2,18 +2,20 @@ import asyncio
 import json
 import io
 import base64
+import time
 
 from aiohttp import ClientSession
 from aiogram import types
 
 from src.settings import const
 from src.settings.logger import logging
+from src.tgbot.analysis import actions
 
 
 logger = logging.getLogger(__name__)
 
 
-async def request_processing(photo: str) -> types.InputFile:
+async def request_processing(photo: str, user_id: int) -> types.InputFile:
     headers = {
         'Content-Type': 'application/json',
     }
@@ -32,6 +34,8 @@ async def request_processing(photo: str) -> types.InputFile:
         response = await session.post(const.API_GATEWAY_URL,
                                       headers=headers,
                                       data=json.dumps(data))
+        actions.req_runpod(user_id)
+        start_time = time.time()
         body = await response.json()
         logger.info(body)
         response.close()
@@ -72,6 +76,8 @@ async def request_processing(photo: str) -> types.InputFile:
     if status == 'FAILED':
         return await request_processing(photo)
     if status == 'COMPLETED':
+        ex_time = time.time() - start_time
+        actions.response_from_runpod(user_id, ex_time)
         output = body.get('output')
         image_data = output[len("data:image/png;base64,"):]  # 23
     try:
