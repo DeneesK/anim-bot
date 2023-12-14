@@ -34,7 +34,7 @@ async def request_processing(photo: str, user_id: int) -> types.InputFile:
         response = await session.post(const.API_GATEWAY_URL,
                                       headers=headers,
                                       data=json.dumps(data))
-        actions.req_runpod(user_id, const.steps, const.prompt)
+        await actions.req_runpod(user_id, const.steps, const.prompt)
         start_time = time.time()
         body = await response.json()
         logger.info(body)
@@ -77,7 +77,7 @@ async def request_processing(photo: str, user_id: int) -> types.InputFile:
         return await request_processing(photo)
     if status == 'COMPLETED':
         ex_time = time.time() - start_time
-        actions.response_from_runpod(user_id, const.steps, const.prompt, ex_time)  # noqa
+        await actions.response_from_runpod(user_id, const.steps, const.prompt, ex_time)  # noqa
         output = body.get('output')
         image_data = output[len("data:image/png;base64,"):]  # 23
     try:
