@@ -14,11 +14,11 @@ async def call_back_handler(message: types.CallbackQuery):
         to_delete = await cache.get(message.from_user.id)
         to_delete = int(to_delete.decode('utf-8'))
         _, mark = str(message.data).split('-')
-        await actions.send_estimate(message, mark)
         await message.bot.delete_message(message.from_user.id,
                                          to_delete)
         msg = await message.bot.send_message(message.from_user.id,
                                              text=const.THE_END)
+        await actions.send_estimate(message, mark)
 
         await cache.set(message.from_user.id, msg.message_id)
     if str(message.data).startswith('onemore'):
