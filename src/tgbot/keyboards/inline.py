@@ -37,7 +37,7 @@ def out_bot_sub(sublist: list):
     for sub in sublist:
         keyboard.add(
                 types.InlineKeyboardButton(text=sub['name'],  # noqa
-                                            url=sub['url']))  # noqa
+                                            url=sub['group_url']))  # noqa
     keyboard.add(types.InlineKeyboardButton(text='✅ Я подписался', callback_data='done'))  # noqa
     return keyboard
 
