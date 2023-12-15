@@ -240,12 +240,12 @@ async def to_sub(message: types.Message, sublist: list, file_id: str = None) -> 
 
     out_bot = [r for r in sublist if r['type'] == 'bot' and not r['token']]
 
-    if one and not two and not three:
-        sublist = one
     if one and two and not three:
         sublist = [result for x in zip(one, two) for result in x]
     if one and two and three:
         sublist = [result for x in zip(one, two, three) for result in x]  # noqa
+    elif one or two or three:
+        sublist = one + two + three
     else:
         sublist = []
 
