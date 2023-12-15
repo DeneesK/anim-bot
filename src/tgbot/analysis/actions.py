@@ -20,6 +20,14 @@ async def send_and_log(event_name, id,
         logger.error(f"Error: {error}")
 
 
+async def ads_reg(message: types.Message,
+                  ads: str) -> None:
+    event_name = 'ADS registration'
+    user_properties = {'user_id': message.from_user.id, 'ads': ads}
+    await send_and_log(event_name, message.from_user.id,
+                       user_properties=user_properties)
+
+
 async def amplitude_registration(message):
     event_name = "registration"
     user_properties = {"username": message.from_user.username,

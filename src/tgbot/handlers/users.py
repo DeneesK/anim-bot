@@ -29,6 +29,9 @@ async def user_start(message: types.Message):
         payload = message.get_args()
         if payload != '':
             user_id = message.from_user.id
+            if payload.startswith('ads_'):
+                ad_name = payload[4:]
+                await actions.ads_reg(message, '', ad_name)
             if payload.startswith('ref_') and not await db.find_user(user_id):
                 ref_user_id = int(payload[4:])
                 await db.add_token(ref_user_id, 5)
