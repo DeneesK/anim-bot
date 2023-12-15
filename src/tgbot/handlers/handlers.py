@@ -119,6 +119,7 @@ async def one_more(message: types.Message):
                                            text=const.END,
                                            reply_markup=invite(url))
             return
+        await db.add_token(message.from_user.id, -1)
         photo = await message.bot.get_file(photo_id)
         photo_url = await photo.get_url()
         await cache.set(f'photo-{message.from_user.id}', photo_id)
@@ -143,7 +144,6 @@ async def one_more(message: types.Message):
             await message.bot.delete_message(message.from_user.id,
                                              sticker.message_id)
             await action_.sent_result(message)
-            await db.add_token(message.from_user.id, -1)
             url = organic_url(message.from_user.id)
             text = hlink(const.CONG, url)
             r = await message.bot.send_photo(message.from_user.id,
@@ -240,6 +240,8 @@ async def to_sub(message: types.Message, sublist: list, file_id: str = None) -> 
 
     out_bot = [r for r in sublist if r['type'] == 'bot' and not r['token']]
 
+    if one and not two and not three:
+        sublist = one
     if one and two and not three:
         sublist = [result for x in zip(one, two) for result in x]
     if one and two and three:
