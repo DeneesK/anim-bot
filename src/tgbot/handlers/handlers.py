@@ -269,17 +269,17 @@ async def to_sub(message: types.Message, sublist: list, file_id: str = None) -> 
                         await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
                     await asyncio.sleep(1)
     if out_bot:
-        amount += len(out_bot)
-        keyboard = out_bot_sub(out_bot)
-        msg_sub = await message.bot.send_photo(message.from_user.id,  # noqa
-                                            photo=types.InputFile(blur),  # noqa
-                                            caption=const.SUB_TEXT,  # noqa
-                                            reply_markup=keyboard)  # noqa
-
         subDb = SubListDB(await get_session())
-        while True:
-            if await subDb.is_done(message.from_user.id):
-                break
-            await asyncio.sleep(1)
-        await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
+        if not await subDb.is_done(message.from_user.id):
+            amount += len(out_bot)
+            keyboard = out_bot_sub(out_bot)
+            msg_sub = await message.bot.send_photo(message.from_user.id,  # noqa
+                                                photo=types.InputFile(blur),  # noqa
+                                                caption=const.SUB_TEXT,  # noqa
+                                                reply_markup=keyboard)  # noqa
+            while True:
+                if await subDb.is_done(message.from_user.id):
+                    break
+                await asyncio.sleep(1)
+            await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
     return amount
