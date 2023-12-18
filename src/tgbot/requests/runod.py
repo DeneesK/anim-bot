@@ -2,7 +2,6 @@ import asyncio
 import json
 import io
 import base64
-import time
 
 from aiohttp import ClientSession
 from aiogram import types
@@ -35,7 +34,6 @@ async def request_processing(photo: str, user_id: int) -> types.InputFile:
                                       headers=headers,
                                       data=json.dumps(data))
         await actions.req_runpod(user_id, const.steps, const.prompt)
-        start_time = time.time()
         body = await response.json()
         logger.info(body)
         response.close()
@@ -76,8 +74,9 @@ async def request_processing(photo: str, user_id: int) -> types.InputFile:
     if status == 'FAILED':
         return await request_processing(photo)
     if status == 'COMPLETED':
-        ex_time = time.time() - start_time
-        await actions.response_from_runpod(user_id, const.steps, const.prompt, ex_time)  # noqa
+        ex_time = body.get('executionTime')
+        await actions.response_from_runpod(user_id, const.steps,
+                                           const.prompt, ex_time)
         output = body.get('output')
         image_data = output[len("data:image/png;base64,"):]  # 23
     try:
