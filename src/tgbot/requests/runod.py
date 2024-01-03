@@ -57,7 +57,7 @@ async def request_processing(photo: str, user_id: int) -> types.InputFile:
         status = body.get('status')
 
     while status != 'COMPLETED' or status != 'FAILED':
-        await asyncio.sleep(1)
+        await asyncio.sleep(5)
         async with ClientSession() as session:
             response = await session.post(const.API_GATEWAY_URL,
                                           headers=headers,
