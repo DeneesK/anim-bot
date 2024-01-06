@@ -34,15 +34,18 @@ def inline_at_end():
 
 def out_bot_sub(sublist: list):
     keyboard = types.InlineKeyboardMarkup()
+    c = 0
+    if len(sublist) % 2 != 0:
+        c = 1
     mid = len(sublist) // 2
     i = 0
-    for sub in sublist[0:(mid+1)]:
+    for sub in sublist[0:(mid+c)]:
         keyboard.add(
                 types.InlineKeyboardButton(text=sub['name'],  # noqa
                                             url=sub['group_url']))  # noqa
 
         if (mid + 1 + i) < len(sublist):
-            sub2 = sublist[mid + i + 1]
+            sub2 = sublist[mid + i + c]
             keyboard.insert(
                     types.InlineKeyboardButton(text=sub2['name'],  # noqa
                                                 url=sub['group_url']))  # noqa            
