@@ -34,10 +34,19 @@ def inline_at_end():
 
 def out_bot_sub(sublist: list):
     keyboard = types.InlineKeyboardMarkup()
-    for sub in sublist:
+    mid = len(sublist) // 2
+    i = 0
+    for sub in sublist[0:(mid+1)]:
         keyboard.add(
                 types.InlineKeyboardButton(text=sub['name'],  # noqa
                                             url=sub['group_url']))  # noqa
+
+        if (mid + 1 + i) < len(sublist):
+            sub2 = sublist[mid + i + 1]
+            keyboard.insert(
+                    types.InlineKeyboardButton(text=sub2['name'],  # noqa
+                                                url=sub['group_url']))  # noqa            
+        i += 1
     keyboard.add(types.InlineKeyboardButton(text='✅ Я подписался', callback_data='done'))  # noqa
     return keyboard
 
