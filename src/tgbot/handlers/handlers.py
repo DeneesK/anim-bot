@@ -211,7 +211,7 @@ async def sub_bot(message: types.Message, sub: dict, blur: str) -> None:
             msg_sub = await message.bot.send_photo(message.from_user.id,  # noqa
                             photo=types.InputFile(blur),  # noqa
                             caption=const.SUB_TEXT,  # noqa
-                            reply_markup=keyboard)  # noqa
+                            reply_markup=keyboard())  # noqa
             while not is_sub:
                 try:
                     msg = await bot.send_message(message.from_user.id, text='👋👋👋')  # noqa
