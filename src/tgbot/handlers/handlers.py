@@ -250,6 +250,7 @@ async def to_sub(message: types.Message, sublist: list, file_id: str = None) -> 
         sublist = []
 
     amount = 0
+    print(sublist)
     for sub in sublist:
         if sub['type'] == 'bot' and not ['token']:
             r = await sub_bot(message, sub, blur)
