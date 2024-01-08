@@ -45,7 +45,7 @@ def out_bot_sub(sublist: list):
                5: '5️⃣', 6: '6️⃣', 7: '7️⃣', 8: '8️⃣', 9: '9️⃣', 10: '🔟'}
     for sub in sublist[0:(mid+c)]:
         n += 1
-        number = {numbers.get(n, '')} 
+        number = numbers.get(n, '')
         button = f'{number} ' + sub['name']
         keyboard.add(
                 types.InlineKeyboardButton(text=button,  # noqa
