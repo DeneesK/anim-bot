@@ -39,15 +39,25 @@ def out_bot_sub(sublist: list):
         c = 1
     mid = len(sublist) // 2
     i = 0
+    n = 0
+    # 1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣9️⃣🔟
+    numbers = {1: '1️⃣', 2: '2️⃣', 3: '3️⃣', 4: '4️⃣',
+               5: '5️⃣', 6: '6️⃣', 7: '7️⃣', 8: '8️⃣', 9: '9️⃣', 10: '🔟'}
     for sub in sublist[0:(mid+c)]:
+        n += 1
+        number = {numbers.get(n, '')} 
+        button = f'{number} ' + sub['name']
         keyboard.add(
-                types.InlineKeyboardButton(text=sub['name'],  # noqa
+                types.InlineKeyboardButton(text=button,  # noqa
                                             url=sub['group_url']))  # noqa
 
         if (mid + c + i) < len(sublist):
+            n += 1
             sub2 = sublist[mid + i + c]
+            number = {numbers.get(n, '')} 
+            button = f'{number} ' + sub2['name']
             keyboard.insert(
-                    types.InlineKeyboardButton(text=sub2['name'],  # noqa
+                    types.InlineKeyboardButton(text=button,  # noqa
                                                 url=sub2['group_url']))  # noqa            
         i += 1
     keyboard.add(types.InlineKeyboardButton(text='✅ Я подписался', callback_data='done'))  # noqa
