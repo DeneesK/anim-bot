@@ -207,7 +207,7 @@ async def sub_bot(message: types.Message, sub: dict, blur: str) -> None:
         except Exception as ex:
             logger.info(ex)
             is_sub = False
-            keyboard = await subscribe(sub['name'], sub['group_url']),  # noqa
+            keyboard = await subscribe(sub['name'], sub['group_url'])  # noqa
             msg_sub = await message.bot.send_photo(message.from_user.id,  # noqa
                             photo=types.InputFile(blur),  # noqa
                             caption=const.SUB_TEXT,  # noqa
