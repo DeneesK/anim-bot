@@ -54,7 +54,7 @@ def out_bot_sub(sublist: list):
         if (mid + c + i) < len(sublist):
             n += 1
             sub2 = sublist[mid + i + c]
-            number = {numbers.get(n, '')} 
+            number = numbers.get(n, '')
             button = f'{number} ' + sub2['name']
             keyboard.insert(
                     types.InlineKeyboardButton(text=button,  # noqa
@@ -62,7 +62,6 @@ def out_bot_sub(sublist: list):
         i += 1
     keyboard.add(types.InlineKeyboardButton(text='✅ Я подписался', callback_data='done'))  # noqa
     return keyboard
-
 
 
 def at_end():
