@@ -27,7 +27,7 @@ async def call_back_handler(message: types.CallbackQuery):
         subDb = SubListDB(await get_session())
         await subDb.done(message.from_user.id)
         cache = get_redis()
-        if int(await cache.get(f'{message.from_user.id}-all')):
+        if await cache.get(f'{message.from_user.id}-all'):
             await cache.set(f'{message.from_user.id}-all-1', 1)
             return
         check = await cache.get(f'{message.from_user.id}-check')

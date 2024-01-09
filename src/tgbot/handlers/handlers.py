@@ -264,8 +264,10 @@ async def to_sub(message: types.Message, sublist: list, file_id: str = None) -> 
                                                 caption=const.SUB_TEXT,  # noqa
                                                 reply_markup=keyboard)  # noqa
             cache = get_redis()
+            amount = len(out_bot+sublist)
             while True:
                 if await cache.get(f'{message.from_user.id}-all-1'):
+                    amount = 0
                     break
                 if await subDb.is_done(message.from_user.id):
                     await cache.set(f'{message.from_user.id}-check', 1)
@@ -290,5 +292,4 @@ async def to_sub(message: types.Message, sublist: list, file_id: str = None) -> 
                 await message.bot.delete_message(message.from_user.id, msg_sub.message_id)  # noqa
             except Exception as ex:
                 logger.error(ex)
-    amount = len(out_bot+sublist)
     return amount
